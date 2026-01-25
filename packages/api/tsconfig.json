@@ -1,0 +1,12 @@
+{
+  "extends": "@turbo/tsconfig/compiled-package.json",
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"],
+      "@turbo/analytics": ["../../packages/analytics/src/index.ts"],
+      "@turbo/analytics/*": ["../../packages/analytics/src/*"]
+    }
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}

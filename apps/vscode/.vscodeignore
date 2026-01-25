@@ -1,0 +1,17 @@
+# Development files
+.cache/
+.turbo/
+.build/
+node_modules/
+src/
+
+# Config files
+*.ts
+!dist/**/*.js
+tsconfig.json
+esbuild.mjs
+eslint.config.ts
+
+# Git
+.git/
+.gitignore

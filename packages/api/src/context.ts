@@ -1,0 +1,17 @@
+import type { Auth } from "@turbo/auth";
+import type { db } from "@turbo/db/client";
+
+/**
+ * Context Variables available in all Hono route handlers
+ */
+export interface AppContext {
+  Variables: {
+    auth: Auth["api"];
+    session: Awaited<ReturnType<Auth["api"]["getSession"]>> | null;
+    db: typeof db;
+    /** User ID from API key authentication (set by apiKeyMiddleware) */
+    apiKeyUserId: string;
+    /** API key ID from API key authentication (set by apiKeyMiddleware) */
+    apiKeyId: string;
+  };
+}

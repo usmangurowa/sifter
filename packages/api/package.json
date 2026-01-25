@@ -1,0 +1,48 @@
+{
+  "name": "@turbo/api",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "dev": "tsc",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "@date-fns/tz": "1.4.1",
+    "@hono/zod-validator": "^0.7.5",
+    "@turbo/ai": "workspace:*",
+    "@turbo/analytics": "workspace:^",
+    "@turbo/auth": "workspace:*",
+    "@turbo/db": "workspace:*",
+    "@turbo/jobs": "workspace:*",
+    "@turbo/mail": "workspace:^",
+    "@turbo/shared": "workspace:*",
+    "@turbo/validators": "workspace:*",
+    "date-fns": "^4.1.0",
+    "hono": "^4.10.7",
+    "hono-rate-limiter": "^0.5.1",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@turbo/eslint-config": "workspace:*",
+    "@turbo/prettier-config": "workspace:*",
+    "@turbo/tsconfig": "workspace:*",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "4.0.15"
+  },
+  "prettier": "@turbo/prettier-config"
+}

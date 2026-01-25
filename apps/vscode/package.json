@@ -1,0 +1,138 @@
+{
+  "name": "kodo",
+  "displayName": "Kodo",
+  "description": "Every Session Tells a Story - Track your coding journey with meaningful context. Smart session tracking that understands your work.",
+  "version": "0.0.27",
+  "private": true,
+  "publisher": "usmangurowa",
+  "license": "MIT",
+  "icon": "icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/usmangurowa/kodo-hq"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "kodo.showStatus",
+        "title": "Kodo: Show Status"
+      },
+      {
+        "command": "kodo.togglePrivacy",
+        "title": "Kodo: Toggle Privacy Mode"
+      },
+      {
+        "command": "kodo.setApiKey",
+        "title": "Kodo: Set API Key"
+      },
+      {
+        "command": "kodo.clearApiKey",
+        "title": "Kodo: Clear API Key"
+      },
+      {
+        "command": "kodo.syncSettings",
+        "title": "Kodo: Sync Settings"
+      }
+    ],
+    "configuration": {
+      "title": "Kodo",
+      "properties": {
+        "kodo.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable or disable Kodo tracking"
+        },
+        "kodo.privacyMode": {
+          "type": "string",
+          "enum": [
+            "normal",
+            "stealth"
+          ],
+          "default": "normal",
+          "enumDescriptions": [
+            "Full tracking including file names",
+            "Privacy mode - no file names are sent"
+          ],
+          "description": "Privacy mode for tracking"
+        },
+        "kodo.breakReminderMinutes": {
+          "type": "number",
+          "default": 90,
+          "minimum": 0,
+          "description": "Break reminder interval in minutes (0 to disable)"
+        },
+        "kodo.sessionTimeoutMinutes": {
+          "type": "number",
+          "default": 15,
+          "minimum": 1,
+          "maximum": 30,
+          "description": "Session timeout in minutes. Gaps shorter than this count as coding time. Longer gaps start a new session."
+        },
+        "kodo.enableTelemetry": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable anonymous usage analytics"
+        },
+        "kodo.captureSymbols": {
+          "type": "boolean",
+          "default": false,
+          "description": "Capture function/class names for AI summaries"
+        },
+        "kodo.captureCommits": {
+          "type": "boolean",
+          "default": true,
+          "description": "Track Git commits for session context and AI summaries"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "node esbuild.mjs",
+    "build:watch": "node esbuild.mjs --watch",
+    "clean": "git clean -xdf .cache dist node_modules .build",
+    "dev": "node esbuild.mjs --watch",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint",
+    "package": "pnpm build && rm -rf .build && mkdir -p .build && pnpm vsce package --no-dependencies -o .build/",
+    "release": "pnpm package && dotenv -e ../../.env -- sh -c 'vsce publish --packagePath .build/*.vsix -p $VSCE_PAT && ovsx publish .build/*.vsix -p $OVSX_PAT'",
+    "release:patch": "npm version patch --no-git-tag-version && pnpm release",
+    "release:minor": "npm version minor --no-git-tag-version && pnpm release",
+    "release:major": "npm version major --no-git-tag-version && pnpm release",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@turbo/analytics": "workspace:*",
+    "@turbo/shared": "workspace:*",
+    "@turbo/validators": "workspace:*",
+    "date-fns": "^4.1.0",
+    "posthog-node": "^4.18.0"
+  },
+  "devDependencies": {
+    "@turbo/eslint-config": "workspace:*",
+    "@turbo/prettier-config": "workspace:*",
+    "@turbo/tsconfig": "workspace:*",
+    "@types/node": "catalog:",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^3.2.3",
+    "esbuild": "^0.24.2",
+    "eslint": "catalog:",
+    "ovsx": "^0.10.7",
+    "prettier": "catalog:",
+    "typescript": "catalog:",
+    "vite-tsconfig-paths": "^6.0.3",
+    "vitest": "4.0.15"
+  },
+  "prettier": "@turbo/prettier-config"
+}

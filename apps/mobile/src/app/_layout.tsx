@@ -1,0 +1,49 @@
+import "../global.css";
+
+import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import { AuthProvider } from "@/auth/provider";
+import { queryClient } from "@/utils/api";
+import { PortalHost } from "@rn-primitives/portal";
+import * as Sentry from "@sentry/react-native";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { PostHogProvider } from "posthog-react-native";
+import { useCSSVariable } from "uniwind";
+
+// Initialize Sentry for error tracking
+Sentry.init({
+  dsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
+  tracesSampleRate: 0.1,
+});
+
+const posthogKey = process.env.EXPO_PUBLIC_POSTHOG_KEY;
+const posthogHost = process.env.EXPO_PUBLIC_POSTHOG_HOST;
+
+const Layout = () => {
+  const bg = useCSSVariable("--background") as string;
+
+  return (
+    <PostHogProvider apiKey={posthogKey} options={{ host: posthogHost }}>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              animation: "slide_from_right",
+              animationDuration: 300,
+              animationMatchesGesture: true,
+              animationTypeForReplace: "pop",
+              contentStyle: {
+                backgroundColor: bg,
+              },
+            }}
+          />
+          <StatusBar style={"auto"} />
+          <PortalHost />
+        </AuthProvider>
+      </QueryClientProvider>
+    </PostHogProvider>
+  );
+};
+
+export default Sentry.wrap(Layout);

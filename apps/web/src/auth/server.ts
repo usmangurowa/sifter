@@ -18,8 +18,9 @@ const baseUrl =
 export const auth = initAuth({
   baseUrl,
   productionUrl: env.NEXT_PUBLIC_APP_URL,
-  secret: env.AUTH_SECRET,
-  supabaseJwtSecret: env.SUPABASE_JWT_SECRET,
+  secret: env.AUTH_SECRET ?? "development-secret-change-in-production",
+  supabaseJwtSecret:
+    env.SUPABASE_JWT_SECRET ?? "development-secret-change-in-production",
   socialProviders: {
     github:
       env.GITHUB_CLIENT_ID && env.GITHUB_CLIENT_SECRET

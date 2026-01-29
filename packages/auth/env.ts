@@ -2,19 +2,24 @@ import { createEnv } from "@t3-oss/env-core";
 import { z } from "zod/v4";
 
 export function authEnv() {
+  // Skip strict validation during build - runtime validation will catch missing vars
+  const skipStrict =
+    !!process.env.CI ||
+    !!process.env.SKIP_ENV_VALIDATION ||
+    process.env.npm_lifecycle_event === "lint" ||
+    process.env.npm_lifecycle_event === "build";
+
   return createEnv({
     server: {
-      AUTH_SECRET:
-        process.env.NODE_ENV === "production"
-          ? z.string().min(1)
-          : z.string().min(1).optional(),
-      SUPABASE_JWT_SECRET: z.string().min(1),
-      GITHUB_CLIENT_ID: z.string().min(1).optional(),
-      GITHUB_CLIENT_SECRET: z.string().min(1).optional(),
-      NODE_ENV: z.enum(["development", "production"]).optional(),
+      AUTH_SECRET: skipStrict ? z.string().optional() : z.string().min(1),
+      SUPABASE_JWT_SECRET: skipStrict
+        ? z.string().optional()
+        : z.string().min(1),
+      GITHUB_CLIENT_ID: z.string().optional(),
+      GITHUB_CLIENT_SECRET: z.string().optional(),
+      NODE_ENV: z.enum(["development", "production", "test"]).optional(),
     },
     runtimeEnv: process.env,
-    skipValidation:
-      !!process.env.CI || process.env.npm_lifecycle_event === "lint",
+    skipValidation: skipStrict,
   });
 }

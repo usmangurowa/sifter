@@ -11,10 +11,7 @@ type DbClient = unknown;
  * Stub: Get a cached value by key.
  * @returns Always returns null (cache disabled)
  */
-export const cacheGet = <T>(
-  _db: DbClient,
-  _key: string,
-): Promise<T | null> => {
+export const cacheGet = <T>(_db: DbClient, _key: string): Promise<T | null> => {
   return Promise.resolve(null);
 };
 
@@ -35,10 +32,7 @@ export const cacheSet = <T>(
  * Stub: Delete a cached value by key.
  * @returns No-op (cache disabled)
  */
-export const cacheDelete = (
-  _db: DbClient,
-  _key: string,
-): Promise<void> => {
+export const cacheDelete = (_db: DbClient, _key: string): Promise<void> => {
   return Promise.resolve();
 };
 
@@ -64,4 +58,3 @@ export const CACHE_KEYS = {
 export const CACHE_TTL = {
   PULSE: 15 * 60 * 1000, // 15 minutes
 } as const;
-

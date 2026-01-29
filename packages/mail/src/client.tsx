@@ -11,15 +11,19 @@ import { WelcomeEmail } from "./templates/welcome";
 
 /**
  * Resend client instance.
- * Requires RESEND_API_KEY environment variable.
+ * Requires RESEND_API_KEY environment variable in production.
  */
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 
-if (!RESEND_API_KEY && process.env.NODE_ENV !== "test") {
+// Only require RESEND_API_KEY in production runtime (not during build or test)
+const isProduction =
+  process.env.NODE_ENV === "production" && !process.env.SKIP_ENV_VALIDATION;
+
+if (!RESEND_API_KEY && isProduction) {
   throw new Error("RESEND_API_KEY environment variable is required");
 }
 
-export const resend = new Resend(RESEND_API_KEY ?? "test_key");
+export const resend = new Resend(RESEND_API_KEY ?? "re_test_key");
 /**
  * Default sender email address.
  * Override this in your application or per-email.

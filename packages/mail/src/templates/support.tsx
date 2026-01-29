@@ -71,7 +71,7 @@ export const SupportEmail = ({
           <Text className="text-muted-foreground mb-2 text-sm">
             <strong>Metadata:</strong>
           </Text>
-          <Text className="text-muted-foreground mb-4 text-xs font-mono">
+          <Text className="text-muted-foreground mb-4 font-mono text-xs">
             {JSON.stringify(metadata, null, 2)}
           </Text>
         </>

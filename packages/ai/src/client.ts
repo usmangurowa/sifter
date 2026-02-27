@@ -98,13 +98,6 @@ export const groqLlama: LanguageModel = groq(
 );
 
 /**
- * Dedicated model for Coach messages.
- * Uses Groq for reliability (14k requests/day FREE, 30 RPM).
- * No fallback loop - single reliable model.
- */
-export const coachModel: LanguageModel = groqLlama;
-
-/**
  * Model configuration for fallback cycling.
  * The system will try each model in the 'models' array in order.
  */

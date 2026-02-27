@@ -26,10 +26,6 @@ apps/mobile/android
 apps/mobile/build
 apps/mobile/.build
 
-# vscode extension
-apps/vscode/.build
-
-
 packages/jobs/.trigger
 
 # production

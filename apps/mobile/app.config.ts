@@ -9,7 +9,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   version: "1.0.0",
   orientation: "portrait",
   userInterfaceStyle: "automatic",
-  newArchEnabled: true,
   assetBundlePatterns: ["**/*"],
 
   ios: {
@@ -31,7 +30,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       monochromeImage: "./src/assets/icon-dark.png",
       backgroundColor: "#3976E8",
     },
-    edgeToEdgeEnabled: true,
   },
 
   web: {
@@ -43,14 +41,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     policy: "appVersion",
   },
 
-  androidNavigationBar: {
-    backgroundColor: "#000000",
-  },
-
   experiments: {
     tsconfigPaths: true,
     typedRoutes: true,
-    reactCanary: true,
     reactCompiler: true,
   },
 

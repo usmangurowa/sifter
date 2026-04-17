@@ -27,7 +27,7 @@
 ### Mobile (Expo Router)
 1. Create file: `apps/mobile/src/app/<route>.tsx`
 2. Use Expo Router file-based routing conventions.
-3. Use NativeWind for styling.
+3. Use Uniwind for styling.
 
 ## Canonical example
 - Web: `apps/web/app/` directory structure

@@ -75,5 +75,5 @@
 
 - Do not create packages outside `packages/` directory
 - Do not use a different scope than `@turbo/`
-- Do not omit a `build` step (`tsc`) unless there is a specific, documented reason
+- Do not omit a `build` step (`tsc`) for code packages; asset/config-only packages may omit build scripts
 - Do not forget to add to pnpm workspace (already covered by `packages/*` glob)

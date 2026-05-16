@@ -42,15 +42,15 @@ tooling/
 
 | Layer            | Technology  | Version                                  |
 | ---------------- | ----------- | ---------------------------------------- |
-| Language         | TypeScript  | 5.9.3                                    |
+| Language         | TypeScript  | catalog (workspace-managed)              |
 | Web framework    | Next.js     | 16.0.10                                  |
 | Mobile framework | Expo SDK    | 55 (React Native 0.83)                   |
-| React            | React       | 19.2                                     |
+| React            | React       | catalog:react19                          |
 | API framework    | Hono        | 4.10.7                                   |
 | ORM              | Drizzle ORM | drizzle-orm ^0.44.7; drizzle-kit ^0.31.5 |
 | Database         | PostgreSQL  | via Supabase                             |
 | Auth             | Better Auth | 1.4.0-beta.9                             |
-| Validation       | Zod         | 4.1.12                                   |
+| Validation       | Zod         | catalog (workspace-managed)              |
 
 ## UI & Styling
 

@@ -70,6 +70,13 @@ Example: `packages/db/src/auth-schema.ts`
 - Public vars prefixed with `NEXT_PUBLIC_` (web) or `EXPO_PUBLIC_` (mobile)
 - Validated with environment modules (e.g., `apps/web/src/env.ts`)
 
+## Operational Commands
+
+- Run `pnpm auth:generate` after Better Auth schema/config changes that affect generated auth schema output.
+- Run `pnpm db:push` after Drizzle schema changes that should be applied to the development database.
+- Use `pnpm db:studio` for local schema/data inspection during development.
+- Prefer workspace/root scripts when available over ad-hoc package commands.
+
 ## Code Style
 
 - **Prettier** for formatting (configured via `@turbo/prettier-config`)

@@ -13,34 +13,37 @@
 
 Full-stack TypeScript monorepo using Turborepo + pnpm workspaces.
 
-| Directory | Contents |
-|-----------|----------|
-| `apps/web` | Next.js 16 web application |
-| `apps/mobile` | Expo SDK 55 mobile app |
-| `packages/*` | Shared libraries (`@turbo/*` scope) |
-| `tooling/*` | Shared configs (ESLint, Prettier, TypeScript, Tailwind, Vitest) |
-| `.ai/` | Agent memory: context, skills, patterns, decisions |
-| `.agents/skills/` | Deep technology reference bundles |
+| Directory         | Contents                                                        |
+| ----------------- | --------------------------------------------------------------- |
+| `apps/web`        | Next.js 16 web application                                      |
+| `apps/mobile`     | Expo SDK 55 mobile app                                          |
+| `packages/*`      | Shared libraries (`@turbo/*` scope)                             |
+| `tooling/*`       | Shared configs (ESLint, Prettier, TypeScript, Tailwind, Vitest) |
+| `.ai/`            | Agent memory: context, skills, patterns, decisions              |
+| `.agents/skills/` | Deep technology reference bundles                               |
 
 ## Task Skills
 
 Before executing a task, find and read the matching skill file:
 
-| Task | Skill File |
-|------|-----------|
-| Create a component | `.ai/skills/create-component.md` |
-| Create a package | `.ai/skills/create-package.md` |
-| Create an app | `.ai/skills/create-app.md` |
+| Task                   | Skill File                          |
+| ---------------------- | ----------------------------------- |
+| Create a component     | `.ai/skills/create-component.md`    |
+| Create a package       | `.ai/skills/create-package.md`      |
+| Create an app          | `.ai/skills/create-app.md`          |
 | Create an API endpoint | `.ai/skills/create-api-endpoint.md` |
-| Create a page/screen | `.ai/skills/create-page.md` |
-| Write tests | `.ai/skills/write-tests.md` |
-| Write a commit message | `.ai/skills/commit-message.md` |
-| Write a PR description | `.ai/skills/pr-description.md` |
-| Review code | `.ai/skills/code-review.md` |
-| Debug a failure | `.ai/skills/debug-failure.md` |
-| Refactor code | `.ai/skills/refactor.md` |
+| Database change        | `.ai/skills/database-change.md`     |
+| Create a page/screen   | `.ai/skills/create-page.md`         |
+| Write tests            | `.ai/skills/write-tests.md`         |
+| Write a commit message | `.ai/skills/commit-message.md`      |
+| Write a PR description | `.ai/skills/pr-description.md`      |
+| Review code            | `.ai/skills/code-review.md`         |
+| Debug a failure        | `.ai/skills/debug-failure.md`       |
+| Refactor code          | `.ai/skills/refactor.md`            |
 
 Full index: `.ai/skills/00-index.md`
+
+If no exact skill matches a task, use the closest skill and follow `.ai/context/conventions.md`.
 
 ## Mandatory: Self-Updating Rule
 
@@ -55,6 +58,8 @@ Full index: `.ai/skills/00-index.md`
 
 See: `.ai/skills/update-ai-memory.md`
 
+Before completing any task, run the `update-ai-memory` check and update `.ai/` files when required.
+
 ## Key Conventions (Quick Reference)
 
 - **Package scope**: `@turbo/*`
@@ -68,6 +73,7 @@ See: `.ai/skills/update-ai-memory.md`
 ## Deep References
 
 For detailed technology guides, see `.agents/skills/`:
+
 - TypeScript patterns → `.agents/skills/typescript-expert/`
 - TanStack Query → `.agents/skills/tanstack-query/`
 - Tailwind CSS → `.agents/skills/tailwind-patterns/`

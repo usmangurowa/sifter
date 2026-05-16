@@ -6,7 +6,7 @@
 
 - **Packages**: `kebab-case` directory names under `packages/` (e.g., `packages/auth`)
 - **Components**: `kebab-case.tsx` files (e.g., `button.tsx`, `date-picker.tsx`)
-- **Routes (web)**: Next.js App Router — `app/` directory with `page.tsx`, `layout.tsx`
+- **Routes (web)**: Next.js App Router — `apps/web/src/app/` with `page.tsx`, `layout.tsx`
 - **Routes (mobile)**: Expo Router — `src/app/` directory with file-based routing
 - **Config files**: `kebab-case` (e.g., `eslint.config.ts`, `vitest.config.ts`)
 - **Test files**: `__tests__/<name>.test.ts` (co-located in `src/`)
@@ -17,12 +17,12 @@
 - **Named exports** preferred over default exports (components, utilities)
 - **Barrel files**: `index.ts` re-exports from each package root
 - **Package entry points**: Defined in `package.json` `exports` field with subpath exports (e.g., `@turbo/auth/client`, `@turbo/db/schema`)
-- **Internal packages**: All packages use `"type": "module"` and TypeScript source directly (no pre-build step for most)
+- **Internal packages**: All packages use `"type": "module"`; most packages also define `build: tsc` and emit declaration artifacts in `dist/`
 
 ## Component Patterns (shadcn/ui)
 
 - Use `cva` (class-variance-authority) for variant-based styling
-- Use `cn()` utility (clsx + twMerge) for class merging
+- Use `cn()` utility (`cx` from class-variance-authority + `twMerge`) for class merging
 - Use `data-slot` attributes for component identification
 - Props extend `React.ComponentProps<"element">` with `VariantProps`
 - Compound components pattern: `Card`, `CardHeader`, `CardContent`, `CardFooter`
@@ -68,7 +68,7 @@ Example: `packages/db/src/auth-schema.ts`
 
 - `.env.example` as template — copy to `.env` for local development
 - Public vars prefixed with `NEXT_PUBLIC_` (web) or `EXPO_PUBLIC_` (mobile)
-- Validated with environment modules (e.g., `apps/web/env.ts`)
+- Validated with environment modules (e.g., `apps/web/src/env.ts`)
 
 ## Code Style
 

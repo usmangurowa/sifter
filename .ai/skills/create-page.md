@@ -17,6 +17,7 @@
 - Target app: web or mobile
 - Whether authentication is required
 - Data fetching needs
+- If any required input is missing or ambiguous, ask before creating/editing files.
 
 ## Step-by-step procedure
 

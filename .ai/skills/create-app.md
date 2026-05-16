@@ -16,6 +16,7 @@
 - App name
 - Type: web (Next.js) or mobile (Expo) or other
 - Required internal packages
+- If any required input is missing or ambiguous, ask before creating/editing files.
 
 ## Step-by-step procedure
 

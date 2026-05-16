@@ -16,6 +16,7 @@
 - Package name (will be scoped as `@turbo/<name>`)
 - Purpose / what it exports
 - Dependencies needed
+- If any required input is missing or ambiguous, ask before creating/editing files.
 
 ## Step-by-step procedure
 

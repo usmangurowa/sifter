@@ -16,6 +16,7 @@
 - What schema change is needed
 - Whether the change is auth-related (Better Auth) or app-data related
 - Backward-compatibility constraints (if any)
+- If any required input is missing or ambiguous, ask before creating/editing files.
 
 ## Step-by-step procedure
 

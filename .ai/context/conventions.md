@@ -2,6 +2,12 @@
 
 > Derived from actual patterns observed in this repository. Update when conventions change.
 
+## Documentation Rules
+
+- Document only observed repository facts or explicitly approved decisions.
+- Do not record guesses, assumptions, or vendor-default behavior as repository conventions.
+- When a convention is uncertain, verify from code/config first or mark it as a proposal instead of a fact.
+
 ## File & Folder Naming
 
 - **Packages**: `kebab-case` directory names under `packages/` (e.g., `packages/auth`)

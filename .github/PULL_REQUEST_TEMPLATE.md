@@ -25,3 +25,5 @@
 - [ ] Lint passes: `pnpm lint`
 - [ ] Format correct: `pnpm format`
 - [ ] AI memory updated (if new patterns introduced) — see `.ai/skills/update-ai-memory.md`
+- [ ] New/changed AI documentation is based on observed repository facts (not assumptions)
+- [ ] Missing inputs were clarified before implementation where task requirements were ambiguous

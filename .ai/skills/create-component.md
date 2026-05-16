@@ -16,6 +16,7 @@
 - Component name
 - Variants needed (if any)
 - Whether it's for the shared UI library or app-specific
+- If any required input is missing or ambiguous, ask before creating/editing files.
 
 ## Step-by-step procedure
 

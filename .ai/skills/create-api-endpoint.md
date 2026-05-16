@@ -17,6 +17,7 @@
 - HTTP methods needed
 - Whether authentication is required
 - Request/response schema
+- If any required input is missing or ambiguous, ask before creating/editing files.
 
 ## Step-by-step procedure
 

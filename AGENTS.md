@@ -58,7 +58,7 @@ If no exact skill matches a task, use the closest skill and follow `.ai/context/
 
 See: `.ai/skills/update-ai-memory.md`
 
-Before completing any task, run the `update-ai-memory` check and update `.ai/` files when required.
+Before completing any task, complete the `update-ai-memory` checklist and update `.ai/` files when required.
 
 ## Key Conventions (Quick Reference)
 

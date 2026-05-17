@@ -26,7 +26,7 @@ If no exact skill matches a task, use the closest skill and follow `.ai/context/
 
 If your task introduces a new pattern, convention, or dependency, update the relevant `.ai/` files in the same PR. See `.ai/skills/update-ai-memory.md`.
 
-Before completing any task, run the `update-ai-memory` check and update `.ai/` files when required.
+Before completing any task, complete the `update-ai-memory` checklist and update `.ai/` files when required.
 
 ## Key patterns
 

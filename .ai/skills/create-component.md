@@ -30,7 +30,10 @@
    ```tsx
    import type { VariantProps } from "class-variance-authority";
    import { cva } from "class-variance-authority";
+   // For shared UI components in packages/ui/src/components
    import { cn } from "..";
+   // For app-specific components in apps/web or apps/mobile, use:
+   // import { cn } from "@turbo/ui";
 
    export const <name>Variants = cva("base-classes", {
      variants: { /* ... */ },

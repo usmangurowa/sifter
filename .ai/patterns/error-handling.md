@@ -11,7 +11,7 @@ Error handling is layered across the API, client, and monitoring.
 - Validate inputs with Zod; return 400 for validation failures.
 
 ```typescript
-// packages/api/src/router/example.ts
+// Example (pattern used in packages/api/src/router/support.ts)
 import { zValidator } from "@hono/zod-validator";
 
 .post("/", zValidator("json", schema), (c) => {

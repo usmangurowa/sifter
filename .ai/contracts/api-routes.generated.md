@@ -1,19 +1,19 @@
 # API Routes Snapshot
 
 > Generated file. Do not edit by hand.
-> Run `pnpm ai:contracts` to refresh all contract snapshots.
+> Run `pnpm ai:contracts` to refresh this generated file.
 
 ## Routes
 
 | Method | Path | Source | Auth middleware |
 | --- | --- | --- | --- |
-| GET | `/auth/session` | `packages/api/src/router/auth.ts` | yes |
-| GET | `/auth/secret` | `packages/api/src/router/auth.ts` | yes |
-| GET | `/apikeys` | `packages/api/src/router/api-key.ts` | yes |
-| POST | `/apikeys` | `packages/api/src/router/api-key.ts` | yes |
-| DELETE | `/apikeys/:id` | `packages/api/src/router/api-key.ts` | yes |
-| POST | `/support` | `packages/api/src/router/support.ts` | no |
 | GET | `/health` | `packages/api/src/index.ts` | no |
+| POST | `/support` | `packages/api/src/router/support.ts` | no |
+| DELETE | `/apikeys/:id` | `packages/api/src/router/api-key.ts` | no |
+| POST | `/apikeys` | `packages/api/src/router/api-key.ts` | no |
+| GET | `/apikeys` | `packages/api/src/router/api-key.ts` | no |
+| GET | `/auth/secret` | `packages/api/src/router/auth.ts` | yes |
+| GET | `/auth/session` | `packages/api/src/router/auth.ts` | no |
 
 ## Typed client source
 

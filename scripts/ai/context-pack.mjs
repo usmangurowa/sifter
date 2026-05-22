@@ -22,11 +22,18 @@ const files = [
 
 const sections = [];
 
+const getFence = (content) => {
+  const runs = content.match(/`+/g) ?? [];
+  const longestRun = runs.reduce((max, run) => Math.max(max, run.length), 0);
+  return "`".repeat(Math.max(4, longestRun + 1));
+};
+
 for (const file of files) {
   try {
     const content = await readFile(fromRoot(file), "utf8");
+    const fence = getFence(content);
     sections.push(
-      [`## ${file}`, "", "```md", content.trim(), "```"].join("\n"),
+      [`## ${file}`, "", `${fence}md`, content.trim(), fence].join("\n"),
     );
   } catch {
     sections.push(
@@ -43,6 +50,7 @@ await writeGenerated(
   ".ai/contracts/context-pack.generated.md",
   "AI Context Pack",
   sections.join("\n\n"),
+  { regenerateCommand: "pnpm ai:context" },
 );
 
 console.log("Wrote .ai/contracts/context-pack.generated.md");

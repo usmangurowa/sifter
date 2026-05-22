@@ -19,7 +19,12 @@ export const ensureDir = async (...segments) => {
   await mkdir(fromRoot(...segments), { recursive: true });
 };
 
-export const writeGenerated = async (relativePath, title, body) => {
+export const writeGenerated = async (
+  relativePath,
+  title,
+  body,
+  { regenerateCommand = "pnpm ai:contracts" } = {},
+) => {
   const outputPath = fromRoot(relativePath);
 
   await mkdir(path.dirname(outputPath), { recursive: true });
@@ -29,7 +34,7 @@ export const writeGenerated = async (relativePath, title, body) => {
       `# ${title}`,
       "",
       "> Generated file. Do not edit by hand.",
-      "> Run `pnpm ai:contracts` to refresh all contract snapshots.",
+      `> Run \`${regenerateCommand}\` to refresh this generated file.`,
       "",
       body.trim(),
       "",

@@ -1,7 +1,7 @@
 # Database Schema Snapshot
 
 > Generated file. Do not edit by hand.
-> Run `pnpm ai:contracts` to refresh all contract snapshots.
+> Run `pnpm ai:contracts` to refresh this generated file.
 
 ## Schema files
 

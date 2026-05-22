@@ -1,11 +1,11 @@
 # AI Context Pack
 
 > Generated file. Do not edit by hand.
-> Run `pnpm ai:contracts` to refresh all contract snapshots.
+> Run `pnpm ai:context` to refresh this generated file.
 
 ## AGENTS.md
 
-```md
+````md
 # Agent Instructions
 
 > Universal rules for all AI coding agents working in this repository.
@@ -101,11 +101,11 @@ For detailed technology guides, see `.agents/skills/`:
 - Drizzle ORM → `.agents/skills/drizzle/`
 - Trigger.dev → `.agents/skills/trigger-dev-tasks/`
 - Turborepo → `.agents/skills/turborepo/`
-```
+````
 
 ## ARCHITECTURE.md
 
-```md
+````md
 # Architecture
 
 This repository is a full-stack TypeScript monorepo. Deployable apps live in
@@ -182,11 +182,11 @@ handlers. The API app is created in `packages/api/src/index.ts` and exports
 
 When these sources conflict, prefer observed code and package configuration,
 then update the stale documentation in the same change.
-```
+````
 
 ## ROADMAP_AI.md
 
-```md
+````md
 # AI Roadmap Ledger
 
 This file is the agent-readable implementation ledger. Every coding agent should
@@ -257,11 +257,11 @@ After non-trivial changes, update the rows above when any of these changed:
 - Environment variables
 - Design tokens or UI conventions
 - Agent workflows, prompts, rules, or skills
-```
+````
 
 ## system_prompt.md
 
-```md
+````md
 # Turbo System Prompt
 
 You are working in a TypeScript Turborepo optimized for AI-assisted development.
@@ -346,11 +346,11 @@ points that should reference `.ai/` instead of duplicating long-form rules.
 - Update `ROADMAP_AI.md` for meaningful feature, contract, or architecture
   changes.
 - Follow `.ai/skills/update-ai-memory.md` before finishing.
-```
+````
 
 ## .ai/context/tech-stack.md
 
-```md
+````md
 # Tech Stack
 
 > Auto-generated from repository analysis. Update when dependencies change.
@@ -456,11 +456,11 @@ tooling/
 - `test` → `pnpm test`
 
 Turbo remote caching via Vercel.
-```
+````
 
 ## .ai/context/conventions.md
 
-```md
+````md
 # Conventions
 
 > Derived from actual patterns observed in this repository. Update when conventions change.
@@ -553,11 +553,11 @@ Example: `packages/db/src/auth-schema.ts`
 - **TypeScript strict mode** across all packages
 - Import sorting via `@ianvs/prettier-plugin-sort-imports`
 - Tailwind class sorting via `prettier-plugin-tailwindcss`
-```
+````
 
 ## .ai/context/architecture.md
 
-```md
+````md
 # Architecture Context
 
 > Root overview: `ARCHITECTURE.md`
@@ -602,11 +602,11 @@ apps/web or apps/mobile
 
 When a requested change crosses an app/package boundary, read `ARCHITECTURE.md`
 and update `ROADMAP_AI.md` if the boundary or flow changes.
-```
+````
 
 ## .ai/context/data-contracts.md
 
-```md
+````md
 # Data Contracts
 
 > Generated snapshots live in `.ai/contracts/*.generated.md`.
@@ -649,11 +649,11 @@ and update `ROADMAP_AI.md` if the boundary or flow changes.
 
 Do not infer contracts from memory. Read source files or generated snapshots, then
 update snapshots after contract changes.
-```
+````
 
 ## .ai/context/design-system.md
 
-```md
+````md
 # Design System Context
 
 ## Baseline
@@ -704,11 +704,11 @@ baseline unless a task explicitly requests a visual identity change.
 - Mobile screens live under `apps/mobile/src/app` and use Expo Router.
 - Mobile styling uses Uniwind conventions and local/native primitives rather
   than importing web-only `@turbo/ui` components.
-```
+````
 
 ## .ai/context/routing.md
 
-```md
+````md
 # Routing Context
 
 ## Web Routing
@@ -738,21 +738,21 @@ baseline unless a task explicitly requests a visual identity change.
 
 Before adding a route, identify whether it is a web page, mobile screen, API
 router, or auth adapter. Use the matching `.ai/skills/*` procedure.
-```
+````
 
 ## .ai/contracts/api-routes.generated.md
 
-```md
+````md
 # API Routes Snapshot
 
 > Generated file. Do not edit by hand.
-> Run `pnpm ai:contracts` to refresh all contract snapshots.
+> Run `pnpm ai:contracts` to refresh this generated file.
 
 ## Routes
 
 | Method | Path | Source | Auth middleware |
 | --- | --- | --- | --- |
-| GET | `/auth/session` | `packages/api/src/router/auth.ts` | yes |
+| GET | `/auth/session` | `packages/api/src/router/auth.ts` | no |
 | GET | `/auth/secret` | `packages/api/src/router/auth.ts` | yes |
 | GET | `/apikeys` | `packages/api/src/router/api-key.ts` | yes |
 | POST | `/apikeys` | `packages/api/src/router/api-key.ts` | yes |
@@ -764,15 +764,15 @@ router, or auth adapter. Use the matching `.ai/skills/*` procedure.
 
 - `packages/api/src/index.ts` exports `AppType` and `hcWithType`.
 - Web and mobile clients should infer from `AppType` instead of hand-written route types.
-```
+````
 
 ## .ai/contracts/db-schema.generated.md
 
-```md
+````md
 # Database Schema Snapshot
 
 > Generated file. Do not edit by hand.
-> Run `pnpm ai:contracts` to refresh all contract snapshots.
+> Run `pnpm ai:contracts` to refresh this generated file.
 
 ## Schema files
 
@@ -797,15 +797,15 @@ router, or auth adapter. Use the matching `.ai/skills/*` procedure.
 | `sessionRelations` | `session` | `packages/db/src/auth-schema.ts` |
 | `accountRelations` | `account` | `packages/db/src/auth-schema.ts` |
 | `apikeyRelations` | `apikey` | `packages/db/src/auth-schema.ts` |
-```
+````
 
 ## .ai/contracts/env.generated.md
 
-```md
+````md
 # Environment Contract Snapshot
 
 > Generated file. Do not edit by hand.
-> Run `pnpm ai:contracts` to refresh all contract snapshots.
+> Run `pnpm ai:contracts` to refresh this generated file.
 
 ## turbo.json globalEnv
 
@@ -905,15 +905,15 @@ router, or auth adapter. Use the matching `.ai/skills/*` procedure.
 ### Validated in env modules but missing from .env.example
 
 - None
-```
+````
 
 ## .ai/contracts/package-exports.generated.md
 
-```md
+````md
 # Package Exports Snapshot
 
 > Generated file. Do not edit by hand.
-> Run `pnpm ai:contracts` to refresh all contract snapshots.
+> Run `pnpm ai:contracts` to refresh this generated file.
 
 | Package | Path | Exports |
 | --- | --- | --- |
@@ -937,15 +937,15 @@ router, or auth adapter. Use the matching `.ai/skills/*` procedure.
 | `@turbo/tailwind-config` | `tooling/tailwind` | `./theme`, `./postcss-config` |
 | `@turbo/tsconfig` | `tooling/typescript` | None |
 | `@turbo/vitest-config` | `tooling/vitest` | `.` |
-```
+````
 
 ## .ai/contracts/dependency-graph.generated.md
 
-```md
+````md
 # Workspace Dependency Graph Snapshot
 
 > Generated file. Do not edit by hand.
-> Run `pnpm ai:contracts` to refresh all contract snapshots.
+> Run `pnpm ai:contracts` to refresh this generated file.
 
 ## Workspace packages
 
@@ -994,4 +994,4 @@ router, or auth adapter. Use the matching `.ai/skills/*` procedure.
 | `@turbo/tailwind-config` | `tooling/tailwind` | `@turbo/eslint-config`, `@turbo/prettier-config`, `@turbo/tsconfig` |
 | `@turbo/tsconfig` | `tooling/typescript` | None |
 | `@turbo/vitest-config` | `tooling/vitest` | `@turbo/prettier-config`, `@turbo/tsconfig` |
-```
+````

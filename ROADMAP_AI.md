@@ -8,7 +8,7 @@ architecture, contracts, or conventions.
 
 - Phase: Phase 1 - Template Hardening
 - Active initiative: Keep AI contract snapshots and agent memory current
-- Last updated: 2026-05-17
+- Last updated: 2026-05-24
 
 ## Active Sprint
 
@@ -17,6 +17,7 @@ architecture, contracts, or conventions.
 | AI-001 | complete | Bootstrap AI-native repository controls              | `AGENTS.md`, `.ai/`, `.github/`, `.cursor/`, `ARCHITECTURE.md`, `system_prompt.md` | `pnpm ai:contracts`  |
 | AI-002 | complete | Sync stale public documentation with package reality | `README.md`, `.env.example`, `turbo.json`                                          | `pnpm ai:env:strict` |
 | AI-003 | complete | Add generated contract snapshots for agents          | `.ai/contracts/*.generated.md`, `scripts/ai/*`                                     | `pnpm ai:contracts`  |
+| AI-004 | complete | Enforce fresh AI contract snapshots in CI            | `.github/workflows/ci.yml`, `package.json`                                         | `pnpm ai:contracts:check` |
 
 ## Implemented Features
 
@@ -40,7 +41,6 @@ architecture, contracts, or conventions.
 | Priority | Task                                                         | Source                                                                                                   | Blocking? |
 | -------- | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------- | --------- |
 | high     | Keep generated contract snapshots current                    | `.ai/contracts/`, `scripts/ai/`                                                                          | no        |
-| medium   | Add CI enforcement for stale generated contracts             | `.github/workflows/ci.yml`, `scripts/ai/`                                                                | no        |
 | medium   | Add a sync policy for duplicated tool-specific skill bundles | `.agents/`, `.github/skills/`, `.cursor/skills/`, `.claude/skills/`, `.codex/skills/`, `.gemini/skills/` | no        |
 
 ## Regression Guards

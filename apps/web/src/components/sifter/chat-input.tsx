@@ -49,7 +49,7 @@ export const ChatInput = ({
     <div
       data-slot="sifter-chat-input"
       className={cn(
-        "group relative flex items-end gap-2 overflow-hidden rounded-[2rem] border border-white/10 bg-white/85 p-2 shadow-[0_24px_90px_-44px_rgba(15,23,42,0.8)] ring-1 ring-slate-950/5 backdrop-blur-2xl transition duration-300 dark:border-white/10 dark:bg-zinc-900/82 dark:shadow-[0_28px_100px_-54px_rgba(37,99,235,0.85)] dark:ring-white/10",
+        "group relative flex items-center gap-2 overflow-hidden rounded-[2rem] border border-white/10 bg-white/85 p-2 shadow-[0_24px_90px_-44px_rgba(15,23,42,0.8)] ring-1 ring-slate-950/5 backdrop-blur-2xl transition duration-300 dark:border-white/10 dark:bg-zinc-900/82 dark:shadow-[0_28px_100px_-54px_rgba(37,99,235,0.85)] dark:ring-white/10",
         "before:pointer-events-none before:absolute before:inset-x-6 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/80 before:to-transparent dark:before:via-white/20",
         "focus-within:border-blue-400/40 focus-within:ring-4 focus-within:ring-blue-500/15",
         "w-full max-w-full min-w-0",
@@ -89,6 +89,7 @@ export const ChatInput = ({
         onClick={submit}
         className={cn(
           "relative z-10 shrink-0 rounded-full bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-600/25 transition duration-300 hover:scale-[1.03] hover:from-blue-400 hover:to-indigo-500 dark:shadow-blue-500/20",
+          "self-center",
           compact ? "size-11" : "size-12",
         )}
       >

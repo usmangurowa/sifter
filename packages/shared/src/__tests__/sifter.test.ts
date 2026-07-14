@@ -10,6 +10,7 @@ import {
   SIFTER_REALITY_CHECKS,
   SIFTER_SALE_KEYWORDS,
   SIFTER_SUGGESTIONS,
+  SIFTER_TEMU_COUPON_GROUPS,
 } from "../sifter";
 
 describe("Sifter shared helpers", () => {
@@ -31,6 +32,11 @@ describe("Sifter shared helpers", () => {
     expect(
       SIFTER_DISCOUNT_CODE_GROUPS.some((group) =>
         group.codes.some((code) => code.code === "SWZS7"),
+      ),
+    ).toBe(true);
+    expect(
+      SIFTER_TEMU_COUPON_GROUPS.some((group) =>
+        group.entries.some((entry) => entry.copyValue.includes("Temu")),
       ),
     ).toBe(true);
   });

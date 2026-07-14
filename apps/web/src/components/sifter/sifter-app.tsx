@@ -82,16 +82,8 @@ export const SifterApp = () => {
       {!isConversation ? (
         <header className="absolute inset-x-0 top-0 z-40">
           <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
-            <div className="flex min-w-0 items-center gap-3">
-              <div className="grid size-9 place-items-center rounded-2xl bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 font-semibold text-white shadow-lg shadow-blue-600/20">
-                S
-              </div>
-              <div className="min-w-0">
-                <div className="text-sm font-semibold">Sifter</div>
-                <div className="text-muted-foreground truncate text-xs">
-                  Quality search for Temu and SHEIN
-                </div>
-              </div>
+            <div className="min-w-0 text-2xl font-black tracking-tight text-slate-950">
+              Sifter
             </div>
             <DiscountVault />
           </div>

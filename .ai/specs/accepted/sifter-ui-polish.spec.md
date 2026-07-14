@@ -30,6 +30,8 @@ layout.
       wide line lengths.
 - [ ] SHEIN code sheet opens with a smooth side-panel transition instead of a
       jarring snap.
+- [ ] Header coupon access is a low-emphasis ghost/link action, and the sheet
+      separates Temu coupon checks from SHEIN codes with tabs.
 
 ## Expected Files
 
@@ -39,9 +41,10 @@ layout.
 | `apps/web/src/components/sifter/chat-input.tsx`     | Refine prompt input styling and submit button       |
 | `apps/web/src/components/sifter/result-card.tsx`    | Refine result card/chips/buttons/callout styling    |
 | `apps/web/src/components/sifter/loading-state.tsx`  | Match loading state to polished card structure      |
-| `apps/web/src/components/sifter/discount-vault.tsx` | Light polish for header action and sheet card rows  |
+| `apps/web/src/components/sifter/discount-vault.tsx` | Ghost coupon action plus Temu/SHEIN sheet tabs      |
 | `apps/web/src/app/styles.css`                       | Add app-local decorative utilities and color tuning |
 | `packages/ui/src/components/sheet.tsx`              | Fix Radix sheet animation state classes             |
+| `packages/shared/src/sifter.ts`                     | Add reusable Temu coupon/deal prompt data           |
 | `ROADMAP_AI.md`                                     | Record the Sifter visual polish slice               |
 
 ## Contracts

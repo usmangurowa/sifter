@@ -7,6 +7,16 @@ export interface SifterDiscountCategory {
   }[];
 }
 
+export interface SifterCouponCategory {
+  title: string;
+  entries: {
+    label: string;
+    description: string;
+    copyValue: string;
+    category?: string;
+  }[];
+}
+
 export interface SifterQualityCategory {
   name: string;
   audience: "universal" | "men" | "women";
@@ -52,6 +62,50 @@ export const SIFTER_DISCOUNT_CODE_GROUPS: SifterDiscountCategory[] = [
       { code: "XRX4XAE", discount: "80% off", category: "Vacation items" },
       { code: "DSPR8", discount: "$1.99 items", category: "New users only" },
       { code: "942CV", discount: "Under $1 deals" },
+    ],
+  },
+];
+
+export const SIFTER_TEMU_COUPON_GROUPS: SifterCouponCategory[] = [
+  {
+    title: "Coupon checks",
+    entries: [
+      {
+        label: "Coupon Center",
+        description: "Check Temu's in-app coupon center before checkout.",
+        copyValue: "Temu coupon center",
+      },
+      {
+        label: "New user bundle",
+        description: "Look for new-account coupon bundles on eligible orders.",
+        copyValue: "Temu new user coupon bundle",
+        category: "New account",
+      },
+      {
+        label: "Store coupons",
+        description: "Open item pages and claim store coupons before adding.",
+        copyValue: "Temu store coupons",
+      },
+    ],
+  },
+  {
+    title: "Deal keywords",
+    entries: [
+      {
+        label: "Lightning deals",
+        description: "Time-limited discounts worth checking before checkout.",
+        copyValue: "Temu lightning deals",
+      },
+      {
+        label: "Limited-time sale",
+        description: "Useful when hunting for cheaper versions of basics.",
+        copyValue: "Temu limited time sale",
+      },
+      {
+        label: "Free shipping",
+        description: "Pair with material search terms when comparing listings.",
+        copyValue: "Temu free shipping",
+      },
     ],
   },
 ];

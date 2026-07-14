@@ -11,7 +11,7 @@ import {
 
 import type { AppContext } from "../context";
 
-export const SIFTER_SYSTEM_PROMPT = `You are Sifter, an expert shopping assistant for Temu and SHEIN.
+export const SIFTER_BASE_SYSTEM_PROMPT = `You are Sifter, an expert shopping assistant for Temu and SHEIN.
 
 Your job is to translate everyday shopping requests into quality-focused search terms that surface better clothing and accessories.
 
@@ -55,9 +55,12 @@ Common shopping tips:
 - Check customer photos and one-star reviews.
 - Check product weight when available.
 - Always read the size chart.
-- Avoid listings that say luxury but list weak materials.
+- Avoid listings that say luxury but list weak materials.`;
 
-${buildSifterQualityKnowledgePrompt()}`;
+export const buildSifterSystemPrompt = (message: string) =>
+  `${SIFTER_BASE_SYSTEM_PROMPT}
+
+${(buildSifterQualityKnowledgePrompt as (message: string) => string)(message)}`;
 
 const app = new Hono<AppContext>().post(
   "/chat",
@@ -87,7 +90,7 @@ const app = new Hono<AppContext>().post(
       const { object } = await generateObject({
         model: createGroqModel(),
         schema: sifterChatResponseDataSchema,
-        system: SIFTER_SYSTEM_PROMPT,
+        system: buildSifterSystemPrompt(message),
         prompt: message,
         temperature: 0.3,
         maxRetries: 0,

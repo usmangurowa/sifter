@@ -127,21 +127,12 @@ describe("Sifter API", () => {
         ],
       },
     });
-    expect(generateObject).toHaveBeenCalledWith(
-      expect.objectContaining({
-        system: expect.stringContaining("Expanded quality knowledge:"),
-      }),
-    );
-    expect(generateObject).toHaveBeenCalledWith(
-      expect.objectContaining({
-        system: expect.stringContaining("acetate satin midi dress"),
-      }),
-    );
-    expect(generateObject).toHaveBeenCalledWith(
-      expect.objectContaining({
-        system: expect.stringContaining("Keywords narrow the pool"),
-      }),
-    );
+
+    const systemPrompt = generateObject.mock.calls[0]?.[0].system;
+    expect(systemPrompt).toContain("Expanded quality knowledge:");
+    expect(systemPrompt).toContain("400 GSM French terry hoodie");
+    expect(systemPrompt).not.toContain("acetate satin midi dress");
+    expect(systemPrompt).toContain("Keywords narrow the pool");
   });
 
   it("returns a provider error when generation fails or output is invalid", async () => {

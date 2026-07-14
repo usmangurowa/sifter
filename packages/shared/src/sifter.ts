@@ -300,10 +300,171 @@ export const SIFTER_REALITY_CHECKS = [
   "Treat low-price genuine leather and 925 sterling silver claims as directional signals until reviews and details support them.",
 ] as const;
 
-export const buildSifterQualityKnowledgePrompt = () =>
+const MAX_SELECTED_QUALITY_CATEGORIES = 5;
+
+const FALLBACK_QUALITY_CATEGORY_NAMES = [
+  "Bonus wardrobe staples",
+  "T-shirts",
+  "Jeans",
+  "Bags and leather goods",
+] as const;
+
+const BROAD_QUALITY_CATEGORY_NAMES = [
+  "T-shirts",
+  "Jeans",
+  "Hoodies and sweats",
+  "Sneakers",
+  "Bags and leather goods",
+] as const;
+
+const BROAD_QUERY_TERMS = [
+  "capsule",
+  "complete",
+  "fit",
+  "look",
+  "outfit",
+  "wardrobe",
+] as const;
+
+const STOP_WORDS = new Set([
+  "and",
+  "are",
+  "best",
+  "build",
+  "can",
+  "for",
+  "find",
+  "from",
+  "good",
+  "help",
+  "item",
+  "items",
+  "make",
+  "need",
+  "quality",
+  "search",
+  "shop",
+  "that",
+  "the",
+  "under",
+  "want",
+  "with",
+  "won",
+]);
+
+const normalizeSifterText = (value: string) =>
+  value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+
+const buildSifterTokens = (value: string) =>
+  normalizeSifterText(value)
+    .split(" ")
+    .filter((token) => token.length >= 3 && !STOP_WORDS.has(token));
+
+const singularizeSifterToken = (token: string) =>
+  token.endsWith("s") && token.length > 3 ? token.slice(0, -1) : token;
+
+const getCategoryText = (category: SifterQualityCategory) =>
+  [
+    category.name,
+    category.guidance,
+    category.searchTerms.join(" "),
+    category.avoid,
+  ].join(" ");
+
+const buildSifterTokenSet = (value: string) =>
+  new Set(
+    buildSifterTokens(value).flatMap((token) => [
+      token,
+      singularizeSifterToken(token),
+    ]),
+  );
+
+const getCategoriesByName = (names: readonly string[]) =>
+  names
+    .map((name) =>
+      SIFTER_QUALITY_CATEGORIES.find((category) => category.name === name),
+    )
+    .filter((category): category is SifterQualityCategory => Boolean(category));
+
+export const selectSifterQualityCategories = (message: string) => {
+  const queryTokens = buildSifterTokens(message);
+
+  if (queryTokens.length === 0) {
+    return getCategoriesByName(FALLBACK_QUALITY_CATEGORY_NAMES);
+  }
+
+  const queryTokenSet = new Set([
+    ...queryTokens,
+    ...queryTokens.map(singularizeSifterToken),
+  ]);
+  const normalizedQuery = normalizeSifterText(message);
+  const isBroadQuery = BROAD_QUERY_TERMS.some((term) =>
+    queryTokenSet.has(term),
+  );
+
+  const rankedCategories = SIFTER_QUALITY_CATEGORIES.map((category, index) => {
+    const nameTokens = buildSifterTokenSet(category.name);
+    const categoryTokens = buildSifterTokenSet(getCategoryText(category));
+    const matchedNameTokens = [...queryTokenSet].filter((token) =>
+      nameTokens.has(token),
+    );
+    const matchedTokens = [...queryTokenSet].filter((token) =>
+      categoryTokens.has(token),
+    );
+    const normalizedCategoryName = normalizeSifterText(category.name);
+    const phraseMatch = category.searchTerms.some((term) =>
+      normalizedQuery.includes(normalizeSifterText(term)),
+    );
+
+    return {
+      category,
+      index,
+      score:
+        matchedNameTokens.length * 3 +
+        matchedTokens.length +
+        (normalizedQuery.includes(normalizedCategoryName) ? 4 : 0) +
+        (phraseMatch ? 5 : 0),
+    };
+  })
+    .filter((entry) => entry.score > 0)
+    .sort((a, b) => b.score - a.score || a.index - b.index);
+
+  const minimumScore = isBroadQuery
+    ? 1
+    : rankedCategories[0]?.score
+      ? Math.max(2, rankedCategories[0].score - 3)
+      : 2;
+  const selected = rankedCategories
+    .filter((entry) => entry.score >= minimumScore)
+    .slice(0, MAX_SELECTED_QUALITY_CATEGORIES)
+    .map((entry) => entry.category);
+
+  if (selected.length === 0) {
+    return getCategoriesByName(FALLBACK_QUALITY_CATEGORY_NAMES);
+  }
+
+  if (!isBroadQuery) {
+    return selected;
+  }
+
+  const byName = new Map(selected.map((category) => [category.name, category]));
+  for (const category of getCategoriesByName(BROAD_QUALITY_CATEGORY_NAMES)) {
+    if (byName.size >= MAX_SELECTED_QUALITY_CATEGORIES) {
+      break;
+    }
+    byName.set(category.name, category);
+  }
+
+  return [...byName.values()];
+};
+
+export const buildSifterQualityKnowledgePrompt = (message = "") =>
   [
     "Expanded quality knowledge:",
-    ...SIFTER_QUALITY_CATEGORIES.map(
+    ...selectSifterQualityCategories(message).map(
       (category) =>
         `- ${category.name} (${category.audience}): ${category.guidance} Strong search terms: ${category.searchTerms.join("; ")}. Avoid: ${category.avoid}`,
     ),

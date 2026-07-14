@@ -4,6 +4,7 @@ import {
   buildSheinSearchUrl,
   buildSifterQualityKnowledgePrompt,
   buildTemuSearchUrl,
+  selectSifterQualityCategories,
   SIFTER_DISCOUNT_CODE_GROUPS,
   SIFTER_QUALITY_CATEGORIES,
   SIFTER_REALITY_CHECKS,
@@ -34,7 +35,7 @@ describe("Sifter shared helpers", () => {
     ).toBe(true);
   });
 
-  it("keeps expanded quality knowledge available for the AI prompt", () => {
+  it("keeps expanded quality knowledge available for Sifter prompts", () => {
     expect(SIFTER_QUALITY_CATEGORIES.length).toBeGreaterThanOrEqual(15);
     expect(SIFTER_QUALITY_CATEGORIES.map((category) => category.name)).toEqual(
       expect.arrayContaining([
@@ -48,11 +49,45 @@ describe("Sifter shared helpers", () => {
     expect(SIFTER_REALITY_CHECKS).toContain(
       "Keywords narrow the pool; they do not prove quality.",
     );
+  });
 
-    const prompt = buildSifterQualityKnowledgePrompt();
+  it("selects hoodie quality knowledge for hoodie queries", () => {
+    const categories = selectSifterQualityCategories(
+      "Find a heavyweight hoodie",
+    );
+
+    expect(categories.map((category) => category.name)).toContain(
+      "Hoodies and sweats",
+    );
+
+    const prompt = buildSifterQualityKnowledgePrompt(
+      "Find a heavyweight hoodie",
+    );
 
     expect(prompt).toContain("400 GSM French terry hoodie");
-    expect(prompt).toContain("acetate satin midi dress");
+    expect(prompt).not.toContain("acetate satin midi dress");
     expect(prompt).toContain("Sort by most orders or best selling");
+  });
+
+  it("selects multiple relevant categories for broad outfit queries", () => {
+    const categories = selectSifterQualityCategories(
+      "Build me a casual outfit with jeans, sneakers, and a hoodie",
+    );
+
+    expect(categories.map((category) => category.name)).toEqual(
+      expect.arrayContaining(["Jeans", "Hoodies and sweats", "Sneakers"]),
+    );
+    expect(categories.length).toBeGreaterThanOrEqual(3);
+  });
+
+  it("uses fallback quality knowledge and reality checks for unknown queries", () => {
+    const prompt = buildSifterQualityKnowledgePrompt(
+      "Find something for a birthday gift",
+    );
+
+    expect(prompt).toContain("Bonus wardrobe staples");
+    expect(prompt).toContain("240-300 GSM");
+    expect(prompt).toContain("Reality checks:");
+    expect(prompt).toContain("Keywords narrow the pool");
   });
 });

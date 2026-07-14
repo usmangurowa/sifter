@@ -88,6 +88,11 @@ describe("Sifter API", () => {
               "heavyweight cotton fleece hoodie",
               "thick winter pullover hoodie",
             ],
+            verificationChecks: [
+              "Listing mentions 400 GSM or heavier.",
+              "Fabric is French terry or cotton fleece.",
+              "Customer photos show thick ribbing.",
+            ],
             proTip: "Check product weight and customer photos.",
             avoid: "Avoid unclear polyester fleece listings.",
           },
@@ -123,6 +128,11 @@ describe("Sifter API", () => {
               "heavyweight cotton fleece hoodie",
               "thick winter pullover hoodie",
             ],
+            verificationChecks: [
+              "Listing mentions 400 GSM or heavier.",
+              "Fabric is French terry or cotton fleece.",
+              "Customer photos show thick ribbing.",
+            ],
           },
         ],
       },
@@ -131,8 +141,66 @@ describe("Sifter API", () => {
     const systemPrompt = generateObject.mock.calls[0]?.[0].system;
     expect(systemPrompt).toContain("Expanded quality knowledge:");
     expect(systemPrompt).toContain("400 GSM French terry hoodie");
+    expect(systemPrompt).toContain("verificationChecks");
+    expect(systemPrompt).toContain("Verification checks:");
     expect(systemPrompt).not.toContain("acetate satin midi dress");
     expect(systemPrompt).toContain("Keywords narrow the pool");
+  });
+
+  it("grounds jeans prompts with broad searches and exact verification checks", async () => {
+    const originalApiKey = process.env.GROQ_API_KEY;
+    process.env.GROQ_API_KEY = "test-key";
+    generateObject.mockResolvedValue({
+      object: {
+        greeting: "Here are better jeans searches.",
+        categories: [
+          {
+            name: "Cotton denim jeans",
+            emoji: "J",
+            description: "Find cotton denim candidates, then verify details.",
+            searchTerms: [
+              "cotton denim straight leg jeans",
+              "stretch cotton jeans men",
+              "straight leg denim pants cotton",
+            ],
+            verificationChecks: [
+              "Composition is 98-99% cotton.",
+              "Stretch uses 1-2% elastane or spandex.",
+              "Fit details confirm straight-leg cut.",
+            ],
+            proTip: "Open listing details before buying.",
+            avoid: "Avoid vague cotton blend listings.",
+          },
+        ],
+        shoppingTips: [
+          "Read the material composition.",
+          "Check customer photos before buying.",
+        ],
+        discountCodes: [],
+      },
+    } as Awaited<ReturnType<typeof generateObject>>);
+
+    const response = await app.request("/sifter/chat", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ message: "Premium denim jeans for men" }),
+    });
+
+    if (originalApiKey) {
+      process.env.GROQ_API_KEY = originalApiKey;
+    } else {
+      delete process.env.GROQ_API_KEY;
+    }
+
+    expect(response.status).toBe(200);
+
+    const systemPrompt = generateObject.mock.calls[0]?.[0].system;
+    expect(systemPrompt).toContain("cotton denim straight leg jeans");
+    expect(systemPrompt).toContain("Composition is 98-99% cotton");
+    expect(systemPrompt).toContain("1-2% elastane or spandex");
+    expect(systemPrompt).toContain(
+      "use broad cotton denim or drape-oriented search terms",
+    );
   });
 
   it("returns a provider error when generation fails or output is invalid", async () => {

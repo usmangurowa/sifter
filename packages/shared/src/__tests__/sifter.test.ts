@@ -55,6 +55,11 @@ describe("Sifter shared helpers", () => {
     expect(SIFTER_REALITY_CHECKS).toContain(
       "Keywords narrow the pool; they do not prove quality.",
     );
+    expect(
+      SIFTER_QUALITY_CATEGORIES.every(
+        (category) => category.verificationChecks.length >= 3,
+      ),
+    ).toBe(true);
   });
 
   it("selects hoodie quality knowledge for hoodie queries", () => {
@@ -71,8 +76,39 @@ describe("Sifter shared helpers", () => {
     );
 
     expect(prompt).toContain("400 GSM French terry hoodie");
+    expect(prompt).toContain("Listing mentions 400 GSM or heavier");
     expect(prompt).not.toContain("acetate satin midi dress");
     expect(prompt).toContain("Sort by most orders or best selling");
+  });
+
+  it("keeps GSM in shirt searches while separating jeans composition checks", () => {
+    const shirtPrompt = buildSifterQualityKnowledgePrompt(
+      "Find a thick cotton t-shirt",
+    );
+    const jeansPrompt = buildSifterQualityKnowledgePrompt(
+      "Premium denim jeans for men",
+    );
+
+    expect(shirtPrompt).toContain("250 GSM cotton t-shirt");
+    expect(shirtPrompt).toContain(
+      "Keep GSM in search terms for shirts, hoodies, and sweats",
+    );
+    expect(jeansPrompt).toContain("cotton denim straight leg jeans");
+    expect(jeansPrompt).not.toContain(
+      "Candidate search terms: 98% cotton 2% elastane straight-leg jeans",
+    );
+    expect(jeansPrompt).toContain("Composition is 98-99% cotton");
+    expect(jeansPrompt).toContain("1-2% elastane or spandex");
+  });
+
+  it("keeps jewelry material terms searchable but still verified", () => {
+    const prompt = buildSifterQualityKnowledgePrompt(
+      "Gold chains that won't fade or tarnish",
+    );
+
+    expect(prompt).toContain("316L stainless steel Cuban chain");
+    expect(prompt).toContain("925 sterling silver hoop earrings");
+    expect(prompt).toContain("Reviews mention tarnish resistance");
   });
 
   it("selects multiple relevant categories for broad outfit queries", () => {
@@ -95,5 +131,6 @@ describe("Sifter shared helpers", () => {
     expect(prompt).toContain("240-300 GSM");
     expect(prompt).toContain("Reality checks:");
     expect(prompt).toContain("Keywords narrow the pool");
+    expect(prompt).toContain("searchTerms are marketplace candidate-finding");
   });
 });

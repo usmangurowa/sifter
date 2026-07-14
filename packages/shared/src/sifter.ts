@@ -22,6 +22,7 @@ export interface SifterQualityCategory {
   audience: "universal" | "men" | "women";
   guidance: string;
   searchTerms: readonly string[];
+  verificationChecks: readonly string[];
   avoid: string;
 }
 
@@ -128,11 +129,18 @@ export const SIFTER_QUALITY_CATEGORIES: readonly SifterQualityCategory[] = [
     guidance:
       "Cotton weight drives feel and opacity. Strong searches mention 240-300 GSM, combed cotton, mercerized cotton, pique, heavyweight, or 100% cotton.",
     searchTerms: [
+      "250 GSM cotton t-shirt",
       "240 GSM combed cotton t-shirt",
       "280 GSM heavyweight cotton t-shirt",
       "300 GSM premium cotton oversized tee",
       "mercerized cotton polo shirt",
       "100% cotton pique polo shirt",
+    ],
+    verificationChecks: [
+      "Listing mentions 240-300 GSM or heavyweight fabric.",
+      "Material composition is cotton, combed cotton, mercerized cotton, or pique.",
+      "Customer photos show opacity at the chest and shoulders.",
+      "Reviews do not repeatedly mention thin fabric or twisting seams.",
     ],
     avoid:
       "Thin polyester fashion tees unless the user explicitly wants gym or quick-dry wear.",
@@ -141,13 +149,21 @@ export const SIFTER_QUALITY_CATEGORIES: readonly SifterQualityCategory[] = [
     name: "Jeans",
     audience: "universal",
     guidance:
-      "More cotton usually ages better. Single-digit elastane is fine for stretch, while raw denim, selvedge denim, and heavyweight cotton denim are stronger quality signals.",
+      "More cotton usually ages better. Temu/SHEIN search handles broad cotton denim terms better than exact fiber percentages, so verify exact ratios inside the listing.",
     searchTerms: [
-      "98% cotton 2% elastane straight-leg jeans",
-      "99% cotton denim slim-fit jeans",
+      "cotton denim straight leg jeans",
+      "stretch cotton jeans men",
+      "straight leg denim pants cotton",
       "raw denim straight-leg jeans",
       "selvedge denim slim-fit jeans",
       "heavyweight cotton denim jeans",
+    ],
+    verificationChecks: [
+      "Composition is 98-99% cotton for structured denim.",
+      "Stretch pairs cotton with only 1-2% elastane or spandex.",
+      "Fit details say straight-leg, slim-fit, relaxed, or the requested cut.",
+      "Polyester is absent or low enough that denim still reads as cotton denim.",
+      "Customer photos show fabric structure instead of thin jegging fabric.",
     ],
     avoid:
       "High polyester denim blends and vague stretch jeans without composition.",
@@ -164,6 +180,12 @@ export const SIFTER_QUALITY_CATEGORIES: readonly SifterQualityCategory[] = [
       "cotton spandex ribbed tank",
       "heavyweight cotton-elastane top",
     ],
+    verificationChecks: [
+      "Composition includes modal, viscose, cotton, spandex, or elastane.",
+      "Listing photos show rib texture or a dense knit rather than shiny fabric.",
+      "Reviews mention shape retention after washing.",
+      "Stretch content is present but not described as cheap polyester.",
+    ],
     avoid: "Cheap shiny polyester fitted tops that lose shape after washing.",
   },
   {
@@ -177,6 +199,12 @@ export const SIFTER_QUALITY_CATEGORIES: readonly SifterQualityCategory[] = [
       "cotton fleece pullover hoodie",
       "heavyweight French terry zip hoodie",
       "heavyweight French terry sweatpants",
+    ],
+    verificationChecks: [
+      "Listing mentions 400 GSM or heavier when GSM is used.",
+      "Fabric is French terry, cotton fleece, or heavyweight cotton blend.",
+      "Product weight and reviews support a thick garment.",
+      "Rib cuffs, hem, and pocket seams look dense in customer photos.",
     ],
     avoid:
       "Lightweight polyester fleece and listings with no fabric weight or composition.",
@@ -194,6 +222,12 @@ export const SIFTER_QUALITY_CATEGORIES: readonly SifterQualityCategory[] = [
       "925 sterling silver hoop earrings",
       "tungsten carbide ring",
     ],
+    verificationChecks: [
+      "Base metal is 316L stainless steel, titanium steel, tungsten carbide, or 925 sterling silver.",
+      "Gold color uses PVD or vacuum plating when available.",
+      "Reviews mention tarnish resistance after wear.",
+      "Sensitive-ear items clearly say hypoallergenic or nickel-safe.",
+    ],
     avoid:
       "Generic alloy, vague gold plated jewelry, and suspiciously cheap sterling silver without review proof.",
   },
@@ -208,6 +242,12 @@ export const SIFTER_QUALITY_CATEGORIES: readonly SifterQualityCategory[] = [
       "wool blend oversized scarf",
       "silk blend square scarf",
       "viscose lightweight scarf",
+    ],
+    verificationChecks: [
+      "Composition names silk, mulberry silk, cashmere blend, wool blend, or viscose.",
+      "Customer photos show drape instead of stiff shiny fabric.",
+      "Edges and stitching look clean in close-up photos.",
+      "Reviews do not mention scratchy feel, static, or severe shedding.",
     ],
     avoid: "Thin shiny polyester scarves when the user wants a premium look.",
   },
@@ -224,6 +264,12 @@ export const SIFTER_QUALITY_CATEGORIES: readonly SifterQualityCategory[] = [
       "cork footbed slippers",
       "EVA sole comfort slippers",
     ],
+    verificationChecks: [
+      "Upper material says cow leather, full grain leather, suede, or genuine leather.",
+      "Sole material is rubber or EVA instead of hard plastic.",
+      "Footbed mentions cork, cushioning, or comfort support when relevant.",
+      "Review photos show stitching, sole thickness, and leather texture.",
+    ],
     avoid: "PU leather marketed as real leather and flat plastic soles.",
   },
   {
@@ -238,6 +284,12 @@ export const SIFTER_QUALITY_CATEGORIES: readonly SifterQualityCategory[] = [
       "leather upper stitched sole sneakers",
       "breathable mesh running sneakers",
     ],
+    verificationChecks: [
+      "Upper material is leather, breathable mesh, or the requested performance material.",
+      "Outsole is rubber and midsole mentions EVA or cushioning.",
+      "Customer photos show stitching or reinforced construction.",
+      "Reviews do not repeatedly mention sole separation or hard plastic feel.",
+    ],
     avoid: "Glued-only fashion sneakers with unclear sole material.",
   },
   {
@@ -251,6 +303,12 @@ export const SIFTER_QUALITY_CATEGORIES: readonly SifterQualityCategory[] = [
       "316L stainless steel watch",
       "leather strap dress watch",
       "skeleton mechanical watch",
+    ],
+    verificationChecks: [
+      "Case material is 316L stainless steel or another clearly specified metal.",
+      "Crystal is sapphire or mineral glass rather than vague glass.",
+      "Movement type is listed as quartz, automatic, or mechanical.",
+      "Reviews mention timekeeping accuracy and strap quality.",
     ],
     avoid:
       "Alloy cases, luxury wording without movement details, and fake premium claims.",
@@ -268,6 +326,12 @@ export const SIFTER_QUALITY_CATEGORIES: readonly SifterQualityCategory[] = [
       "herringbone cotton shirt",
       "120s cotton dress shirt",
     ],
+    verificationChecks: [
+      "Fabric is cotton oxford, poplin, twill, herringbone, or 120s cotton.",
+      "Composition is 100% cotton or a cotton-rich blend.",
+      "Collar, cuff, and button placket look structured in customer photos.",
+      "Reviews do not mention transparency or limp fabric.",
+    ],
     avoid:
       "Thin polyester corporate shirts unless the user wants easy-care synthetic fabric.",
   },
@@ -284,6 +348,12 @@ export const SIFTER_QUALITY_CATEGORIES: readonly SifterQualityCategory[] = [
       "amber vanilla perfume",
       "sandalwood perfume oil",
     ],
+    verificationChecks: [
+      "Concentration is EDP, perfume oil, attar, or clearly stated fragrance type.",
+      "Notes match the requested scent family such as oud, musk, amber, vanilla, or sandalwood.",
+      "Bottle size and seller photos match the listing title.",
+      "Reviews mention longevity rather than only packaging.",
+    ],
     avoid: "Vague luxury scent listings with no concentration or note family.",
   },
   {
@@ -292,11 +362,17 @@ export const SIFTER_QUALITY_CATEGORIES: readonly SifterQualityCategory[] = [
     guidance:
       "Terylene and viscose blends can drape better than thin polyester. Heavy drape wording is useful for workwear trousers and blazers.",
     searchTerms: [
-      "high-waist terylene trousers",
+      "high waist drape trousers women",
       "viscose blend blazer",
       "heavy drape wide-leg pants",
       "terylene wide-leg trousers",
       "viscose blend suit blazer",
+    ],
+    verificationChecks: [
+      "Composition includes terylene, viscose blend, rayon blend, or a heavier drape fabric.",
+      "Cut details match the requested high-waist, wide-leg, straight, or blazer shape.",
+      "Customer photos show opacity and drape rather than clingy thin fabric.",
+      "Reviews do not mention severe wrinkling, shine, or see-through fabric.",
     ],
     avoid: "Thin polyester suiting that looks flat or wrinkles poorly.",
   },
@@ -311,6 +387,12 @@ export const SIFTER_QUALITY_CATEGORIES: readonly SifterQualityCategory[] = [
       "acetate satin midi dress",
       "silk blend blouse",
       "mulberry silk camisole",
+    ],
+    verificationChecks: [
+      "Composition mentions mulberry silk, silk blend, acetate satin, or heavyweight satin.",
+      "Fabric has soft drape in customer photos, not a plastic shine.",
+      "Seams, straps, and hems look clean in close-ups.",
+      "Reviews do not mention static, cling, or very thin polyester satin.",
     ],
     avoid: "100% polyester satin when the user wants a premium dressy look.",
   },
@@ -327,6 +409,12 @@ export const SIFTER_QUALITY_CATEGORIES: readonly SifterQualityCategory[] = [
       "genuine leather laptop bag",
       "full grain leather backpack",
     ],
+    verificationChecks: [
+      "Material is split leather, suede leather, cow leather, full grain leather, heavy canvas, or thick nylon.",
+      "Listing shows lining, zipper, strap, and hardware details.",
+      "Customer photos show structure and corner quality.",
+      "Reviews do not mention peeling, strong chemical smell, or collapsing shape.",
+    ],
     avoid: "Thin PU leather unless reviews confirm structure and durability.",
   },
   {
@@ -340,6 +428,12 @@ export const SIFTER_QUALITY_CATEGORIES: readonly SifterQualityCategory[] = [
       "100% linen shirt",
       "cashmere blend sweater",
       "heavy canvas tote bag",
+    ],
+    verificationChecks: [
+      "Composition names the claimed wool, cotton, linen, cashmere blend, canvas, or natural fiber.",
+      "Product weight, weave, or construction details support the quality claim.",
+      "Customer photos show structure, drape, and stitching.",
+      "Reviews do not repeatedly mention thin fabric, bad seams, or misleading material.",
     ],
     avoid:
       "Listings with only aesthetic keywords and no composition, weight, weave, or construction details.",
@@ -425,6 +519,7 @@ const getCategoryText = (category: SifterQualityCategory) =>
     category.name,
     category.guidance,
     category.searchTerms.join(" "),
+    category.verificationChecks.join(" "),
     category.avoid,
   ].join(" ");
 
@@ -517,10 +612,18 @@ export const selectSifterQualityCategories = (message: string) => {
 
 export const buildSifterQualityKnowledgePrompt = (message = "") =>
   [
+    "Search grounding rules:",
+    "- searchTerms are marketplace candidate-finding queries; they do not prove product quality.",
+    "- verificationChecks are the listing details users must confirm before buying.",
+    "- Keep GSM in search terms for shirts, hoodies, and sweats because sellers often advertise fabric weight.",
+    "- For jeans and exact fiber ratios, use broad cotton denim search terms and put 98-99% cotton or 1-2% elastane/spandex in verificationChecks.",
+    "- Jewelry material terms such as 316L stainless steel and 925 sterling silver can stay in searchTerms, but still require review/detail checks.",
+    "- Shoes and bags can use material plus construction terms in searchTerms, but genuine leather claims still need verification.",
+    "",
     "Expanded quality knowledge:",
     ...selectSifterQualityCategories(message).map(
       (category) =>
-        `- ${category.name} (${category.audience}): ${category.guidance} Strong search terms: ${category.searchTerms.join("; ")}. Avoid: ${category.avoid}`,
+        `- ${category.name} (${category.audience}): ${category.guidance} Candidate search terms: ${category.searchTerms.join("; ")}. Verification checks: ${category.verificationChecks.join("; ")}. Avoid: ${category.avoid}`,
     ),
     "",
     "Reality checks:",

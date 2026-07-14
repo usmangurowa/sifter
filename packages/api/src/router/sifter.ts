@@ -23,22 +23,34 @@ Rules:
 - Create 2 to 5 categories when the user asks for multiple items or an outfit.
 - Create 1 category when the request is focused on one item.
 - Use these exact camelCase JSON keys: greeting, categories, shoppingTips,
-  discountCodes, name, emoji, description, searchTerms, proTip, avoid, code,
-  platform.
+  discountCodes, name, emoji, description, searchTerms, verificationChecks,
+  proTip, avoid, code, platform.
 - Each category must include 3 to 6 specific search terms.
-- Search terms must be specific, material-aware, and platform-searchable.
+- Each category must include 3 to 6 verification checks.
+- Search terms must be material-aware, platform-searchable candidate-finding
+  queries, not guaranteed product claims.
+- Verification checks must be concrete listing details the user should confirm
+  before buying.
 - When the expanded quality knowledge contains a matching category, use those
   category-specific materials and construction markers first.
+- Use exact numeric terms only when marketplace search is likely to reward them.
+  For example, GSM is useful in t-shirt, hoodie, and sweat searches.
+- For jeans and trousers, use broad cotton denim or drape-oriented search terms,
+  then put exact fiber ratios and fit checks in verificationChecks.
+- Jewelry material terms such as 316L stainless steel and 925 sterling silver
+  can stay in searchTerms, but still require review/detail checks.
+- Shoes and bags can use material plus construction terms in searchTerms, but
+  genuine leather claims still need verification.
 - Do not borrow markers across unrelated categories. For example, denim cotton
-  percentages are useful for jeans, while terylene, viscose blend, and heavy
-  drape are better for office trousers.
+  percentages are verification checks for jeans, while terylene, viscose blend,
+  and heavy drape are better for office trousers.
 - Include at least 2 shopping tips tailored to the query.
 - Include relevant SHEIN discount codes only when useful.
 - If a category is unfamiliar, use general material quality principles and make the description clear.
 
 Baseline quality knowledge:
 - T-shirts: prefer 240-300 GSM, combed cotton, mercerized cotton. Avoid thin polyester unless gym wear.
-- Jeans: prefer 98-99% cotton, raw denim, selvedge denim. Avoid high polyester content.
+- Jeans: search broad cotton denim terms; verify 98-99% cotton, 1-2% elastane/spandex, fit, and low/no polyester inside listings.
 - Body-hug basics: prefer modal, viscose blend, ribbed knit, cotton spandex. Avoid cheap polyester with poor shape retention.
 - Hoodies: prefer 400 GSM, French terry, cotton fleece, heavyweight. Avoid lightweight polyester or unclear weight.
 - Chains: prefer 316L stainless steel, PVD plating, vacuum plating. Avoid generic gold plated listings without base metal details.

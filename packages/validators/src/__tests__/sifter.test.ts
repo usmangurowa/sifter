@@ -35,6 +35,11 @@ describe("Sifter validators", () => {
               "French terry hoodie",
               "cotton fleece hoodie",
             ],
+            verificationChecks: [
+              "Material lists cotton fleece or French terry.",
+              "Fabric weight is 400 GSM or heavier.",
+              "Customer photos show thick ribbing and structure.",
+            ],
             proTip: "Check the weight.",
             avoid: "Avoid thin polyester fleece.",
           },
@@ -49,5 +54,54 @@ describe("Sifter validators", () => {
         ],
       }),
     ).toMatchObject({ categories: [{ name: "Heavyweight Hoodies" }] });
+  });
+
+  it("rejects response categories without verification checks", () => {
+    expect(() =>
+      sifterChatResponseDataSchema.parse({
+        greeting: "Here are better searches.",
+        categories: [
+          {
+            name: "Jeans",
+            emoji: "J",
+            description: "Look for cotton denim.",
+            searchTerms: [
+              "cotton denim straight leg jeans",
+              "stretch cotton jeans men",
+              "straight leg denim pants cotton",
+            ],
+            proTip: "Open the listing details.",
+            avoid: "Avoid vague cotton blend listings.",
+          },
+        ],
+        shoppingTips: ["Read materials first.", "Check customer photos."],
+        discountCodes: [],
+      }),
+    ).toThrow();
+  });
+
+  it("rejects response categories with empty verification checks", () => {
+    expect(() =>
+      sifterChatResponseDataSchema.parse({
+        greeting: "Here are better searches.",
+        categories: [
+          {
+            name: "Jeans",
+            emoji: "J",
+            description: "Look for cotton denim.",
+            searchTerms: [
+              "cotton denim straight leg jeans",
+              "stretch cotton jeans men",
+              "straight leg denim pants cotton",
+            ],
+            verificationChecks: [],
+            proTip: "Open the listing details.",
+            avoid: "Avoid vague cotton blend listings.",
+          },
+        ],
+        shoppingTips: ["Read materials first.", "Check customer photos."],
+        discountCodes: [],
+      }),
+    ).toThrow();
   });
 });

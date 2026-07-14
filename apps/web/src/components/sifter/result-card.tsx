@@ -68,6 +68,23 @@ export const ResultCard = ({ category }: { category: SifterCategory }) => {
         ))}
       </div>
 
+      <div className="mt-4 rounded-2xl border border-blue-500/20 bg-blue-500/[0.07] p-4 shadow-inner shadow-white/30 dark:border-blue-300/15 dark:bg-blue-400/10 dark:shadow-none">
+        <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-blue-950 dark:text-blue-100">
+          <HugeiconsIcon icon={Tick02Icon} strokeWidth={2} />
+          Verify before buying
+        </div>
+        <ul className="grid gap-2.5 text-sm leading-6 text-blue-950/85 dark:text-blue-100/85">
+          {category.verificationChecks.map((check) => (
+            <li key={check} className="flex gap-2.5">
+              <span className="mt-1 grid size-4 shrink-0 place-items-center rounded-full bg-blue-600 text-white dark:bg-blue-300 dark:text-blue-950">
+                <HugeiconsIcon icon={Tick02Icon} className="size-3" />
+              </span>
+              <span>{check}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
         <Button
           className="h-12 rounded-2xl bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-600/20 transition duration-300 hover:from-blue-400 hover:to-indigo-500"

@@ -177,6 +177,7 @@ export const sifterCategorySchema = z.object({
   emoji: z.string().trim().min(1).max(8),
   description: z.string().trim().min(1),
   searchTerms: z.array(z.string().trim().min(1)).min(3).max(6),
+  verificationChecks: z.array(z.string().trim().min(1)).min(3).max(6),
   proTip: z.string().trim().min(1).nullable(),
   avoid: z.string().trim().min(1).nullable(),
 });

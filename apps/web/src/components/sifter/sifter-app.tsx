@@ -10,7 +10,12 @@ import {
 } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft01Icon } from "@hugeicons/core-free-icons";
+import {
+  ArrowLeft01Icon,
+  ComputerIcon,
+  MoonIcon,
+  Sun01Icon,
+} from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { AnimatePresence, motion } from "motion/react";
 
@@ -23,6 +28,7 @@ import { cn } from "@turbo/ui";
 import { Badge } from "@turbo/ui/badge";
 import { Button } from "@turbo/ui/button";
 import { Separator } from "@turbo/ui/separator";
+import { useTheme } from "@turbo/ui/theme";
 
 import { ChatInput } from "./chat-input";
 import { DiscountVault } from "./discount-vault";
@@ -118,6 +124,36 @@ const writePromptHistory = (history: string[]) => {
   } catch {
     // Private browsing or storage limits should not block Sifter.
   }
+};
+
+const ThemeCycleButton = () => {
+  const { themeMode, toggleMode } = useTheme();
+  const label =
+    themeMode === "auto"
+      ? "system theme"
+      : themeMode === "dark"
+        ? "dark theme"
+        : "light theme";
+  const icon =
+    themeMode === "light"
+      ? Sun01Icon
+      : themeMode === "dark"
+        ? MoonIcon
+        : ComputerIcon;
+
+  return (
+    <Button
+      type="button"
+      variant="ghost"
+      size="icon"
+      onClick={toggleMode}
+      aria-label={`Using ${label}. Switch theme.`}
+      title={`Using ${label}`}
+      className="size-10 rounded-full bg-transparent p-0 text-blue-950 shadow-none hover:bg-transparent hover:text-blue-950 dark:text-blue-100 dark:hover:bg-transparent dark:hover:text-blue-100 [&_svg]:size-5"
+    >
+      <HugeiconsIcon icon={icon} strokeWidth={2} />
+    </Button>
+  );
 };
 
 interface SifterAppProps {
@@ -291,7 +327,10 @@ export const SifterApp = ({
                 Sifter
               </span>
             </div>
-            <DiscountVault />
+            <div className="flex items-center gap-2">
+              <DiscountVault />
+              <ThemeCycleButton />
+            </div>
           </div>
         </header>
       ) : null}
@@ -323,7 +362,7 @@ export const SifterApp = ({
                 <h1 className="mx-auto max-w-2xl text-3xl font-semibold tracking-normal text-balance sm:text-6xl">
                   Shop smarter on Temu and SHEIN.
                 </h1>
-                <p className="mx-auto max-w-2xl text-base leading-7 text-white/80 text-shadow-sm sm:text-lg dark:text-white/72">
+                <p className="mx-auto max-w-2xl text-base leading-7 text-slate-950/78 sm:text-lg dark:text-white/72">
                   Tell me what you want to buy. I will turn it into
                   material-aware search terms that help avoid cheap-looking
                   products.

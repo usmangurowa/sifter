@@ -1,6 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ArrowLeft01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { AnimatePresence, motion } from "motion/react";
@@ -23,14 +25,31 @@ import { SifterLogoMark } from "./sifter-logo-mark";
 
 type Status = "idle" | "loading" | "success" | "error";
 
-export const SifterApp = () => {
-  const [status, setStatus] = useState<Status>("idle");
+interface SifterAppProps {
+  initialMessage?: string;
+  mode?: "landing" | "chat";
+}
+
+export const SifterApp = ({
+  initialMessage,
+  mode = "landing",
+}: SifterAppProps) => {
+  const router = useRouter();
+  const normalizedInitialMessage = initialMessage?.trim() ?? "";
+  const [status, setStatus] = useState<Status>(
+    mode === "chat" && normalizedInitialMessage ? "loading" : "idle",
+  );
   const [result, setResult] = useState<SifterChatResponseData | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [lastQuery, setLastQuery] = useState<string | null>(null);
+  const [lastQuery, setLastQuery] = useState<string | null>(
+    mode === "chat" && normalizedInitialMessage
+      ? normalizedInitialMessage
+      : null,
+  );
   const requestIdRef = useRef(0);
+  const initialMessageRef = useRef<string | null>(null);
 
-  const submit = async (message: string) => {
+  const submit = useCallback(async (message: string) => {
     const requestId = requestIdRef.current + 1;
     requestIdRef.current = requestId;
     setStatus("loading");
@@ -66,18 +85,31 @@ export const SifterApp = () => {
       setError("Sifter could not connect. Check your network and try again.");
       setStatus("error");
     }
-  };
+  }, []);
 
-  const returnToLanding = () => {
-    requestIdRef.current += 1;
-    setStatus("idle");
-    setResult(null);
-    setError(null);
-    setLastQuery(null);
-  };
+  useEffect(() => {
+    if (mode !== "chat" || !normalizedInitialMessage) {
+      return;
+    }
+
+    if (initialMessageRef.current === normalizedInitialMessage) {
+      return;
+    }
+
+    initialMessageRef.current = normalizedInitialMessage;
+    void submit(normalizedInitialMessage);
+  }, [mode, normalizedInitialMessage, submit]);
+
+  const startChat = useCallback(
+    (message: string) => {
+      router.push(`/chat?q=${encodeURIComponent(message.trim())}`);
+    },
+    [router],
+  );
 
   const hasResults = status === "success" && result;
-  const isConversation = status !== "idle";
+  const isConversation = mode === "chat";
+  const handleSubmit = isConversation ? submit : startChat;
 
   return (
     <main
@@ -150,7 +182,7 @@ export const SifterApp = () => {
               </div>
 
               <div className="w-full max-w-full min-w-0 p-2">
-                <ChatInput onSubmit={submit} />
+                <ChatInput onSubmit={handleSubmit} />
               </div>
 
               <div className="flex w-full max-w-3xl flex-wrap justify-center gap-2.5 overflow-hidden py-2">
@@ -160,7 +192,7 @@ export const SifterApp = () => {
                     key={suggestion}
                     variant="outline"
                     size="sm"
-                    onClick={() => void submit(suggestion)}
+                    onClick={() => void handleSubmit(suggestion)}
                     className="rounded-full border-slate-300/70 bg-white/60 px-4 shadow-sm backdrop-blur transition duration-300 hover:-translate-y-0.5 hover:border-blue-300/70 hover:bg-blue-500/10 dark:border-white/10 dark:bg-white/[0.04] dark:hover:bg-white/[0.08]"
                   >
                     {suggestion}
@@ -178,6 +210,23 @@ export const SifterApp = () => {
               exit={{ opacity: 0, y: -8 }}
               className="flex min-h-[calc(100vh-3rem)] flex-col gap-5"
             >
+              <div className="bg-background/92 sticky top-0 z-30 -mx-4 px-4 py-3 backdrop-blur-xl sm:-mx-6 sm:px-6">
+                <div className="mx-auto flex h-10 max-w-4xl items-center">
+                  <Button
+                    asChild
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="text-muted-foreground hover:bg-muted/70 hover:text-foreground h-9 rounded-full px-2.5 text-xs"
+                  >
+                    <Link href="/">
+                      <HugeiconsIcon icon={ArrowLeft01Icon} strokeWidth={2} />
+                      Back
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+
               {lastQuery ? (
                 <div className="flex justify-end">
                   <div className="max-w-[88%] rounded-[1.4rem] rounded-br-md bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 px-4 py-3 text-sm leading-6 text-white shadow-lg shadow-blue-600/20 sm:max-w-[72%]">
@@ -187,25 +236,25 @@ export const SifterApp = () => {
               ) : null}
 
               <div className="min-w-0 space-y-3">
-                <div className="flex items-center justify-between gap-3 px-1">
-                  <div className="flex min-w-0 items-center gap-2">
-                    <div className="grid size-8 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 text-sm font-semibold text-white shadow-lg shadow-blue-600/20">
-                      <SifterLogoMark className="h-5 w-4" />
-                    </div>
-                    <div className="truncate text-sm font-semibold">Sifter</div>
+                <div className="flex min-w-0 items-center gap-2 px-1">
+                  <div className="grid size-8 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-600/20">
+                    <SifterLogoMark className="h-5 w-4" />
                   </div>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    onClick={returnToLanding}
-                    className="text-muted-foreground hover:bg-muted/70 hover:text-foreground h-8 rounded-full px-2.5 text-xs"
-                  >
-                    <HugeiconsIcon icon={ArrowLeft01Icon} strokeWidth={2} />
-                    Back
-                  </Button>
+                  <div className="truncate text-sm font-semibold">Sifter</div>
                 </div>
                 <div className="bg-muted/20 min-w-0 rounded-[1.5rem] border border-slate-200/70 p-2.5 sm:rounded-[2rem] sm:p-4 dark:border-white/10 dark:bg-white/[0.02]">
+                  {status === "idle" ? (
+                    <div className="bg-background space-y-2 rounded-[1.5rem] border border-slate-200/80 p-5 shadow-sm sm:p-6 dark:border-white/10">
+                      <h2 className="text-base font-medium">
+                        What should we sift?
+                      </h2>
+                      <p className="text-muted-foreground text-sm leading-6">
+                        Ask for a product, material, or outfit and Sifter will
+                        turn it into better marketplace search terms.
+                      </p>
+                    </div>
+                  ) : null}
+
                   {status === "loading" ? (
                     <div className="bg-background space-y-4 rounded-[1.5rem] border border-slate-200/80 p-5 shadow-sm sm:p-6 dark:border-white/10">
                       <div className="space-y-1">
@@ -301,7 +350,7 @@ export const SifterApp = () => {
                   compact
                   disabled={status === "loading"}
                   placeholder="Ask for another item or outfit"
-                  onSubmit={submit}
+                  onSubmit={handleSubmit}
                 />
               </div>
             </motion.section>

@@ -19,6 +19,7 @@ import { ChatInput } from "./chat-input";
 import { DiscountVault } from "./discount-vault";
 import { LoadingState } from "./loading-state";
 import { ResultCard } from "./result-card";
+import { SifterLogoMark } from "./sifter-logo-mark";
 
 type Status = "idle" | "loading" | "success" | "error";
 
@@ -103,8 +104,11 @@ export const SifterApp = () => {
       {!isConversation ? (
         <header className="absolute inset-x-0 top-0 z-40">
           <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
-            <div className="min-w-0 text-2xl font-black tracking-tight text-blue-950">
-              Sifter
+            <div className="flex min-w-0 items-center gap-2.5 text-blue-950">
+              <SifterLogoMark className="h-8 w-6 shrink-0" />
+              <span className="min-w-0 text-2xl font-black tracking-tight">
+                Sifter
+              </span>
             </div>
             <DiscountVault />
           </div>
@@ -186,7 +190,7 @@ export const SifterApp = () => {
                 <div className="flex items-center justify-between gap-3 px-1">
                   <div className="flex min-w-0 items-center gap-2">
                     <div className="grid size-8 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 text-sm font-semibold text-white shadow-lg shadow-blue-600/20">
-                      S
+                      <SifterLogoMark className="h-5 w-4" />
                     </div>
                     <div className="truncate text-sm font-semibold">Sifter</div>
                   </div>

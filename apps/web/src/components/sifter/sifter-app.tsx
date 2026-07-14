@@ -391,9 +391,9 @@ export const SifterApp = ({
                   </div>
                   <div className="truncate text-sm font-semibold">Sifter</div>
                 </div>
-                <div className="bg-muted/20 min-w-0 rounded-[1.5rem] border border-slate-200/70 p-2.5 sm:rounded-[2rem] sm:p-4 dark:border-white/10 dark:bg-white/[0.02]">
+                <div className="min-w-0 rounded-2xl border border-slate-200/70 p-2.5 sm:p-4 dark:border-white/10">
                   {status === "idle" ? (
-                    <div className="bg-background space-y-2 rounded-[1.5rem] border border-slate-200/80 p-5 shadow-sm sm:p-6 dark:border-white/10">
+                    <div className="bg-background space-y-2 rounded-xl border border-slate-200/80 p-5 shadow-sm sm:p-6 dark:border-white/10">
                       <h2 className="text-base font-medium">
                         What should we sift?
                       </h2>
@@ -405,7 +405,7 @@ export const SifterApp = ({
                   ) : null}
 
                   {status === "loading" ? (
-                    <div className="bg-background space-y-4 rounded-[1.5rem] border border-slate-200/80 p-5 shadow-sm sm:p-6 dark:border-white/10">
+                    <div className="bg-background space-y-4 rounded-xl border border-slate-200/80 p-5 shadow-sm sm:p-6 dark:border-white/10">
                       <div className="space-y-1">
                         <h2 className="text-base font-medium">
                           Sifting better search terms
@@ -420,7 +420,7 @@ export const SifterApp = ({
                   ) : null}
 
                   {status === "error" ? (
-                    <div className="space-y-4 rounded-[1.5rem] border border-red-500/20 bg-red-500/10 p-5 shadow-sm sm:p-6">
+                    <div className="space-y-4 rounded-xl border border-red-500/25 p-5 text-red-700 shadow-sm sm:p-6 dark:text-red-300">
                       <div className="space-y-1">
                         <h2 className="text-base font-medium">Try again</h2>
                         <p className="text-muted-foreground text-sm leading-6">
@@ -458,7 +458,7 @@ export const SifterApp = ({
                         ))}
                       </div>
 
-                      <div className="bg-background rounded-3xl border border-slate-200/80 p-4 shadow-sm sm:p-5 dark:border-white/10">
+                      <div className="bg-background rounded-2xl border border-slate-200/80 p-4 shadow-sm sm:p-5 dark:border-white/10">
                         <h3 className="text-base font-semibold">
                           Shopping tips
                         </h3>

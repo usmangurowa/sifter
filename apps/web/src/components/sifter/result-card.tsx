@@ -9,7 +9,6 @@ import { HugeiconsIcon } from "@hugeicons/react";
 
 import type { SifterCategory } from "@turbo/validators";
 import { buildSheinSearchUrl, buildTemuSearchUrl } from "@turbo/shared/sifter";
-import { cn } from "@turbo/ui";
 import { Badge } from "@turbo/ui/badge";
 import { Button } from "@turbo/ui/button";
 import { toast } from "@turbo/ui/toast";
@@ -26,13 +25,13 @@ export const ResultCard = ({ category }: { category: SifterCategory }) => {
   return (
     <section
       data-slot="sifter-result-card"
-      className="group relative max-w-full min-w-0 overflow-hidden rounded-3xl border border-slate-200/80 bg-white/82 p-3 shadow-[0_18px_70px_-48px_rgba(15,23,42,0.75)] ring-1 ring-slate-950/[0.03] backdrop-blur-xl transition duration-300 hover:-translate-y-0.5 hover:border-blue-300/50 hover:shadow-[0_26px_90px_-52px_rgba(37,99,235,0.55)] sm:p-5 dark:border-white/10 dark:bg-zinc-950/58 dark:ring-white/5"
+      className="group relative max-w-full min-w-0 overflow-hidden rounded-2xl border border-slate-200/80 bg-white/82 p-3 shadow-[0_18px_70px_-48px_rgba(15,23,42,0.75)] ring-1 ring-slate-950/[0.03] backdrop-blur-xl transition duration-300 hover:-translate-y-0.5 hover:border-blue-300/50 hover:shadow-[0_26px_90px_-52px_rgba(37,99,235,0.55)] sm:p-5 dark:border-white/10 dark:bg-zinc-950/58 dark:ring-white/5"
     >
       <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-blue-400/40 to-transparent opacity-0 transition group-hover:opacity-100" />
 
       <div className="space-y-3">
         <div className="flex min-w-0 items-start gap-3">
-          <span className="grid size-10 shrink-0 place-items-center rounded-2xl border border-blue-500/10 bg-blue-500/10 text-lg shadow-inner shadow-white/50 dark:border-blue-300/10 dark:bg-blue-400/10 dark:shadow-none">
+          <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-blue-500/10 bg-blue-500/10 text-lg shadow-inner shadow-white/50 dark:border-blue-300/10 dark:bg-blue-400/10 dark:shadow-none">
             {category.emoji}
           </span>
           <div className="min-w-0 space-y-1">
@@ -68,15 +67,15 @@ export const ResultCard = ({ category }: { category: SifterCategory }) => {
         ))}
       </div>
 
-      <div className="mt-4 rounded-2xl border border-blue-500/20 bg-blue-500/[0.07] p-4 shadow-inner shadow-white/30 dark:border-blue-300/15 dark:bg-blue-400/10 dark:shadow-none">
-        <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-blue-950 dark:text-blue-100">
+      <div className="mt-4 rounded-xl border border-slate-200/80 p-4 dark:border-white/10">
+        <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-blue-700 dark:text-blue-300">
           <HugeiconsIcon icon={Tick02Icon} strokeWidth={2} />
           Verify before buying
         </div>
-        <ul className="grid gap-2.5 text-sm leading-6 text-blue-950/85 dark:text-blue-100/85">
+        <ul className="text-foreground/82 dark:text-foreground/78 grid gap-2.5 text-sm leading-6">
           {category.verificationChecks.map((check) => (
             <li key={check} className="flex gap-2.5">
-              <span className="mt-1 grid size-4 shrink-0 place-items-center rounded-full bg-blue-600 text-white dark:bg-blue-300 dark:text-blue-950">
+              <span className="text-muted-foreground mt-1 grid size-4 shrink-0 place-items-center rounded-full">
                 <HugeiconsIcon icon={Tick02Icon} className="size-3" />
               </span>
               <span>{check}</span>
@@ -87,7 +86,7 @@ export const ResultCard = ({ category }: { category: SifterCategory }) => {
 
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
         <Button
-          className="h-12 rounded-2xl bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-600/20 transition duration-300 hover:from-blue-400 hover:to-indigo-500"
+          className="h-12 rounded-xl bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-600/20 transition duration-300 hover:from-blue-400 hover:to-indigo-500"
           asChild
         >
           <a
@@ -102,7 +101,7 @@ export const ResultCard = ({ category }: { category: SifterCategory }) => {
         </Button>
         <Button
           variant="outline"
-          className="h-12 rounded-2xl border-slate-300/80 bg-white/70 shadow-sm transition duration-300 hover:border-blue-300/70 hover:bg-blue-500/10 dark:border-white/10 dark:bg-white/[0.04] dark:hover:bg-white/[0.08]"
+          className="h-12 rounded-xl border-slate-300/80 bg-white/70 shadow-sm transition duration-300 hover:border-blue-300/70 hover:bg-blue-500/10 dark:border-white/10 dark:bg-white/[0.04] dark:hover:bg-white/[0.08]"
           asChild
         >
           <a
@@ -120,8 +119,8 @@ export const ResultCard = ({ category }: { category: SifterCategory }) => {
       {category.proTip || category.avoid ? (
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           {category.proTip ? (
-            <div className="rounded-2xl border border-emerald-500/25 bg-emerald-500/10 p-4 text-sm leading-6 text-emerald-950 shadow-inner shadow-white/30 dark:text-emerald-100 dark:shadow-none">
-              <div className="mb-2 flex items-center gap-2 font-semibold">
+            <div className="text-foreground/82 dark:text-foreground/78 rounded-xl border border-slate-200/80 p-4 text-sm leading-6 dark:border-white/10">
+              <div className="mb-2 flex items-center gap-2 font-semibold text-emerald-700 dark:text-emerald-300">
                 <HugeiconsIcon icon={Tick02Icon} strokeWidth={2} />
                 Pro tip
               </div>
@@ -130,13 +129,10 @@ export const ResultCard = ({ category }: { category: SifterCategory }) => {
           ) : null}
 
           {category.avoid ? (
-            <div
-              className={cn(
-                "rounded-2xl border p-4 text-sm leading-6 shadow-inner shadow-white/20 dark:shadow-none",
-                "border-red-500/25 bg-red-500/10 text-red-700 dark:text-red-300",
-              )}
-            >
-              <div className="mb-2 font-semibold">Avoid</div>
+            <div className="text-foreground/82 dark:text-foreground/78 rounded-xl border border-slate-200/80 p-4 text-sm leading-6 dark:border-white/10">
+              <div className="mb-2 font-semibold text-red-700 dark:text-red-300">
+                Avoid
+              </div>
               {category.avoid}
             </div>
           ) : null}

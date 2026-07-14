@@ -23,10 +23,32 @@
 }
 
 @layer base {
+  :root {
+    --primary: oklch(0.68 0.16 52);
+    --primary-foreground: oklch(0.98 0.01 95);
+  }
+
   * {
     @apply border-border;
   }
   body {
     letter-spacing: var(--tracking-normal);
+  }
+}
+
+@theme {
+  --animate-shake: shake 350ms ease-in-out;
+
+  @keyframes shake {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-4px);
+    }
+    75% {
+      transform: translateX(4px);
+    }
   }
 }

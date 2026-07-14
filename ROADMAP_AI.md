@@ -6,28 +6,34 @@ architecture, contracts, or conventions.
 
 ## Current Focus
 
-- Phase: Phase 1 - Template Hardening
-- Active initiative: Keep AI contract snapshots and agent memory current
-- Last updated: 2026-05-24
+- Phase: Sifter MVP
+- Active initiative: Public AI shopping assistant
+- Last updated: 2026-07-14
 
 ## Active Sprint
 
-| ID     | Status   | Task                                                 | Files                                                                              | Validation           |
-| ------ | -------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------- | -------------------- |
-| AI-001 | complete | Bootstrap AI-native repository controls              | `AGENTS.md`, `.ai/`, `.github/`, `.cursor/`, `ARCHITECTURE.md`, `system_prompt.md` | `pnpm ai:contracts`  |
-| AI-002 | complete | Sync stale public documentation with package reality | `README.md`, `.env.example`, `turbo.json`                                          | `pnpm ai:env:strict` |
-| AI-003 | complete | Add generated contract snapshots for agents          | `.ai/contracts/*.generated.md`, `scripts/ai/*`                                     | `pnpm ai:contracts`  |
+| ID     | Status   | Task                                                 | Files                                                                              | Validation                |
+| ------ | -------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------- | ------------------------- |
+| AI-001 | complete | Bootstrap AI-native repository controls              | `AGENTS.md`, `.ai/`, `.github/`, `.cursor/`, `ARCHITECTURE.md`, `system_prompt.md` | `pnpm ai:contracts`       |
+| AI-002 | complete | Sync stale public documentation with package reality | `README.md`, `.env.example`, `turbo.json`                                          | `pnpm ai:env:strict`      |
+| AI-003 | complete | Add generated contract snapshots for agents          | `.ai/contracts/*.generated.md`, `scripts/ai/*`                                     | `pnpm ai:contracts`       |
 | AI-004 | complete | Enforce fresh AI contract snapshots in CI            | `.github/workflows/ci.yml`, `package.json`                                         | `pnpm ai:contracts:check` |
 
 ## Implemented Features
 
-| Date       | Feature                         | Files                                                                                                     | Notes                                                                                         |
-| ---------- | ------------------------------- | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| 2026-05-17 | Agent-native memory foundation  | `AGENTS.md`, `.ai/`, `.github/copilot-instructions.md`, `.cursor/rules/*`, `CLAUDE.md`                    | `.ai/` is the source of truth for agent context.                                              |
-| 2026-05-17 | Task-oriented agent skills      | `.ai/skills/*`, `.github/prompts/*`, `.claude/commands/*`                                                 | Common tasks route through explicit procedures.                                               |
-| 2026-05-17 | Generated AI contract snapshots | `.ai/contracts/*.generated.md`, `scripts/ai/*`, `package.json`                                            | Agents can inspect API, DB, env, package export, and dependency graph facts without guessing. |
-| 2026-05-17 | Spec-first workflow             | `.ai/skills/feature-spec.md`, `.ai/specs/_template.spec.md`, `.github/prompts/new-feature-spec.prompt.md` | Non-trivial work has an explicit planning and validation template.                            |
-| 2026-06-30 | Standalone server runtime       | `apps/server`, `packages/auth/src/trusted-origins.ts`, `.env.example`, `turbo.json`                       | `apps/server` hosts the existing `@turbo/api` app without moving API business logic.          |
+| Date       | Feature                          | Files                                                                                                     | Notes                                                                                         |
+| ---------- | -------------------------------- | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| 2026-05-17 | Agent-native memory foundation   | `AGENTS.md`, `.ai/`, `.github/copilot-instructions.md`, `.cursor/rules/*`, `CLAUDE.md`                    | `.ai/` is the source of truth for agent context.                                              |
+| 2026-05-17 | Task-oriented agent skills       | `.ai/skills/*`, `.github/prompts/*`, `.claude/commands/*`                                                 | Common tasks route through explicit procedures.                                               |
+| 2026-05-17 | Generated AI contract snapshots  | `.ai/contracts/*.generated.md`, `scripts/ai/*`, `package.json`                                            | Agents can inspect API, DB, env, package export, and dependency graph facts without guessing. |
+| 2026-05-17 | Spec-first workflow              | `.ai/skills/feature-spec.md`, `.ai/specs/_template.spec.md`, `.github/prompts/new-feature-spec.prompt.md` | Non-trivial work has an explicit planning and validation template.                            |
+| 2026-06-30 | Standalone server runtime        | `apps/server`, `packages/auth/src/trusted-origins.ts`, `.env.example`, `turbo.json`                       | `apps/server` hosts the existing `@turbo/api` app without moving API business logic.          |
+| 2026-07-14 | Sifter MVP public web app        | `apps/web`, `packages/api`, `packages/ai`, `packages/shared`, `packages/validators`                       | `/` is the public Sifter shopping assistant with `POST /api/sifter/chat`.                     |
+| 2026-07-14 | Remove Supabase client package   | `packages/supabase`, `apps/web`, `apps/mobile`, `.env.example`, `turbo.json`                              | Public Supabase client env and `@turbo/supabase` workspace dependency were removed.           |
+| 2026-07-14 | Sifter web-first dev startup     | `package.json`, `turbo.json`, `.ai/context/conventions.md`                                                | `pnpm dev` starts `@turbo/web` directly so the Sifter app URL is visible immediately.         |
+| 2026-07-14 | Chat-style Sifter response flow  | `apps/web/src/components/sifter/*`, `.ai/specs/active/sifter-mvp.spec.md`                                 | Prompt submissions transition from the landing hero into a bounded assistant response panel.  |
+| 2026-07-14 | Sifter Groq provider switch      | `packages/api`, `packages/ai`, `.env.example`, `turbo.json`, `.ai/context/*`                              | Sifter live chat now uses Groq with `GROQ_API_KEY`; previous provider env/dependency removed. |
+| 2026-07-14 | Expanded Sifter quality taxonomy | `packages/shared/src/sifter.ts`, `packages/api/src/router/sifter.ts`                                      | AI prompt now includes broader material, construction, and false-label heuristics.            |
 
 ## Architectural Change Log
 
@@ -36,6 +42,8 @@ architecture, contracts, or conventions.
 | 2026-05-17 | Adopt `.ai/` as the canonical agent memory system | `.ai/decisions/ADR-0001-adopt-agent-native-architecture.md`          | New patterns, dependencies, and decisions must update `.ai/` in the same PR.       |
 | 2026-05-17 | Keep tool-specific agent files thin               | `.github/copilot-instructions.md`, `.cursor/rules/*`, `CLAUDE.md`    | Do not duplicate long-form rules across tools; link back to `.ai/`.                |
 | 2026-05-17 | Generate machine-readable contract snapshots      | `scripts/ai/generate-contracts.mjs`, `.ai/context/data-contracts.md` | Run `pnpm ai:contracts` after API, DB, env, package export, or dependency changes. |
+| 2026-07-14 | Split public API app from auth/database app       | `packages/api/src/public.ts`                                         | Public routes can mount without importing Better Auth or the database client.      |
+| 2026-07-14 | Make root dev startup web-first                   | `package.json`, `turbo.json`                                         | Root `pnpm dev` runs only `@turbo/web`; mobile/server use explicit dev scripts.    |
 
 ## Known TODOs
 

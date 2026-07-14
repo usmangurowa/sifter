@@ -104,8 +104,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       projectId: process.env.EAS_PROJECT_ID,
       enableFastRefresh: true,
     },
-    EXPO_PUBLIC_SUPABASE_URL: process.env.EXPO_PUBLIC_SUPABASE_URL,
-    EXPO_PUBLIC_SUPABASE_ANON_KEY: process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY,
     EXPO_PUBLIC_APP_NAME: process.env.EXPO_PUBLIC_APP_NAME,
     EXPO_PUBLIC_APP_SLUG: process.env.EXPO_PUBLIC_APP_SLUG,
     EXPO_PUBLIC_APP_SCHEME: process.env.EXPO_PUBLIC_APP_SCHEME,

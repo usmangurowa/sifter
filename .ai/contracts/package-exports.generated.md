@@ -9,14 +9,13 @@
 | `@turbo/web` | `apps/web` | None |
 | `@turbo/ai` | `packages/ai` | `.`, `./client` |
 | `@turbo/analytics` | `packages/analytics` | `.`, `./server`, `./events` |
-| `@turbo/api` | `packages/api` | `.` |
+| `@turbo/api` | `packages/api` | `.`, `./public` |
 | `@turbo/assets` | `packages/assets` | `./fonts/*` |
 | `@turbo/auth` | `packages/auth` | `.`, `./middleware`, `./client`, `./env`, `./trusted-origins` |
 | `@turbo/db` | `packages/db` | `.`, `./client`, `./schema` |
 | `@turbo/jobs` | `packages/jobs` | `.`, `./tasks/*`, `./domain/*` |
 | `@turbo/mail` | `packages/mail` | `.`, `./client`, `./templates/*` |
-| `@turbo/shared` | `packages/shared` | `.`, `./constants` |
-| `@turbo/supabase` | `packages/supabase` | `.`, `./client` |
+| `@turbo/shared` | `packages/shared` | `.`, `./constants`, `./sifter` |
 | `@turbo/ui` | `packages/ui` | `.`, `./*`, `./hooks/*` |
 | `@turbo/validators` | `packages/validators` | `.` |
 | `@turbo/eslint-config` | `tooling/eslint` | `./base`, `./nextjs`, `./react` |

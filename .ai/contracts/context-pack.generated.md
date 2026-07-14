@@ -201,28 +201,34 @@ architecture, contracts, or conventions.
 
 ## Current Focus
 
-- Phase: Phase 1 - Template Hardening
-- Active initiative: Keep AI contract snapshots and agent memory current
-- Last updated: 2026-05-24
+- Phase: Sifter MVP
+- Active initiative: Public AI shopping assistant
+- Last updated: 2026-07-14
 
 ## Active Sprint
 
-| ID     | Status   | Task                                                 | Files                                                                              | Validation           |
-| ------ | -------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------- | -------------------- |
-| AI-001 | complete | Bootstrap AI-native repository controls              | `AGENTS.md`, `.ai/`, `.github/`, `.cursor/`, `ARCHITECTURE.md`, `system_prompt.md` | `pnpm ai:contracts`  |
-| AI-002 | complete | Sync stale public documentation with package reality | `README.md`, `.env.example`, `turbo.json`                                          | `pnpm ai:env:strict` |
-| AI-003 | complete | Add generated contract snapshots for agents          | `.ai/contracts/*.generated.md`, `scripts/ai/*`                                     | `pnpm ai:contracts`  |
+| ID     | Status   | Task                                                 | Files                                                                              | Validation                |
+| ------ | -------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------- | ------------------------- |
+| AI-001 | complete | Bootstrap AI-native repository controls              | `AGENTS.md`, `.ai/`, `.github/`, `.cursor/`, `ARCHITECTURE.md`, `system_prompt.md` | `pnpm ai:contracts`       |
+| AI-002 | complete | Sync stale public documentation with package reality | `README.md`, `.env.example`, `turbo.json`                                          | `pnpm ai:env:strict`      |
+| AI-003 | complete | Add generated contract snapshots for agents          | `.ai/contracts/*.generated.md`, `scripts/ai/*`                                     | `pnpm ai:contracts`       |
 | AI-004 | complete | Enforce fresh AI contract snapshots in CI            | `.github/workflows/ci.yml`, `package.json`                                         | `pnpm ai:contracts:check` |
 
 ## Implemented Features
 
-| Date       | Feature                         | Files                                                                                                     | Notes                                                                                         |
-| ---------- | ------------------------------- | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| 2026-05-17 | Agent-native memory foundation  | `AGENTS.md`, `.ai/`, `.github/copilot-instructions.md`, `.cursor/rules/*`, `CLAUDE.md`                    | `.ai/` is the source of truth for agent context.                                              |
-| 2026-05-17 | Task-oriented agent skills      | `.ai/skills/*`, `.github/prompts/*`, `.claude/commands/*`                                                 | Common tasks route through explicit procedures.                                               |
-| 2026-05-17 | Generated AI contract snapshots | `.ai/contracts/*.generated.md`, `scripts/ai/*`, `package.json`                                            | Agents can inspect API, DB, env, package export, and dependency graph facts without guessing. |
-| 2026-05-17 | Spec-first workflow             | `.ai/skills/feature-spec.md`, `.ai/specs/_template.spec.md`, `.github/prompts/new-feature-spec.prompt.md` | Non-trivial work has an explicit planning and validation template.                            |
-| 2026-06-30 | Standalone server runtime       | `apps/server`, `packages/auth/src/trusted-origins.ts`, `.env.example`, `turbo.json`                       | `apps/server` hosts the existing `@turbo/api` app without moving API business logic.          |
+| Date       | Feature                          | Files                                                                                                     | Notes                                                                                         |
+| ---------- | -------------------------------- | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| 2026-05-17 | Agent-native memory foundation   | `AGENTS.md`, `.ai/`, `.github/copilot-instructions.md`, `.cursor/rules/*`, `CLAUDE.md`                    | `.ai/` is the source of truth for agent context.                                              |
+| 2026-05-17 | Task-oriented agent skills       | `.ai/skills/*`, `.github/prompts/*`, `.claude/commands/*`                                                 | Common tasks route through explicit procedures.                                               |
+| 2026-05-17 | Generated AI contract snapshots  | `.ai/contracts/*.generated.md`, `scripts/ai/*`, `package.json`                                            | Agents can inspect API, DB, env, package export, and dependency graph facts without guessing. |
+| 2026-05-17 | Spec-first workflow              | `.ai/skills/feature-spec.md`, `.ai/specs/_template.spec.md`, `.github/prompts/new-feature-spec.prompt.md` | Non-trivial work has an explicit planning and validation template.                            |
+| 2026-06-30 | Standalone server runtime        | `apps/server`, `packages/auth/src/trusted-origins.ts`, `.env.example`, `turbo.json`                       | `apps/server` hosts the existing `@turbo/api` app without moving API business logic.          |
+| 2026-07-14 | Sifter MVP public web app        | `apps/web`, `packages/api`, `packages/ai`, `packages/shared`, `packages/validators`                       | `/` is the public Sifter shopping assistant with `POST /api/sifter/chat`.                     |
+| 2026-07-14 | Remove Supabase client package   | `packages/supabase`, `apps/web`, `apps/mobile`, `.env.example`, `turbo.json`                              | Public Supabase client env and `@turbo/supabase` workspace dependency were removed.           |
+| 2026-07-14 | Sifter web-first dev startup     | `package.json`, `turbo.json`, `.ai/context/conventions.md`                                                | `pnpm dev` starts `@turbo/web` directly so the Sifter app URL is visible immediately.         |
+| 2026-07-14 | Chat-style Sifter response flow  | `apps/web/src/components/sifter/*`, `.ai/specs/active/sifter-mvp.spec.md`                                 | Prompt submissions transition from the landing hero into a bounded assistant response panel.  |
+| 2026-07-14 | Sifter Groq provider switch      | `packages/api`, `packages/ai`, `.env.example`, `turbo.json`, `.ai/context/*`                              | Sifter live chat now uses Groq with `GROQ_API_KEY`; previous provider env/dependency removed. |
+| 2026-07-14 | Expanded Sifter quality taxonomy | `packages/shared/src/sifter.ts`, `packages/api/src/router/sifter.ts`                                      | AI prompt now includes broader material, construction, and false-label heuristics.            |
 
 ## Architectural Change Log
 
@@ -231,6 +237,8 @@ architecture, contracts, or conventions.
 | 2026-05-17 | Adopt `.ai/` as the canonical agent memory system | `.ai/decisions/ADR-0001-adopt-agent-native-architecture.md`          | New patterns, dependencies, and decisions must update `.ai/` in the same PR.       |
 | 2026-05-17 | Keep tool-specific agent files thin               | `.github/copilot-instructions.md`, `.cursor/rules/*`, `CLAUDE.md`    | Do not duplicate long-form rules across tools; link back to `.ai/`.                |
 | 2026-05-17 | Generate machine-readable contract snapshots      | `scripts/ai/generate-contracts.mjs`, `.ai/context/data-contracts.md` | Run `pnpm ai:contracts` after API, DB, env, package export, or dependency changes. |
+| 2026-07-14 | Split public API app from auth/database app       | `packages/api/src/public.ts`                                         | Public routes can mount without importing Better Auth or the database client.      |
+| 2026-07-14 | Make root dev startup web-first                   | `package.json`, `turbo.json`                                         | Root `pnpm dev` runs only `@turbo/web`; mobile/server use explicit dev scripts.    |
 
 ## Known TODOs
 
@@ -389,7 +397,6 @@ packages/
   jobs/         → Trigger.dev background tasks
   mail/         → Email templates (Resend)
   shared/       → Shared utilities and constants
-  supabase/     → Supabase client setup
   ui/           → shadcn/ui component library (50+ components)
   validators/   → Zod validation schemas
 tooling/
@@ -411,7 +418,7 @@ tooling/
 | React            | React       | 19.2.3 via `catalog:react19`              |
 | API framework    | Hono        | ^4.12.23 (`@hono/node-server` for server) |
 | ORM              | Drizzle ORM | drizzle-orm ^0.45.2; drizzle-kit ^0.31.10 |
-| Database         | PostgreSQL  | via Supabase                              |
+| Database         | PostgreSQL  | optional via `POSTGRES_URL`               |
 | Database driver  | postgres.js | ^3.4.9 (`prepare: false` for pooled URLs) |
 | Auth             | Better Auth | 1.6.14                                    |
 | Validation       | Zod         | catalog (`4.4.3`)                         |
@@ -442,12 +449,12 @@ tooling/
 | --------------- | --------------------------------------------- |
 | Hosting         | Vercel (web), EAS (mobile)                    |
 | API runtime     | Standalone Node/Hono app (`apps/server`)      |
-| Database        | Supabase (Postgres)                           |
+| Database        | PostgreSQL                                    |
 | Email           | Resend                                        |
 | Background jobs | Trigger.dev                                   |
 | Analytics       | PostHog                                       |
 | Error tracking  | Sentry (@sentry/nextjs, @sentry/react-native) |
-| AI providers    | Gemini, OpenRouter, Groq (via Vercel AI SDK)  |
+| AI providers    | Groq, Gemini, OpenRouter via AI SDK           |
 
 ## Testing & Quality
 
@@ -519,6 +526,9 @@ Example: `packages/ui/src/components/button.tsx`
 - Context variables typed via `AppContext` interface
 - Typed RPC client exported for frontend consumption (`hcWithType`)
 - Security middleware stack: secure headers → CORS → rate limiting
+- Public API surfaces that do not need auth/database context can use
+  `@turbo/api/public` so app runtime mounts avoid importing auth or database
+  clients.
 
 Example: `packages/api/src/router/api-key.ts`
 
@@ -550,10 +560,17 @@ Example: `packages/db/src/auth-schema.ts`
 - `.env.example` as template — copy to `.env` for local development
 - Public vars prefixed with `NEXT_PUBLIC_` (web) or `EXPO_PUBLIC_` (mobile)
 - Validated with environment modules (e.g., `apps/web/src/env.ts`)
+- Dormant auth/database variables are optional for the Sifter MVP public web
+  surface; live AI calls require `GROQ_API_KEY`.
 - The standalone server uses `SERVER_PORT` for local port configuration; generic `PORT` is reserved as a platform fallback and should not be set in `.env.example`.
 
 ## Operational Commands
 
+- `pnpm dev` starts the public Sifter web app (`@turbo/web`) only. Use
+  `pnpm dev:mobile` or `pnpm dev:server` when those runtimes are needed.
+- Do not make the shared Turbo `dev` task depend on `^dev`; dependency package
+  dev scripts may be long-running watchers and can prevent app dev servers from
+  becoming visible.
 - Run `pnpm auth:generate` after Better Auth schema/config changes that affect generated auth schema output.
 - Run `pnpm db:generate -- --name <migration_name>` after Drizzle schema changes that need durable migrations.
 - Run `pnpm db:migrate` to apply pending Drizzle migrations.
@@ -773,6 +790,7 @@ router, or auth adapter. Use the matching `.ai/skills/*` procedure.
 | GET | `/auth/session` | `packages/api/src/router/auth.ts` | no |
 | GET | `/health` | `packages/api/src/index.ts` | no |
 | POST | `/apikeys` | `packages/api/src/router/api-key.ts` | no |
+| POST | `/sifter/chat` | `packages/api/src/router/sifter.ts` | no |
 | POST | `/support` | `packages/api/src/router/support.ts` | no |
 
 ## Typed client source
@@ -837,8 +855,6 @@ router, or auth adapter. Use the matching `.ai/skills/*` procedure.
 - `EXPO_PUBLIC_POSTHOG_HOST`
 - `EXPO_PUBLIC_POSTHOG_KEY`
 - `EXPO_PUBLIC_SENTRY_DSN`
-- `EXPO_PUBLIC_SUPABASE_ANON_KEY`
-- `EXPO_PUBLIC_SUPABASE_URL`
 - `GEMINI_API_KEY`
 - `GITHUB_CLIENT_ID`
 - `GITHUB_CLIENT_SECRET`
@@ -849,8 +865,6 @@ router, or auth adapter. Use the matching `.ai/skills/*` procedure.
 - `NEXT_PUBLIC_POSTHOG_HOST`
 - `NEXT_PUBLIC_POSTHOG_KEY`
 - `NEXT_PUBLIC_SENTRY_DSN`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-- `NEXT_PUBLIC_SUPABASE_URL`
 - `OPENROUTER_API_KEY`
 - `POSTGRES_URL`
 - `POSTHOG_API_KEY`
@@ -878,8 +892,6 @@ router, or auth adapter. Use the matching `.ai/skills/*` procedure.
 - `EXPO_PUBLIC_POSTHOG_HOST`
 - `EXPO_PUBLIC_POSTHOG_KEY`
 - `EXPO_PUBLIC_SENTRY_DSN`
-- `EXPO_PUBLIC_SUPABASE_ANON_KEY`
-- `EXPO_PUBLIC_SUPABASE_URL`
 - `GEMINI_API_KEY`
 - `GITHUB_CLIENT_ID`
 - `GITHUB_CLIENT_SECRET`
@@ -890,8 +902,6 @@ router, or auth adapter. Use the matching `.ai/skills/*` procedure.
 - `NEXT_PUBLIC_POSTHOG_HOST`
 - `NEXT_PUBLIC_POSTHOG_KEY`
 - `NEXT_PUBLIC_SENTRY_DSN`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-- `NEXT_PUBLIC_SUPABASE_URL`
 - `OPENROUTER_API_KEY`
 - `POSTGRES_URL`
 - `POSTHOG_API_KEY`
@@ -909,7 +919,7 @@ router, or auth adapter. Use the matching `.ai/skills/*` procedure.
 | File | Variables |
 | --- | --- |
 | apps/server/src/env.ts | `APP_URL`, `CI`, `PORT`, `POSTGRES_URL`, `RESEND_API_KEY`, `SERVER_PORT`, `SERVER_URL`, `SKIP_ENV_VALIDATION` |
-| apps/web/src/env.ts | `CI`, `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_PORT`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_SUPABASE_URL`, `NODE_ENV`, `POSTGRES_URL`, `SKIP_ENV_VALIDATION` |
+| apps/web/src/env.ts | `CI`, `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_PORT`, `NODE_ENV`, `POSTGRES_URL`, `SKIP_ENV_VALIDATION` |
 | packages/auth/env.ts | `AUTH_SECRET`, `CI`, `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `NODE_ENV`, `SKIP_ENV_VALIDATION`, `SUPABASE_JWT_SECRET` |
 
 ## Drift Report
@@ -941,14 +951,13 @@ router, or auth adapter. Use the matching `.ai/skills/*` procedure.
 | `@turbo/web` | `apps/web` | None |
 | `@turbo/ai` | `packages/ai` | `.`, `./client` |
 | `@turbo/analytics` | `packages/analytics` | `.`, `./server`, `./events` |
-| `@turbo/api` | `packages/api` | `.` |
+| `@turbo/api` | `packages/api` | `.`, `./public` |
 | `@turbo/assets` | `packages/assets` | `./fonts/*` |
 | `@turbo/auth` | `packages/auth` | `.`, `./middleware`, `./client`, `./env`, `./trusted-origins` |
 | `@turbo/db` | `packages/db` | `.`, `./client`, `./schema` |
 | `@turbo/jobs` | `packages/jobs` | `.`, `./tasks/*`, `./domain/*` |
 | `@turbo/mail` | `packages/mail` | `.`, `./client`, `./templates/*` |
-| `@turbo/shared` | `packages/shared` | `.`, `./constants` |
-| `@turbo/supabase` | `packages/supabase` | `.`, `./client` |
+| `@turbo/shared` | `packages/shared` | `.`, `./constants`, `./sifter` |
 | `@turbo/ui` | `packages/ui` | `.`, `./*`, `./hooks/*` |
 | `@turbo/validators` | `packages/validators` | `.` |
 | `@turbo/eslint-config` | `tooling/eslint` | `./base`, `./nextjs`, `./react` |
@@ -980,7 +989,6 @@ router, or auth adapter. Use the matching `.ai/skills/*` procedure.
 - `@turbo/jobs`
 - `@turbo/mail`
 - `@turbo/shared`
-- `@turbo/supabase`
 - `@turbo/ui`
 - `@turbo/validators`
 - `@turbo/eslint-config`
@@ -994,8 +1002,8 @@ router, or auth adapter. Use the matching `.ai/skills/*` procedure.
 
 | Package | Path | Internal dependencies |
 | --- | --- | --- |
-| `@turbo/mobile` | `apps/mobile` | `@turbo/analytics`, `@turbo/api`, `@turbo/assets`, `@turbo/auth`, `@turbo/eslint-config`, `@turbo/prettier-config`, `@turbo/supabase`, `@turbo/tailwind-config`, `@turbo/tsconfig`, `@turbo/validators` |
-| `@turbo/web` | `apps/web` | `@turbo/analytics`, `@turbo/api`, `@turbo/auth`, `@turbo/db`, `@turbo/eslint-config`, `@turbo/mail`, `@turbo/prettier-config`, `@turbo/shared`, `@turbo/supabase`, `@turbo/tailwind-config`, `@turbo/tsconfig`, `@turbo/ui`, `@turbo/validators` |
+| `@turbo/mobile` | `apps/mobile` | `@turbo/analytics`, `@turbo/api`, `@turbo/assets`, `@turbo/auth`, `@turbo/eslint-config`, `@turbo/prettier-config`, `@turbo/tailwind-config`, `@turbo/tsconfig`, `@turbo/validators` |
+| `@turbo/web` | `apps/web` | `@turbo/analytics`, `@turbo/api`, `@turbo/auth`, `@turbo/db`, `@turbo/eslint-config`, `@turbo/mail`, `@turbo/prettier-config`, `@turbo/shared`, `@turbo/tailwind-config`, `@turbo/tsconfig`, `@turbo/ui`, `@turbo/validators` |
 | `@turbo/ai` | `packages/ai` | `@turbo/analytics`, `@turbo/eslint-config`, `@turbo/prettier-config`, `@turbo/shared`, `@turbo/tsconfig` |
 | `@turbo/analytics` | `packages/analytics` | `@turbo/eslint-config`, `@turbo/prettier-config`, `@turbo/tsconfig` |
 | `@turbo/api` | `packages/api` | `@turbo/ai`, `@turbo/analytics`, `@turbo/auth`, `@turbo/db`, `@turbo/eslint-config`, `@turbo/jobs`, `@turbo/mail`, `@turbo/prettier-config`, `@turbo/shared`, `@turbo/tsconfig`, `@turbo/validators` |
@@ -1005,7 +1013,6 @@ router, or auth adapter. Use the matching `.ai/skills/*` procedure.
 | `@turbo/jobs` | `packages/jobs` | `@turbo/ai`, `@turbo/analytics`, `@turbo/db`, `@turbo/eslint-config`, `@turbo/prettier-config`, `@turbo/shared`, `@turbo/tsconfig` |
 | `@turbo/mail` | `packages/mail` | `@turbo/eslint-config`, `@turbo/prettier-config`, `@turbo/tsconfig` |
 | `@turbo/shared` | `packages/shared` | `@turbo/eslint-config`, `@turbo/prettier-config`, `@turbo/tsconfig` |
-| `@turbo/supabase` | `packages/supabase` | `@turbo/eslint-config`, `@turbo/prettier-config`, `@turbo/tsconfig` |
 | `@turbo/ui` | `packages/ui` | `@turbo/eslint-config`, `@turbo/prettier-config`, `@turbo/tsconfig` |
 | `@turbo/validators` | `packages/validators` | `@turbo/eslint-config`, `@turbo/prettier-config`, `@turbo/tsconfig` |
 | `@turbo/eslint-config` | `tooling/eslint` | `@turbo/prettier-config`, `@turbo/tsconfig` |

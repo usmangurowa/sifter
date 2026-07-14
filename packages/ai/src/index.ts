@@ -5,4 +5,7 @@ export type {
   GeminiModelId,
   GenerateTextOptions,
   GoogleAIOptions,
+  GroqModelId,
 } from "./types";
+
+export { generateObject } from "ai";

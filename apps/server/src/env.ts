@@ -7,6 +7,10 @@ const optionalString = z
   .string()
   .transform((value) => (value === "" ? undefined : value))
   .pipe(z.string().min(1).optional());
+const optionalUrl = z
+  .string()
+  .transform((value) => (value === "" ? undefined : value))
+  .pipe(z.url().optional());
 
 export const env = createEnv({
   extends: [authEnv()],
@@ -14,7 +18,7 @@ export const env = createEnv({
     SERVER_PORT: z.coerce.number().int().min(1).max(65535).default(3001),
     SERVER_URL: z.url().default("http://localhost:3001"),
     APP_URL: z.url().default("http://localhost:3000"),
-    POSTGRES_URL: z.url(),
+    POSTGRES_URL: optionalUrl,
     RESEND_API_KEY: optionalString,
   },
   runtimeEnv: {

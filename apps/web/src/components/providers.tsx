@@ -3,8 +3,6 @@
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-import { IdentifyUser } from "./identify-user";
-
 export const Providers = ({ children }: { children: React.ReactNode }) => {
   const [queryClient] = useState(
     () =>
@@ -18,9 +16,6 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
   );
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <IdentifyUser />
-      {children}
-    </QueryClientProvider>
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
 };

@@ -27,7 +27,6 @@ packages/
   jobs/         → Trigger.dev background tasks
   mail/         → Email templates (Resend)
   shared/       → Shared utilities and constants
-  supabase/     → Supabase client setup
   ui/           → shadcn/ui component library (50+ components)
   validators/   → Zod validation schemas
 tooling/
@@ -49,7 +48,7 @@ tooling/
 | React            | React       | 19.2.3 via `catalog:react19`              |
 | API framework    | Hono        | ^4.12.23 (`@hono/node-server` for server) |
 | ORM              | Drizzle ORM | drizzle-orm ^0.45.2; drizzle-kit ^0.31.10 |
-| Database         | PostgreSQL  | via Supabase                              |
+| Database         | PostgreSQL  | optional via `POSTGRES_URL`               |
 | Database driver  | postgres.js | ^3.4.9 (`prepare: false` for pooled URLs) |
 | Auth             | Better Auth | 1.6.14                                    |
 | Validation       | Zod         | catalog (`4.4.3`)                         |
@@ -80,12 +79,12 @@ tooling/
 | --------------- | --------------------------------------------- |
 | Hosting         | Vercel (web), EAS (mobile)                    |
 | API runtime     | Standalone Node/Hono app (`apps/server`)      |
-| Database        | Supabase (Postgres)                           |
+| Database        | PostgreSQL                                    |
 | Email           | Resend                                        |
 | Background jobs | Trigger.dev                                   |
 | Analytics       | PostHog                                       |
 | Error tracking  | Sentry (@sentry/nextjs, @sentry/react-native) |
-| AI providers    | Gemini, OpenRouter, Groq (via Vercel AI SDK)  |
+| AI providers    | Groq, Gemini, OpenRouter via AI SDK           |
 
 ## Testing & Quality
 

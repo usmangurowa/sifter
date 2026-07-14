@@ -9,10 +9,6 @@ const optionalUrl = z
   .string()
   .transform((val) => (val === "" ? undefined : val))
   .pipe(z.url().optional());
-const optionalStr = z
-  .string()
-  .transform((val) => (val === "" ? undefined : val))
-  .pipe(z.string().min(1).optional());
 
 export const env = createEnv({
   extends: [authEnv(), vercel()],
@@ -26,7 +22,7 @@ export const env = createEnv({
    * This way you can ensure the app isn't built with invalid env vars.
    */
   server: {
-    POSTGRES_URL: z.url(),
+    POSTGRES_URL: optionalUrl,
   },
 
   /**
@@ -37,8 +33,6 @@ export const env = createEnv({
     // NEXT_PUBLIC_CLIENTVAR: z.string(),
     NEXT_PUBLIC_PORT: z.string().default("3000"),
     NEXT_PUBLIC_APP_URL: z.url().default("http://localhost:3000"),
-    NEXT_PUBLIC_SUPABASE_URL: optionalUrl,
-    NEXT_PUBLIC_SUPABASE_ANON_KEY: optionalStr,
   },
   /**
    * Destructure all variables from `process.env` to make sure they aren't tree-shaken away.
@@ -49,8 +43,6 @@ export const env = createEnv({
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
     NEXT_PUBLIC_PORT: process.env.NEXT_PUBLIC_PORT,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
-    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
-    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
   },
   skipValidation:
     !!process.env.CI ||

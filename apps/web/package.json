@@ -28,7 +28,6 @@
     "@turbo/db": "workspace:*",
     "@turbo/mail": "workspace:*",
     "@turbo/shared": "workspace:*",
-    "@turbo/supabase": "workspace:*",
     "@turbo/ui": "workspace:*",
     "@turbo/validators": "workspace:*",
     "@vercel/analytics": "^2.0.1",

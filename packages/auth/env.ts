@@ -17,7 +17,7 @@ export function authEnv() {
 
   return createEnv({
     server: {
-      AUTH_SECRET: skipStrict ? optionalString : z.string().min(1),
+      AUTH_SECRET: optionalString,
       SUPABASE_JWT_SECRET: optionalString,
       GITHUB_CLIENT_ID: z.string().optional(),
       GITHUB_CLIENT_SECRET: z.string().optional(),

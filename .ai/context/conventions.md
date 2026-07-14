@@ -44,6 +44,9 @@ Example: `packages/ui/src/components/button.tsx`
 - Context variables typed via `AppContext` interface
 - Typed RPC client exported for frontend consumption (`hcWithType`)
 - Security middleware stack: secure headers → CORS → rate limiting
+- Public API surfaces that do not need auth/database context can use
+  `@turbo/api/public` so app runtime mounts avoid importing auth or database
+  clients.
 
 Example: `packages/api/src/router/api-key.ts`
 
@@ -75,10 +78,17 @@ Example: `packages/db/src/auth-schema.ts`
 - `.env.example` as template — copy to `.env` for local development
 - Public vars prefixed with `NEXT_PUBLIC_` (web) or `EXPO_PUBLIC_` (mobile)
 - Validated with environment modules (e.g., `apps/web/src/env.ts`)
+- Dormant auth/database variables are optional for the Sifter MVP public web
+  surface; live AI calls require `GROQ_API_KEY`.
 - The standalone server uses `SERVER_PORT` for local port configuration; generic `PORT` is reserved as a platform fallback and should not be set in `.env.example`.
 
 ## Operational Commands
 
+- `pnpm dev` starts the public Sifter web app (`@turbo/web`) only. Use
+  `pnpm dev:mobile` or `pnpm dev:server` when those runtimes are needed.
+- Do not make the shared Turbo `dev` task depend on `^dev`; dependency package
+  dev scripts may be long-running watchers and can prevent app dev servers from
+  becoming visible.
 - Run `pnpm auth:generate` after Better Auth schema/config changes that affect generated auth schema output.
 - Run `pnpm db:generate -- --name <migration_name>` after Drizzle schema changes that need durable migrations.
 - Run `pnpm db:migrate` to apply pending Drizzle migrations.

@@ -10,9 +10,9 @@
       "outputs": [".cache/tsbuildinfo.json", "dist/**"]
     },
     "dev": {
-      "dependsOn": ["^dev"],
       "cache": false,
-      "persistent": false
+      "persistent": true,
+      "interruptible": true
     },
     "format": {
       "outputs": [".cache/.prettiercache"],
@@ -70,8 +70,6 @@
     "GITHUB_CLIENT_ID",
     "GITHUB_CLIENT_SECRET",
     "SUPABASE_JWT_SECRET",
-    "NEXT_PUBLIC_SUPABASE_URL",
-    "NEXT_PUBLIC_SUPABASE_ANON_KEY",
     "RESEND_API_KEY",
     "EAS_PROJECT_ID",
     "EXPO_OWNER",
@@ -79,8 +77,6 @@
     "EXPO_PUBLIC_APP_SLUG",
     "EXPO_PUBLIC_APP_SCHEME",
     "EXPO_PUBLIC_PACKAGE_NAME",
-    "EXPO_PUBLIC_SUPABASE_URL",
-    "EXPO_PUBLIC_SUPABASE_ANON_KEY",
     "EXPO_PUBLIC_API_URL",
     "GEMINI_API_KEY",
     "TRIGGER_SECRET_KEY",

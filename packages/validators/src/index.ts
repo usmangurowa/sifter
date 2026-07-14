@@ -157,3 +157,56 @@ export const updateSettingsSchema = z.object({
 });
 
 export type UpdateSettings = z.infer<typeof updateSettingsSchema>;
+
+// ============================================================================
+// Sifter Schemas
+// ============================================================================
+
+export const sifterChatRequestSchema = z.object({
+  message: z.string().trim().min(1, "Message is required").max(500),
+});
+
+export const sifterDiscountCodeSchema = z.object({
+  code: z.string().trim().min(1),
+  description: z.string().trim().min(1),
+  platform: z.literal("SHEIN"),
+});
+
+export const sifterCategorySchema = z.object({
+  name: z.string().trim().min(1),
+  emoji: z.string().trim().min(1).max(8),
+  description: z.string().trim().min(1),
+  searchTerms: z.array(z.string().trim().min(1)).min(3).max(6),
+  proTip: z.string().trim().min(1).nullable(),
+  avoid: z.string().trim().min(1).nullable(),
+});
+
+export const sifterChatResponseDataSchema = z.object({
+  greeting: z.string().trim().min(1),
+  categories: z.array(sifterCategorySchema).min(1).max(5),
+  shoppingTips: z.array(z.string().trim().min(1)).min(2).max(6),
+  discountCodes: z.array(sifterDiscountCodeSchema).max(5),
+});
+
+export const sifterChatSuccessSchema = z.object({
+  success: z.literal(true),
+  data: sifterChatResponseDataSchema,
+});
+
+export const sifterChatErrorSchema = z.object({
+  success: z.literal(false),
+  error: z.string().trim().min(1),
+});
+
+export const sifterChatApiResponseSchema = z.discriminatedUnion("success", [
+  sifterChatSuccessSchema,
+  sifterChatErrorSchema,
+]);
+
+export type SifterChatRequest = z.infer<typeof sifterChatRequestSchema>;
+export type SifterDiscountCode = z.infer<typeof sifterDiscountCodeSchema>;
+export type SifterCategory = z.infer<typeof sifterCategorySchema>;
+export type SifterChatResponseData = z.infer<
+  typeof sifterChatResponseDataSchema
+>;
+export type SifterChatApiResponse = z.infer<typeof sifterChatApiResponseSchema>;

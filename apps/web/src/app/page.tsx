@@ -1,7 +1,7 @@
-import { redirect } from "next/navigation";
+import { SifterApp } from "@/components/sifter/sifter-app";
 
 const HomePage = () => {
-  redirect("/login");
+  return <SifterApp />;
 };
 
 export default HomePage;

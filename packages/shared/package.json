@@ -10,6 +10,10 @@
     "./constants": {
       "types": "./dist/constants.d.ts",
       "default": "./src/constants.ts"
+    },
+    "./sifter": {
+      "types": "./dist/sifter.d.ts",
+      "default": "./src/sifter.ts"
     }
   },
   "scripts": {

@@ -3,9 +3,9 @@ import { createGoogleGenerativeAI, google } from "@ai-sdk/google";
 import { createGroq } from "@ai-sdk/groq";
 import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 
-import type { GeminiModelId, GoogleAIOptions } from "./types";
+import type { GeminiModelId, GoogleAIOptions, GroqModelId } from "./types";
 
-export type { GeminiModelId, GoogleAIOptions };
+export type { GeminiModelId, GoogleAIOptions, GroqModelId };
 
 /**
  * Default Google Generative AI provider instance.
@@ -89,13 +89,18 @@ export const groq = createGroq({
 });
 
 /**
- * Groq Llama 4 Scout model.
- * Supports structured outputs (json_schema).
+ * Create a Groq chat model.
+ */
+export const createGroqModel = (
+  modelId: GroqModelId = "openai/gpt-oss-20b",
+): LanguageModel => groq(modelId);
+
+/**
+ * Groq fast structured-output model.
+ * Used for latency-sensitive structured outputs.
  * Independent free tier from OpenRouter.
  */
-export const groqLlama: LanguageModel = groq(
-  "meta-llama/llama-4-scout-17b-16e-instruct",
-);
+export const groqLlama: LanguageModel = createGroqModel();
 
 /**
  * Model configuration for fallback cycling.

@@ -17,28 +17,26 @@ const jakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://turbo.app"),
-  title: "Turbo Template - Build Fast with Auth + DB",
+  metadataBase: new URL("https://usesifter.xyz"),
+  title: "Sifter - Shop Smarter on Temu and SHEIN",
   description:
-    "A full-stack starter with Next.js, Expo, Hono, Better Auth, and Drizzle. Replace the UI and ship your product faster.",
+    "Tell Sifter what you want to buy and get material-aware Temu and SHEIN search terms, quality tips, and discount codes.",
   openGraph: {
-    title: "Turbo Template - Build Fast with Auth + DB",
+    title: "Sifter - Shop Smarter on Temu and SHEIN",
     description:
-      "A full-stack starter with Next.js, Expo, Hono, Better Auth, and Drizzle. Replace the UI and ship your product faster.",
-    url: "https://turbo.app",
-    siteName: "Turbo",
+      "Get quality-focused search terms for clothing and accessories on Temu and SHEIN.",
+    url: "https://usesifter.xyz",
+    siteName: "Sifter",
   },
   twitter: {
     card: "summary_large_image",
-    site: "@turbo",
-    creator: "@turbo",
   },
 };
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
+    { media: "(prefers-color-scheme: light)", color: "#faf7f2" },
+    { media: "(prefers-color-scheme: dark)", color: "#11100e" },
   ],
 };
 

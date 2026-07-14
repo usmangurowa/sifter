@@ -45,16 +45,19 @@ export const metadata: Metadata = {
     siteName: "Sifter",
     images: [
       {
-        url: "/android-chrome-512x512.png",
-        width: 512,
-        height: 512,
-        alt: "Sifter logo",
+        url: "/social-card.png",
+        width: 1200,
+        height: 630,
+        alt: "Sifter landing page with AI shopping assistant prompt",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    images: ["/android-chrome-512x512.png"],
+    title: "Sifter - Shop Smarter on Temu and SHEIN",
+    description:
+      "Get quality-focused search terms for clothing and accessories on Temu and SHEIN.",
+    images: ["/social-card.png"],
   },
 };
 

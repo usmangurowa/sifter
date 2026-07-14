@@ -12,7 +12,6 @@ import {
 import { timingMiddleware } from "./middleware/timing";
 import apiKeyRouter from "./router/api-key";
 import authRouter from "./router/auth";
-import sifterRouter from "./router/sifter";
 import supportRouter from "./router/support";
 
 export { createPublicApp } from "./public";
@@ -53,7 +52,6 @@ export const createApp = (
     // Routes
     .route("/auth", authRouter)
     .route("/apikeys", apiKeyRouter)
-    .route("/sifter", sifterRouter)
     .route("/support", supportRouter)
     // Health check (not rate limited in security config)
     .get("/health", (c) => c.text("OK"));

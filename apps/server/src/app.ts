@@ -5,6 +5,7 @@ import type { AppContext } from "@turbo/api";
 import {
   corsMiddleware,
   createApp,
+  createPublicApp,
   rateLimitMiddleware,
   secureHeadersMiddleware,
   timingMiddleware,
@@ -34,6 +35,9 @@ export const createServerApp = (
   const apiApp = createApp(auth, {
     security,
   });
+  const publicApiApp = createPublicApp({
+    security,
+  });
 
   const authApp = new Hono<AppContext>()
     .use("*", secureHeadersMiddleware())
@@ -45,6 +49,7 @@ export const createServerApp = (
   const app = new Hono<AppContext>()
     .get("/health", (c) => c.text("OK"))
     .route("/api/auth", authApp)
+    .route("/api", publicApiApp)
     .route("/api", apiApp);
 
   return app;

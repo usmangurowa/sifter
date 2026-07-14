@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { createServerApp } from "../app";
 
@@ -64,6 +64,37 @@ describe("createServerApp", () => {
     expect(response.status).toBe(200);
     const body = await response.text();
     expect(body).toBe(authResponseBody);
+  });
+
+  it("serves Sifter through the public API path without auth context", async () => {
+    const { createServerApp } = await import("../app");
+    const getSession = vi.fn(async () => {
+      throw new Error("Sifter should not require auth context");
+    });
+    const app = createServerApp(
+      {
+        api: {
+          getSession,
+        },
+        handler: () => Promise.resolve(new Response(authResponseBody)),
+      } as unknown as Parameters<typeof createServerApp>[0],
+      {
+        allowedOrigins: ["http://localhost:3001", "expo://"],
+      },
+    );
+
+    const response = await app.request("/api/sifter/chat", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ message: "" }),
+    });
+
+    expect(response.status).toBe(400);
+    await expect(response.json()).resolves.toEqual({
+      success: false,
+      error: "Enter a request under 500 characters.",
+    });
+    expect(getSession).not.toHaveBeenCalled();
   });
 
   it("applies security middleware to Better Auth handlers", async () => {

@@ -22,7 +22,7 @@ describe("Sifter shared helpers", () => {
 
   it("builds encoded SHEIN search URLs", () => {
     expect(buildSheinSearchUrl("925 silver earrings")).toBe(
-      "https://www.shein.com/sr/index.php?keywords=925%20silver%20earrings",
+      "https://www.shein.com/pdsearch/925%20silver%20earrings/",
     );
   });
 

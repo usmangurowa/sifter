@@ -634,4 +634,4 @@ export const buildTemuSearchUrl = (query: string) =>
   `https://www.temu.com/search_result.html?search_key=${encodeURIComponent(query)}`;
 
 export const buildSheinSearchUrl = (query: string) =>
-  `https://www.shein.com/sr/index.php?keywords=${encodeURIComponent(query)}`;
+  `https://www.shein.com/pdsearch/${encodeURIComponent(query)}/`;

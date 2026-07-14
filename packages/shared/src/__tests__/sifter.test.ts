@@ -28,6 +28,7 @@ describe("Sifter shared helpers", () => {
 
   it("keeps launch suggestions and discount data populated", () => {
     expect(SIFTER_SUGGESTIONS.length).toBe(6);
+    expect(SIFTER_SUGGESTIONS.join(" ")).not.toMatch(/\$|under\s+\d+/i);
     expect(SIFTER_SALE_KEYWORDS).toContain("Flash sale");
     expect(
       SIFTER_DISCOUNT_CODE_GROUPS.some((group) =>

@@ -27,7 +27,7 @@ export interface SifterQualityCategory {
 }
 
 export const SIFTER_SUGGESTIONS = [
-  "Find quality T-shirts under $10",
+  "Find heavyweight cotton T-shirts",
   "Best heavyweight hoodies on Temu",
   "Gold chains that won't fade or tarnish",
   "Premium denim jeans for men",

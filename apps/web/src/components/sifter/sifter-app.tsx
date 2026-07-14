@@ -1,6 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft01Icon } from "@hugeicons/core-free-icons";
@@ -25,6 +32,94 @@ import { SifterLogoMark } from "./sifter-logo-mark";
 
 type Status = "idle" | "loading" | "success" | "error";
 
+const SIFTER_PROMPT_HISTORY_KEY = "sifter:prompt-history";
+const SIFTER_PROMPT_HISTORY_EVENT = "sifter:prompt-history-updated";
+const SIFTER_PROMPT_HISTORY_LIMIT = 6;
+
+const normalizePrompt = (prompt: string) =>
+  prompt.trim().replace(/\s+/g, " ").slice(0, 500);
+
+const mergePromptHistory = (prompt: string, history: string[]) => {
+  const normalizedPrompt = normalizePrompt(prompt);
+  if (!normalizedPrompt) {
+    return history;
+  }
+
+  return [
+    normalizedPrompt,
+    ...history.filter(
+      (item) => item.toLowerCase() !== normalizedPrompt.toLowerCase(),
+    ),
+  ].slice(0, SIFTER_PROMPT_HISTORY_LIMIT);
+};
+
+const parsePromptHistory = (value: string | null) => {
+  try {
+    const parsed: unknown = value ? JSON.parse(value) : [];
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+
+    return parsed
+      .filter((item): item is string => typeof item === "string")
+      .map(normalizePrompt)
+      .filter(Boolean)
+      .slice(0, SIFTER_PROMPT_HISTORY_LIMIT);
+  } catch {
+    return [];
+  }
+};
+
+const readPromptHistory = () => {
+  if (typeof window === "undefined") {
+    return [];
+  }
+
+  return parsePromptHistory(
+    window.localStorage.getItem(SIFTER_PROMPT_HISTORY_KEY),
+  );
+};
+
+const getPromptHistorySnapshot = () => {
+  if (typeof window === "undefined") {
+    return "[]";
+  }
+
+  return window.localStorage.getItem(SIFTER_PROMPT_HISTORY_KEY) ?? "[]";
+};
+
+const subscribePromptHistory = (callback: () => void) => {
+  if (typeof window === "undefined") {
+    return () => undefined;
+  }
+
+  const listener = () => callback();
+
+  window.addEventListener("storage", listener);
+  window.addEventListener(SIFTER_PROMPT_HISTORY_EVENT, listener);
+
+  return () => {
+    window.removeEventListener("storage", listener);
+    window.removeEventListener(SIFTER_PROMPT_HISTORY_EVENT, listener);
+  };
+};
+
+const writePromptHistory = (history: string[]) => {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  try {
+    window.localStorage.setItem(
+      SIFTER_PROMPT_HISTORY_KEY,
+      JSON.stringify(history),
+    );
+    window.dispatchEvent(new Event(SIFTER_PROMPT_HISTORY_EVENT));
+  } catch {
+    // Private browsing or storage limits should not block Sifter.
+  }
+};
+
 interface SifterAppProps {
   initialMessage?: string;
   mode?: "landing" | "chat";
@@ -48,44 +143,76 @@ export const SifterApp = ({
   );
   const requestIdRef = useRef(0);
   const initialMessageRef = useRef<string | null>(null);
+  const promptHistorySnapshot = useSyncExternalStore(
+    subscribePromptHistory,
+    getPromptHistorySnapshot,
+    () => "[]",
+  );
+  const recentPrompts = useMemo(
+    () => parsePromptHistory(promptHistorySnapshot),
+    [promptHistorySnapshot],
+  );
 
-  const submit = useCallback(async (message: string) => {
-    const requestId = requestIdRef.current + 1;
-    requestIdRef.current = requestId;
-    setStatus("loading");
-    setResult(null);
-    setError(null);
-    setLastQuery(message);
-
-    try {
-      const response = await fetch("/api/sifter/chat", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ message }),
-      });
-      const payload = (await response.json()) as SifterChatApiResponse;
-
-      if (requestIdRef.current !== requestId) {
-        return;
-      }
-
-      if (!payload.success) {
-        setError(payload.error);
-        setStatus("error");
-        return;
-      }
-
-      setResult(payload.data);
-      setStatus("success");
-    } catch {
-      if (requestIdRef.current !== requestId) {
-        return;
-      }
-
-      setError("Sifter could not connect. Check your network and try again.");
-      setStatus("error");
+  const rememberPrompt = useCallback((message: string) => {
+    const normalizedMessage = normalizePrompt(message);
+    if (!normalizedMessage) {
+      return;
     }
+
+    const nextHistory = mergePromptHistory(
+      normalizedMessage,
+      readPromptHistory(),
+    );
+    writePromptHistory(nextHistory);
   }, []);
+
+  const submit = useCallback(
+    async (message: string) => {
+      const normalizedMessage = normalizePrompt(message);
+      if (!normalizedMessage) {
+        return;
+      }
+
+      rememberPrompt(normalizedMessage);
+
+      const requestId = requestIdRef.current + 1;
+      requestIdRef.current = requestId;
+      setStatus("loading");
+      setResult(null);
+      setError(null);
+      setLastQuery(normalizedMessage);
+
+      try {
+        const response = await fetch("/api/sifter/chat", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ message: normalizedMessage }),
+        });
+        const payload = (await response.json()) as SifterChatApiResponse;
+
+        if (requestIdRef.current !== requestId) {
+          return;
+        }
+
+        if (!payload.success) {
+          setError(payload.error);
+          setStatus("error");
+          return;
+        }
+
+        setResult(payload.data);
+        setStatus("success");
+      } catch {
+        if (requestIdRef.current !== requestId) {
+          return;
+        }
+
+        setError("Sifter could not connect. Check your network and try again.");
+        setStatus("error");
+      }
+    },
+    [rememberPrompt],
+  );
 
   useEffect(() => {
     if (mode !== "chat" || !normalizedInitialMessage) {
@@ -102,14 +229,36 @@ export const SifterApp = ({
 
   const startChat = useCallback(
     (message: string) => {
-      router.push(`/chat?q=${encodeURIComponent(message.trim())}`);
+      const normalizedMessage = normalizePrompt(message);
+      if (!normalizedMessage) {
+        return;
+      }
+
+      rememberPrompt(normalizedMessage);
+      router.push(`/chat?q=${encodeURIComponent(normalizedMessage)}`);
     },
-    [router],
+    [rememberPrompt, router],
   );
 
   const hasResults = status === "success" && result;
   const isConversation = mode === "chat";
   const handleSubmit = isConversation ? submit : startChat;
+  const suggestionChips = useMemo(() => {
+    const seen = new Set<string>();
+
+    return [...recentPrompts, ...SIFTER_SUGGESTIONS]
+      .map(normalizePrompt)
+      .filter((suggestion) => {
+        const key = suggestion.toLowerCase();
+        if (!suggestion || seen.has(key)) {
+          return false;
+        }
+
+        seen.add(key);
+        return true;
+      })
+      .slice(0, SIFTER_PROMPT_HISTORY_LIMIT);
+  }, [recentPrompts]);
 
   return (
     <main
@@ -186,7 +335,7 @@ export const SifterApp = ({
               </div>
 
               <div className="flex w-full max-w-3xl flex-wrap justify-center gap-2.5 overflow-hidden py-2">
-                {SIFTER_SUGGESTIONS.map((suggestion) => (
+                {suggestionChips.map((suggestion) => (
                   <Button
                     type="button"
                     key={suggestion}

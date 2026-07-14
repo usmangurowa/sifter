@@ -37,6 +37,7 @@ architecture, contracts, or conventions.
 | 2026-07-14 | Sifter UI polish                 | `apps/web/src/components/sifter/*`, `apps/web/src/app/styles.css`, `packages/ui/src/components/sheet.tsx`      | Landing uses a restrained app-blue gradient; conversation is neutral; coupon sheets animate smoothly with Temu/SHEIN tabs.     |
 | 2026-07-14 | Sifter search grounding          | `packages/validators`, `packages/shared`, `packages/api`, `apps/web/src/components/sifter/result-card.tsx`     | Category results now separate marketplace search terms from verification checks users confirm inside listings.                 |
 | 2026-07-14 | Sifter chat route split          | `apps/web/src/app/page.tsx`, `apps/web/src/app/chat/page.tsx`, `apps/web/src/components/sifter/sifter-app.tsx` | Landing submissions navigate to `/chat`; the conversation screen uses a dedicated neutral route with a fixed top Back control. |
+| 2026-07-14 | Sifter local prompt history      | `apps/web/src/components/sifter/sifter-app.tsx`, `packages/shared/src/sifter.ts`                               | Recent prompts are stored in browser localStorage and prioritized as landing chips; static prompts avoid price claims.         |
 
 ## Architectural Change Log
 

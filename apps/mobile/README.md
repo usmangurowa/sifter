@@ -1,20 +1,50 @@
-# Expo Router and Tailwind CSS
+# Sifter Mobile
 
-Use [Expo Router](https://docs.expo.dev/router/introduction/) with [Uniwind](https://docs.uniwind.dev/) styling.
+`apps/mobile` is the Expo Router mobile app in this monorepo. The current Sifter
+MVP is web-first, so the mobile app remains available for auth and shared-client
+work but is not started by the root `pnpm dev` command.
 
-## Launch your own
+## Development
 
-[![Launch with Expo](https://github.com/expo/examples/blob/master/.gh-assets/launch.svg?raw=true)](https://launch.expo.dev/?github=https://github.com/expo/examples/tree/master/with-router-uniwind)
+From the repository root:
 
-## 🚀 How to use
-
-```sh
-npx create-expo-app -e with-router-uniwind
+```bash
+pnpm dev:mobile
 ```
 
-## Deploy
+From `apps/mobile`:
 
-Deploy on all platforms with Expo Application Services (EAS).
+```bash
+pnpm dev
+pnpm dev:ios
+pnpm dev:android
+```
 
-- Deploy the website: `npx eas-cli deploy` — [Learn more](https://docs.expo.dev/eas/hosting/get-started/)
-- Deploy on iOS and Android using: `npx eas-cli build` — [Learn more](https://expo.dev/eas)
+All mobile scripts load the repository root `.env` through `dotenv-cli`.
+
+## Environment
+
+Useful mobile environment knobs:
+
+- `EXPO_PUBLIC_API_URL` points mobile API and auth clients at the web or server
+  runtime. When unset, the app derives a local `http://<host>:3000` URL from Expo
+  dev-server metadata.
+- `EXPO_PUBLIC_APP_NAME`, `EXPO_PUBLIC_APP_SLUG`,
+  `EXPO_PUBLIC_APP_SCHEME`, and `EXPO_PUBLIC_PACKAGE_NAME` configure app
+  identity in `app.config.ts`.
+- `EXPO_PUBLIC_SENTRY_DSN`, `EXPO_PUBLIC_POSTHOG_KEY`, and
+  `EXPO_PUBLIC_POSTHOG_HOST` enable optional telemetry.
+
+## Auth And API Ownership
+
+The Better Auth Expo client is owned by `apps/mobile/src/auth/client.ts`.
+`apps/mobile/src/utils/auth.ts` only re-exports that client and typed helpers for
+legacy imports. The typed Hono RPC client lives in `apps/mobile/src/utils/api.tsx`
+and attaches Better Auth cookies from the shared mobile auth client.
+
+## Builds
+
+EAS profiles live in `apps/mobile/eas.json`. Package scripts provide local
+development and preview builds, including `pnpm build:ios:dev`,
+`pnpm build:ios:prev`, `pnpm build:android:dev`, and
+`pnpm build:android:prev`.

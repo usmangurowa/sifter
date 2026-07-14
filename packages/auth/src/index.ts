@@ -8,9 +8,9 @@ import { oAuthProxy } from "better-auth/plugins/oauth-proxy";
 
 import { db } from "@turbo/db/client";
 
-export { resolveAuthRuntimeSecrets } from "./runtime-secrets";
-
 import { BASE_TRUSTED_ORIGINS, resolveTrustedOrigins } from "./trusted-origins";
+
+export { resolveAuthRuntimeSecrets } from "./runtime-secrets";
 
 interface SocialProviderConfig {
   clientId: string;

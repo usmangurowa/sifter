@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sifter Web
+
+`apps/web` is the Next.js 16 App Router runtime for the public Sifter MVP. The
+home page mounts the Sifter shopping assistant and calls the public Hono API
+through the web app's `/api` route.
 
 ## Getting Started
 
-First, run the development server:
+From the repository root:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This delegates to `pnpm dev:web` and starts only `@turbo/web`, so
+[http://localhost:3000](http://localhost:3000) is visible without starting the
+mobile app or standalone server. The public Sifter surface does not require auth,
+Supabase, or Postgres environment values for startup. Set `GROQ_API_KEY` when
+you need live AI responses from `POST /api/sifter/chat`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm -F @turbo/web build
+```
 
-## Learn More
+The app package build script runs `next build` with `SKIP_ENV_VALIDATION=1` for
+CI-friendly builds.
 
-To learn more about Next.js, take a look at the following resources:
+## API Mount
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`apps/web/src/app/api/[[...route]]/route.ts` mounts
+`createPublicApp()` from `@turbo/api/public` under `/api`. The public Sifter chat
+endpoint is `POST /api/sifter/chat`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Keep API business logic in `packages/api/src/router/`; web app route handlers
+should only mount or adapt shared API apps.
 
-## Deploy on Vercel
+## Sifter Components
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Sifter UI components live in `apps/web/src/components/sifter/`:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `sifter-app.tsx` owns the prompt and result flow.
+- `chat-input.tsx`, `loading-state.tsx`, and `result-card.tsx` own assistant UI
+  states.
+- Shared Sifter constants and URL helpers live in `@turbo/shared/sifter`.

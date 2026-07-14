@@ -1,6 +1,7 @@
-# Turbo Monorepo
+# Sifter Monorepo
 
-A full-stack TypeScript monorepo with Next.js, Expo, and Hono RPC.
+A full-stack TypeScript monorepo for the Sifter MVP: a public, web-first AI
+shopping assistant backed by Next.js, Expo, and Hono RPC.
 
 ## Tech Stack
 
@@ -52,7 +53,7 @@ packages/
   ├─ auth/                            # @turbo/auth
   │   └─ Authentication using Better Auth
   ├─ db/                              # @turbo/db
-  │   └─ Type-safe database using Drizzle ORM & Supabase
+  │   └─ Type-safe database using Drizzle ORM and Postgres
   ├─ ui/                              # @turbo/ui
   │   └─ Shared UI components using shadcn/ui
   └─ validators/                      # @turbo/validators
@@ -78,9 +79,13 @@ tooling/
 # Install dependencies
 pnpm i
 
-# Configure environment variables
+# Optional: configure environment variables for live AI/API/database work
 cp .env.example .env
 ```
+
+The public Sifter web app starts without auth, Supabase, or Postgres
+configuration. Add `GROQ_API_KEY` only when you need live AI responses, and add
+database/auth environment values only when working on those dormant surfaces.
 
 ### 2. Database Setup (Drizzle ORM)
 
@@ -130,14 +135,17 @@ pnpm db:migrate
 ### 4. Start Development
 
 ```bash
-# Start all apps
+# Start the public Sifter web app
 pnpm dev
 
-# Start web only
+# Start the public Sifter web app explicitly
 pnpm dev:web
 
-# Start mobile only
+# Start the Expo mobile app
 pnpm dev:mobile
+
+# Start the standalone Hono server runtime
+pnpm dev:server
 ```
 
 ## Mobile App Setup (Expo)
@@ -223,23 +231,25 @@ The mobile app includes pre-configured build scripts for all environments:
 
 ## Development Commands
 
-| Command              | Description                        |
-| -------------------- | ---------------------------------- |
-| `pnpm dev`           | Start all apps in development mode |
-| `pnpm dev:web`       | Start web app only                 |
-| `pnpm dev:mobile`    | Start mobile app only              |
-| `pnpm build`         | Build all packages and apps        |
-| `pnpm typecheck`     | Run TypeScript type checking       |
-| `pnpm lint`          | Run ESLint                         |
-| `pnpm lint:fix`      | Run ESLint with auto-fix           |
-| `pnpm format`        | Check Prettier formatting          |
-| `pnpm format:fix`    | Fix Prettier formatting            |
-| `pnpm test`          | Run tests                          |
-| `pnpm db:push`       | Push Drizzle schema to database    |
-| `pnpm db:studio`     | Open Drizzle Studio                |
-| `pnpm auth:generate` | Generate Better Auth schema        |
-| `pnpm ui-add`        | Add shadcn/ui components           |
-| `pnpm verify`        | Run typecheck, lint, and format    |
+| Command                | Description                                                                          |
+| ---------------------- | ------------------------------------------------------------------------------------ |
+| `pnpm dev`             | Start the public Sifter web app (`@turbo/web`)                                       |
+| `pnpm dev:web`         | Start the public Sifter web app explicitly                                           |
+| `pnpm dev:mobile`      | Start the Expo mobile app                                                            |
+| `pnpm dev:server`      | Start the standalone Hono server runtime                                             |
+| `pnpm build`           | Build all packages and apps                                                          |
+| `pnpm typecheck`       | Run TypeScript type checking                                                         |
+| `pnpm lint`            | Run ESLint                                                                           |
+| `pnpm lint:fix`        | Run ESLint with auto-fix                                                             |
+| `pnpm format`          | Check Prettier formatting                                                            |
+| `pnpm format:fix`      | Fix Prettier formatting                                                              |
+| `pnpm test`            | Run tests                                                                            |
+| `pnpm db:push`         | Intentionally blocked; generate and migrate reviewed SQL instead                     |
+| `pnpm db:push:local`   | Sync Drizzle schema state only to disposable local databases                         |
+| `pnpm db:studio`       | Open Drizzle Studio                                                                  |
+| `pnpm auth:generate`   | Generate Better Auth schema                                                          |
+| `pnpm ui-add`          | Add shadcn/ui components                                                             |
+| `pnpm verify`          | Run typecheck, lint, format, and workspace validation                                |
 
 ## Adding Components and Packages
 

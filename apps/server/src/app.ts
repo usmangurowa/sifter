@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 
-import type { Auth } from "@turbo/auth";
 import type { AppContext } from "@turbo/api";
+import type { Auth } from "@turbo/auth";
 import {
   corsMiddleware,
   createApp,

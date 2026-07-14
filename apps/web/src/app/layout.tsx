@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   applicationName: "Sifter",
   title: "Sifter - Shop Smarter on Temu and SHEIN",
   description:
-    "Tell Sifter what you want to buy and get material-aware Temu and SHEIN search terms, quality tips, and discount codes.",
+    "Stop wasting money on clothes that fade, shrink, or look cheap. Sifter turns what you want into material-aware search terms.",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Sifter - Shop Smarter on Temu and SHEIN",
     description:
-      "Get quality-focused search terms for clothing and accessories on Temu and SHEIN.",
+      "Stop wasting money on clothes that fade, shrink, or look cheap. Get material-aware search terms for Temu and SHEIN.",
     url: "https://usesifter.xyz",
     siteName: "Sifter",
     images: [
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Sifter - Shop Smarter on Temu and SHEIN",
     description:
-      "Get quality-focused search terms for clothing and accessories on Temu and SHEIN.",
+      "Stop wasting money on clothes that fade, shrink, or look cheap. Get material-aware search terms for Temu and SHEIN.",
     images: ["/social-card.png"],
   },
 };

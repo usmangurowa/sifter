@@ -236,6 +236,7 @@ architecture, contracts, or conventions.
 | 2026-07-14 | Transparent Temu affiliate offer | `packages/shared/src/sifter.ts`, `apps/web/src/components/sifter/discount-vault.tsx`, `apps/web/src/components/sifter/result-card.tsx` | Temu coupon sheet includes a disclosed first-order offer; clicking Search Temu copies the disclosed coupon code.               |
 | 2026-07-15 | Premium UI anti-slop skill       | `.agents/skills/premium-ui/`, `.ai/skills/premium-ui.md`, `.ai/context/conventions.md`                                                 | Added a reusable workflow for premium UI polish, mobile/theme checks, and avoiding generic AI-generated interface patterns.    |
 | 2026-07-15 | Sifter social preview image      | `apps/web/public/social-card.png`, `apps/web/src/app/layout.tsx`                                                                       | Link previews now use a static 1200x630 screenshot of the Sifter landing page for Open Graph and Twitter/X sharing.            |
+| 2026-07-15 | Sifter homepage pain-point copy  | `apps/web/src/components/sifter/sifter-app.tsx`, `apps/web/src/app/layout.tsx`, `apps/web/public/social-card.png`                      | Kept the stable Temu/SHEIN H1 and sharpened the supporting copy around avoiding fading, shrinking, or cheap-looking products.  |
 
 ## Architectural Change Log
 

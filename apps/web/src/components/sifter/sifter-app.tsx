@@ -363,9 +363,9 @@ export const SifterApp = ({
                   Shop smarter on Temu and SHEIN.
                 </h1>
                 <p className="mx-auto max-w-2xl text-base leading-7 text-slate-950/78 sm:text-lg dark:text-white/72">
-                  Tell me what you want to buy. I will turn it into
-                  material-aware search terms that help avoid cheap-looking
-                  products.
+                  Stop wasting money on clothes that fade, shrink, or look
+                  cheap. Sifter turns what you want into material aware search
+                  terms that help you find better products.
                 </p>
               </div>
 

@@ -33,6 +33,9 @@
 - Props extend `React.ComponentProps<"element">` with `VariantProps`
 - Compound components pattern: `Card`, `CardHeader`, `CardContent`, `CardFooter`
 - Export individual named components (not default)
+- For premium UI polish or visual audits, use `.ai/skills/premium-ui.md` and
+  the deep `.agents/skills/premium-ui/` workflow. Prefer existing `@turbo/ui`
+  primitives and HugeIcons before custom controls or inline SVG icons.
 
 Example: `packages/ui/src/components/button.tsx`
 

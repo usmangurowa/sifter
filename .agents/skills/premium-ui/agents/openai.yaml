@@ -1,0 +1,4 @@
+interface:
+  display_name: "Premium UI"
+  short_description: "Design and audit premium interfaces while avoiding AI slop."
+  default_prompt: "Use the premium-ui skill to improve this interface and remove AI slop."

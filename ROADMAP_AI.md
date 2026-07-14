@@ -39,6 +39,7 @@ architecture, contracts, or conventions.
 | 2026-07-14 | Sifter chat route split          | `apps/web/src/app/page.tsx`, `apps/web/src/app/chat/page.tsx`, `apps/web/src/components/sifter/sifter-app.tsx`                         | Landing submissions navigate to `/chat`; the conversation screen uses a dedicated neutral route with a fixed top Back control. |
 | 2026-07-14 | Sifter local prompt history      | `apps/web/src/components/sifter/sifter-app.tsx`, `packages/shared/src/sifter.ts`                                                       | Recent prompts are stored in browser localStorage and prioritized as landing chips; static prompts avoid price claims.         |
 | 2026-07-14 | Transparent Temu affiliate offer | `packages/shared/src/sifter.ts`, `apps/web/src/components/sifter/discount-vault.tsx`, `apps/web/src/components/sifter/result-card.tsx` | Temu coupon sheet includes a disclosed first-order offer; clicking Search Temu copies the disclosed coupon code.               |
+| 2026-07-15 | Premium UI anti-slop skill       | `.agents/skills/premium-ui/`, `.ai/skills/premium-ui.md`, `.ai/context/conventions.md`                                                 | Added a reusable workflow for premium UI polish, mobile/theme checks, and avoiding generic AI-generated interface patterns.    |
 
 ## Architectural Change Log
 

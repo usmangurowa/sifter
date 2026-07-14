@@ -16,6 +16,7 @@
 | Debug Failure       | [debug-failure.md](./debug-failure.md)             | "fix this error", "debug CI failure"                   |
 | Write Tests         | [write-tests.md](./write-tests.md)                 | "write tests", "add test coverage"                     |
 | Refactor            | [refactor.md](./refactor.md)                       | "refactor", "clean up this code"                       |
+| Premium UI          | [premium-ui.md](./premium-ui.md)                   | "premium UI", "avoid slop", UI polish/audit            |
 | Update AI Memory    | [update-ai-memory.md](./update-ai-memory.md)       | After introducing new patterns                         |
 | Feature Spec        | [feature-spec.md](./feature-spec.md)               | Non-trivial or cross-package feature work              |
 
@@ -29,6 +30,6 @@
 
 ## See also
 
-- Deep technology references: `/.agents/skills/` (18 skill bundles)
+- Deep technology references: `/.agents/skills/` (21 skill bundles)
 - Patterns: `../patterns/`
 - Context: `../context/`

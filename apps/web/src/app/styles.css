@@ -58,19 +58,19 @@
     background:
       linear-gradient(
         180deg,
-        color-mix(in oklch, oklch(0.82 0.12 210) 36%, transparent) 0%,
-        color-mix(in oklch, oklch(0.84 0.09 220) 20%, transparent) 30%,
-        transparent 58%,
-        color-mix(in oklch, oklch(0.87 0.11 74) 14%, transparent) 100%
+        color-mix(in oklch, var(--primary) 22%, white 68%) 0%,
+        color-mix(in oklch, oklch(0.86 0.08 225) 36%, transparent) 32%,
+        transparent 62%,
+        color-mix(in oklch, var(--primary) 8%, transparent) 100%
       ),
       radial-gradient(
-        ellipse at 50% 34%,
-        color-mix(in oklch, white 28%, transparent) 0,
+        ellipse at 50% 30%,
+        color-mix(in oklch, white 34%, transparent) 0,
         transparent 32rem
       ),
       radial-gradient(
         circle at 50% 48%,
-        color-mix(in oklch, var(--primary) 8%, transparent) 0,
+        color-mix(in oklch, var(--primary) 7%, transparent) 0,
         transparent 24rem
       );
   }

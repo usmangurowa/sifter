@@ -79,36 +79,31 @@ export const SifterApp = () => {
         </>
       ) : null}
 
-      <header
-        className={cn(
-          "sticky top-0 z-40 border-b border-slate-950/10 backdrop-blur-xl dark:border-white/10",
-          isConversation
-            ? "bg-background/92 supports-backdrop-filter:bg-background/72"
-            : "bg-background/72 supports-backdrop-filter:bg-background/58",
-        )}
-      >
-        <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
-          <div className="flex min-w-0 items-center gap-3">
-            <div className="grid size-9 place-items-center rounded-2xl bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 font-semibold text-white shadow-lg shadow-blue-600/25">
-              S
-            </div>
-            <div className="min-w-0">
-              <div className="text-sm font-semibold">Sifter</div>
-              <div className="text-muted-foreground truncate text-xs">
-                Quality search for Temu and SHEIN
+      {!isConversation ? (
+        <header className="absolute inset-x-0 top-0 z-40">
+          <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
+            <div className="flex min-w-0 items-center gap-3">
+              <div className="grid size-9 place-items-center rounded-2xl bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 font-semibold text-white shadow-lg shadow-blue-600/20">
+                S
+              </div>
+              <div className="min-w-0">
+                <div className="text-sm font-semibold">Sifter</div>
+                <div className="text-muted-foreground truncate text-xs">
+                  Quality search for Temu and SHEIN
+                </div>
               </div>
             </div>
+            <DiscountVault />
           </div>
-          <DiscountVault />
-        </div>
-      </header>
+        </header>
+      ) : null}
 
       <div
         className={cn(
           "relative z-10 mx-auto flex w-full flex-col px-4 sm:px-6",
           isConversation
-            ? "min-h-[calc(100vh-4rem)] max-w-4xl py-6"
-            : "max-w-6xl gap-10 overflow-x-hidden py-10 lg:py-14",
+            ? "min-h-screen max-w-4xl py-6"
+            : "max-w-6xl gap-10 overflow-x-hidden pt-16 pb-10 lg:pb-14",
         )}
       >
         <AnimatePresence mode="wait">
@@ -118,7 +113,7 @@ export const SifterApp = () => {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
-              className="mx-auto flex min-h-[calc(100vh-12rem)] w-full max-w-3xl flex-col items-center justify-center gap-7 overflow-x-hidden text-center"
+              className="mx-auto flex min-h-[calc(100vh-8rem)] w-full max-w-3xl flex-col items-center justify-center gap-7 overflow-x-hidden text-center"
             >
               <div className="w-full max-w-full space-y-5">
                 <Badge
@@ -164,7 +159,7 @@ export const SifterApp = () => {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
-              className="flex min-h-[calc(100vh-7rem)] flex-col gap-5"
+              className="flex min-h-[calc(100vh-3rem)] flex-col gap-5"
             >
               {lastQuery ? (
                 <div className="flex justify-end">

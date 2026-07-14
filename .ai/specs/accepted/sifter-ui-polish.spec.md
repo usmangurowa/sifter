@@ -28,6 +28,8 @@ layout.
 - [ ] CTA buttons use restrained gradients and hover states.
 - [ ] Mobile and desktop layouts avoid text overlap, layout shift, and overly
       wide line lengths.
+- [ ] SHEIN code sheet opens with a smooth side-panel transition instead of a
+      jarring snap.
 
 ## Expected Files
 
@@ -39,6 +41,7 @@ layout.
 | `apps/web/src/components/sifter/loading-state.tsx`  | Match loading state to polished card structure      |
 | `apps/web/src/components/sifter/discount-vault.tsx` | Light polish for header action and sheet card rows  |
 | `apps/web/src/app/styles.css`                       | Add app-local decorative utilities and color tuning |
+| `packages/ui/src/components/sheet.tsx`              | Fix Radix sheet animation state classes             |
 | `ROADMAP_AI.md`                                     | Record the Sifter visual polish slice               |
 
 ## Contracts

@@ -12,23 +12,6 @@ export type { ModelMessage };
 export type AIMessage = ModelMessage;
 
 /**
- * Available Gemini model identifiers.
- */
-export type GeminiModelId = "gemini-3-flash" | "gemini-3-pro" | (string & {});
-
-/**
- * Options for creating a Google AI provider instance.
- */
-export interface GoogleAIOptions {
-  /** API key for Google Generative AI. Defaults to GOOGLE_GENERATIVE_AI_API_KEY env var. */
-  apiKey?: string;
-  /** Custom base URL for API calls. */
-  baseURL?: string;
-  /** Custom headers to include in requests. */
-  headers?: Record<string, string>;
-}
-
-/**
  * Available Groq chat model identifiers used by this repo.
  */
 export type GroqModelId =

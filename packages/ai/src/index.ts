@@ -2,9 +2,7 @@
 export type {
   AIMessage,
   ChatOptions,
-  GeminiModelId,
   GenerateTextOptions,
-  GoogleAIOptions,
   GroqModelId,
 } from "./types";
 

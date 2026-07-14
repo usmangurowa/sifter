@@ -24,9 +24,7 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "@ai-sdk/google": "^3.0.80",
     "@ai-sdk/groq": "3.0.39",
-    "@openrouter/ai-sdk-provider": "^2.9.0",
     "@turbo/analytics": "workspace:*",
     "@turbo/shared": "workspace:*",
     "ai": "^6.0.197"

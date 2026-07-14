@@ -454,7 +454,7 @@ tooling/
 | Background jobs | Trigger.dev                                   |
 | Analytics       | PostHog                                       |
 | Error tracking  | Sentry (@sentry/nextjs, @sentry/react-native) |
-| AI providers    | Groq, Gemini, OpenRouter via AI SDK           |
+| AI providers    | Groq via AI SDK                               |
 
 ## Testing & Quality
 
@@ -855,17 +855,14 @@ router, or auth adapter. Use the matching `.ai/skills/*` procedure.
 - `EXPO_PUBLIC_POSTHOG_HOST`
 - `EXPO_PUBLIC_POSTHOG_KEY`
 - `EXPO_PUBLIC_SENTRY_DSN`
-- `GEMINI_API_KEY`
 - `GITHUB_CLIENT_ID`
 - `GITHUB_CLIENT_SECRET`
-- `GOOGLE_GENERATIVE_AI_API_KEY`
 - `GROQ_API_KEY`
 - `NEXT_PUBLIC_APP_URL`
 - `NEXT_PUBLIC_PORT`
 - `NEXT_PUBLIC_POSTHOG_HOST`
 - `NEXT_PUBLIC_POSTHOG_KEY`
 - `NEXT_PUBLIC_SENTRY_DSN`
-- `OPENROUTER_API_KEY`
 - `POSTGRES_URL`
 - `POSTHOG_API_KEY`
 - `POSTHOG_HOST`
@@ -892,17 +889,14 @@ router, or auth adapter. Use the matching `.ai/skills/*` procedure.
 - `EXPO_PUBLIC_POSTHOG_HOST`
 - `EXPO_PUBLIC_POSTHOG_KEY`
 - `EXPO_PUBLIC_SENTRY_DSN`
-- `GEMINI_API_KEY`
 - `GITHUB_CLIENT_ID`
 - `GITHUB_CLIENT_SECRET`
-- `GOOGLE_GENERATIVE_AI_API_KEY`
 - `GROQ_API_KEY`
 - `NEXT_PUBLIC_APP_URL`
 - `NEXT_PUBLIC_PORT`
 - `NEXT_PUBLIC_POSTHOG_HOST`
 - `NEXT_PUBLIC_POSTHOG_KEY`
 - `NEXT_PUBLIC_SENTRY_DSN`
-- `OPENROUTER_API_KEY`
 - `POSTGRES_URL`
 - `POSTHOG_API_KEY`
 - `POSTHOG_HOST`

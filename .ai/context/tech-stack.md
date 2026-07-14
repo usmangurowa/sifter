@@ -84,7 +84,7 @@ tooling/
 | Background jobs | Trigger.dev                                   |
 | Analytics       | PostHog                                       |
 | Error tracking  | Sentry (@sentry/nextjs, @sentry/react-native) |
-| AI providers    | Groq, Gemini, OpenRouter via AI SDK           |
+| AI providers    | Groq via AI SDK                               |
 
 ## Testing & Quality
 

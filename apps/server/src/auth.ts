@@ -1,14 +1,19 @@
-import { initAuth } from "@turbo/auth";
+import { initAuth, resolveAuthRuntimeSecrets } from "@turbo/auth";
 import { sendOTPEmail } from "@turbo/mail/client";
 
 import { env } from "./env.js";
 
+const authSecrets = resolveAuthRuntimeSecrets({
+  authSecret: env.AUTH_SECRET,
+  supabaseJwtSecret: env.SUPABASE_JWT_SECRET,
+  nodeEnv: process.env.NODE_ENV,
+});
+
 export const auth = initAuth({
   baseUrl: env.SERVER_URL,
   productionUrl: env.SERVER_URL,
-  secret: env.AUTH_SECRET ?? "development-secret-change-in-production",
-  supabaseJwtSecret:
-    env.SUPABASE_JWT_SECRET ?? "development-secret-change-in-production",
+  secret: authSecrets.secret,
+  supabaseJwtSecret: authSecrets.supabaseJwtSecret,
   socialProviders: {
     github:
       env.GITHUB_CLIENT_ID && env.GITHUB_CLIENT_SECRET

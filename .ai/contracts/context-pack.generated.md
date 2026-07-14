@@ -229,6 +229,7 @@ architecture, contracts, or conventions.
 | 2026-07-14 | Chat-style Sifter response flow  | `apps/web/src/components/sifter/*`, `.ai/specs/active/sifter-mvp.spec.md`                                 | Prompt submissions transition from the landing hero into a bounded assistant response panel.  |
 | 2026-07-14 | Sifter Groq provider switch      | `packages/api`, `packages/ai`, `.env.example`, `turbo.json`, `.ai/context/*`                              | Sifter live chat now uses Groq with `GROQ_API_KEY`; previous provider env/dependency removed. |
 | 2026-07-14 | Expanded Sifter quality taxonomy | `packages/shared/src/sifter.ts`, `packages/api/src/router/sifter.ts`                                      | AI prompt now includes broader material, construction, and false-label heuristics.            |
+| 2026-07-14 | Sifter UI polish                 | `apps/web/src/components/sifter/*`, `apps/web/src/app/styles.css`                                         | Landing and result views use an ambient AI surface, refined prompt input, and polished cards. |
 
 ## Architectural Change Log
 

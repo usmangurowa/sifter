@@ -24,8 +24,8 @@
 
 @layer base {
   :root {
-    --primary: oklch(0.68 0.16 52);
-    --primary-foreground: oklch(0.98 0.01 95);
+    --primary: oklch(0.6 0.2 260);
+    --primary-foreground: oklch(0.99 0.01 260);
   }
 
   * {
@@ -50,5 +50,45 @@
     75% {
       transform: translateX(4px);
     }
+  }
+}
+
+@layer utilities {
+  .sifter-ambient {
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(in oklch, oklch(0.82 0.12 210) 36%, transparent) 0%,
+        color-mix(in oklch, oklch(0.84 0.09 220) 20%, transparent) 30%,
+        transparent 58%,
+        color-mix(in oklch, oklch(0.87 0.11 74) 14%, transparent) 100%
+      ),
+      radial-gradient(
+        ellipse at 50% 34%,
+        color-mix(in oklch, white 28%, transparent) 0,
+        transparent 32rem
+      ),
+      radial-gradient(
+        circle at 50% 48%,
+        color-mix(in oklch, var(--primary) 8%, transparent) 0,
+        transparent 24rem
+      );
+  }
+
+  .sifter-grid {
+    background-image:
+      linear-gradient(
+        to right,
+        color-mix(in oklch, currentColor 7%, transparent) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        to bottom,
+        color-mix(in oklch, currentColor 7%, transparent) 1px,
+        transparent 1px
+      );
+    background-position: center;
+    background-size: 44px 44px;
+    mask-image: radial-gradient(circle at center, black, transparent 62%);
   }
 }

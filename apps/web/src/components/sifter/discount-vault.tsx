@@ -1,5 +1,8 @@
 "use client";
 
+import { DiscountTag02Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+
 import {
   SIFTER_DISCOUNT_CODE_GROUPS,
   SIFTER_SALE_KEYWORDS,
@@ -32,6 +35,11 @@ export const DiscountVault = () => (
         size="sm"
         className="rounded-full bg-transparent px-3 text-sm font-medium text-blue-950 hover:bg-transparent hover:text-blue-950 dark:hover:bg-transparent"
       >
+        <HugeiconsIcon
+          icon={DiscountTag02Icon}
+          className="size-4"
+          strokeWidth={2}
+        />
         Coupon codes
       </Button>
     </SheetTrigger>

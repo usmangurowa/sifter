@@ -65,4 +65,28 @@ describe("createServerApp", () => {
     const body = await response.text();
     expect(body).toBe(authResponseBody);
   });
+
+  it("applies security middleware to Better Auth handlers", async () => {
+    const { createServerApp } = await import("../app");
+    const app = createServerApp(auth, {
+      allowedOrigins: ["http://localhost:3001", "expo://"],
+    });
+
+    const response = await app.request("/api/auth/sign-in/email", {
+      method: "POST",
+      headers: {
+        origin: "http://localhost:3001",
+        "x-forwarded-for": "203.0.113.42",
+      },
+    });
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get("x-frame-options")).toBe("DENY");
+    expect(response.headers.get("access-control-allow-origin")).toBe(
+      "http://localhost:3001",
+    );
+    expect(response.headers.get("access-control-allow-credentials")).toBe(
+      "true",
+    );
+  });
 });

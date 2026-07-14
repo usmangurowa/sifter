@@ -16,6 +16,12 @@ import sifterRouter from "./router/sifter";
 import supportRouter from "./router/support";
 
 export { createPublicApp } from "./public";
+export {
+  corsMiddleware,
+  rateLimitMiddleware,
+  secureHeadersMiddleware,
+} from "./middleware/security";
+export { timingMiddleware } from "./middleware/timing";
 
 /**
  * Options for creating the API app

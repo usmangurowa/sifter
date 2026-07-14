@@ -1,7 +1,14 @@
 import { Hono } from "hono";
 
 import type { Auth } from "@turbo/auth";
-import { createApp } from "@turbo/api";
+import type { AppContext } from "@turbo/api";
+import {
+  corsMiddleware,
+  createApp,
+  rateLimitMiddleware,
+  secureHeadersMiddleware,
+  timingMiddleware,
+} from "@turbo/api";
 
 type ServerAuth = Parameters<typeof createApp>[0] & Pick<Auth, "handler">;
 
@@ -19,17 +26,25 @@ export const createServerApp = (
     rateLimitWindow = 60 * 1000,
   }: CreateServerAppOptions,
 ) => {
+  const security = {
+    allowedOrigins,
+    rateLimit,
+    rateLimitWindow,
+  };
   const apiApp = createApp(auth, {
-    security: {
-      allowedOrigins,
-      rateLimit,
-      rateLimitWindow,
-    },
+    security,
   });
 
-  const app = new Hono()
+  const authApp = new Hono<AppContext>()
+    .use("*", secureHeadersMiddleware())
+    .use("*", corsMiddleware(security))
+    .use("*", rateLimitMiddleware(security))
+    .use("*", timingMiddleware)
+    .on(["GET", "POST"], "/*", (c) => auth.handler(c.req.raw));
+
+  const app = new Hono<AppContext>()
     .get("/health", (c) => c.text("OK"))
-    .on(["GET", "POST"], "/api/auth/*", (c) => auth.handler(c.req.raw))
+    .route("/api/auth", authApp)
     .route("/api", apiApp);
 
   return app;

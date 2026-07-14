@@ -70,6 +70,21 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
 
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup
+        uses: ./tooling/github/setup
+
+      - name: Copy env
+        shell: bash
+        run: cp .env.example .env
+
+      - name: Build web
+        run: pnpm -F @turbo/web build
+
   test:
     runs-on: ubuntu-latest
     steps:

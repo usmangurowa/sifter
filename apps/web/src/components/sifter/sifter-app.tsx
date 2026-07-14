@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { ArrowLeft01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { AnimatePresence, motion } from "motion/react";
 
 import type {
@@ -25,8 +27,11 @@ export const SifterApp = () => {
   const [result, setResult] = useState<SifterChatResponseData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [lastQuery, setLastQuery] = useState<string | null>(null);
+  const requestIdRef = useRef(0);
 
   const submit = async (message: string) => {
+    const requestId = requestIdRef.current + 1;
+    requestIdRef.current = requestId;
     setStatus("loading");
     setResult(null);
     setError(null);
@@ -40,6 +45,10 @@ export const SifterApp = () => {
       });
       const payload = (await response.json()) as SifterChatApiResponse;
 
+      if (requestIdRef.current !== requestId) {
+        return;
+      }
+
       if (!payload.success) {
         setError(payload.error);
         setStatus("error");
@@ -49,9 +58,21 @@ export const SifterApp = () => {
       setResult(payload.data);
       setStatus("success");
     } catch {
+      if (requestIdRef.current !== requestId) {
+        return;
+      }
+
       setError("Sifter could not connect. Check your network and try again.");
       setStatus("error");
     }
+  };
+
+  const returnToLanding = () => {
+    requestIdRef.current += 1;
+    setStatus("idle");
+    setResult(null);
+    setError(null);
+    setLastQuery(null);
   };
 
   const hasResults = status === "success" && result;
@@ -162,11 +183,23 @@ export const SifterApp = () => {
               ) : null}
 
               <div className="min-w-0 space-y-3">
-                <div className="flex items-center gap-2 px-1">
-                  <div className="grid size-8 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 text-sm font-semibold text-white shadow-lg shadow-blue-600/20">
-                    S
+                <div className="flex items-center justify-between gap-3 px-1">
+                  <div className="flex min-w-0 items-center gap-2">
+                    <div className="grid size-8 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 text-sm font-semibold text-white shadow-lg shadow-blue-600/20">
+                      S
+                    </div>
+                    <div className="truncate text-sm font-semibold">Sifter</div>
                   </div>
-                  <div className="text-sm font-semibold">Sifter</div>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={returnToLanding}
+                    className="text-muted-foreground hover:bg-muted/70 hover:text-foreground h-8 rounded-full px-2.5 text-xs"
+                  >
+                    <HugeiconsIcon icon={ArrowLeft01Icon} strokeWidth={2} />
+                    Back
+                  </Button>
                 </div>
                 <div className="bg-muted/20 min-w-0 rounded-[1.5rem] border border-slate-200/70 p-2.5 sm:rounded-[2rem] sm:p-4 dark:border-white/10 dark:bg-white/[0.02]">
                   {status === "loading" ? (

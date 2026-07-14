@@ -26,38 +26,38 @@ export const ResultCard = ({ category }: { category: SifterCategory }) => {
   return (
     <section
       data-slot="sifter-result-card"
-      className="group relative overflow-hidden rounded-3xl border border-slate-200/80 bg-white/82 p-4 shadow-[0_18px_70px_-48px_rgba(15,23,42,0.75)] ring-1 ring-slate-950/[0.03] backdrop-blur-xl transition duration-300 hover:-translate-y-0.5 hover:border-blue-300/50 hover:shadow-[0_26px_90px_-52px_rgba(37,99,235,0.55)] sm:p-5 dark:border-white/10 dark:bg-zinc-950/58 dark:ring-white/5"
+      className="group relative max-w-full min-w-0 overflow-hidden rounded-3xl border border-slate-200/80 bg-white/82 p-3 shadow-[0_18px_70px_-48px_rgba(15,23,42,0.75)] ring-1 ring-slate-950/[0.03] backdrop-blur-xl transition duration-300 hover:-translate-y-0.5 hover:border-blue-300/50 hover:shadow-[0_26px_90px_-52px_rgba(37,99,235,0.55)] sm:p-5 dark:border-white/10 dark:bg-zinc-950/58 dark:ring-white/5"
     >
       <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-blue-400/40 to-transparent opacity-0 transition group-hover:opacity-100" />
 
       <div className="space-y-3">
-        <div className="flex items-start gap-3">
+        <div className="flex min-w-0 items-start gap-3">
           <span className="grid size-10 shrink-0 place-items-center rounded-2xl border border-blue-500/10 bg-blue-500/10 text-lg shadow-inner shadow-white/50 dark:border-blue-300/10 dark:bg-blue-400/10 dark:shadow-none">
             {category.emoji}
           </span>
           <div className="min-w-0 space-y-1">
-            <h3 className="text-base font-semibold tracking-normal text-balance sm:text-lg">
+            <h3 className="text-base font-semibold tracking-normal text-balance break-words sm:text-lg">
               {category.name}
             </h3>
-            <p className="text-muted-foreground text-sm leading-6">
+            <p className="text-muted-foreground text-sm leading-6 break-words">
               {category.description}
             </p>
           </div>
         </div>
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-2">
+      <div className="mt-4 flex max-w-full flex-wrap gap-2">
         {category.searchTerms.map((term) => (
           <Tooltip key={term}>
             <TooltipTrigger asChild>
               <button
                 type="button"
                 onClick={() => void copyText(term)}
-                className="group/chip rounded-full outline-none focus-visible:ring-[3px] focus-visible:ring-blue-500/30"
+                className="group/chip max-w-full rounded-full text-left outline-none focus-visible:ring-[3px] focus-visible:ring-blue-500/30"
               >
                 <Badge
                   variant="outline"
-                  className="text-foreground/85 group-hover/chip:text-foreground cursor-copy border-slate-200/80 bg-slate-950/[0.03] px-3 py-1.5 text-[0.8125rem] font-medium transition group-hover/chip:border-blue-300/60 group-hover/chip:bg-blue-500/10 dark:border-white/10 dark:bg-white/[0.04]"
+                  className="text-foreground/85 group-hover/chip:text-foreground h-auto min-h-8 max-w-full cursor-copy justify-start border-slate-200/80 bg-slate-950/[0.03] px-3 py-1.5 text-left text-[0.8125rem] leading-5 font-medium break-words whitespace-normal transition group-hover/chip:border-blue-300/60 group-hover/chip:bg-blue-500/10 dark:border-white/10 dark:bg-white/[0.04]"
                 >
                   {term}
                 </Badge>

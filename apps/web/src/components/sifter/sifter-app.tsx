@@ -117,7 +117,7 @@ export const SifterApp = () => {
                 <h1 className="mx-auto max-w-2xl text-3xl font-semibold tracking-normal text-balance sm:text-6xl">
                   Shop smarter on Temu and SHEIN.
                 </h1>
-                <p className="text-muted-foreground mx-auto max-w-2xl text-base leading-7 sm:text-lg">
+                <p className="mx-auto max-w-2xl text-base leading-7 text-white/80 text-shadow-sm sm:text-lg dark:text-white/72">
                   Tell me what you want to buy. I will turn it into
                   material-aware search terms that help avoid cheap-looking
                   products.
@@ -161,11 +161,14 @@ export const SifterApp = () => {
                 </div>
               ) : null}
 
-              <div className="flex items-start gap-3 sm:gap-4">
-                <div className="mt-1 grid size-9 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 text-sm font-semibold text-white shadow-lg shadow-blue-600/20">
-                  S
+              <div className="min-w-0 space-y-3">
+                <div className="flex items-center gap-2 px-1">
+                  <div className="grid size-8 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 text-sm font-semibold text-white shadow-lg shadow-blue-600/20">
+                    S
+                  </div>
+                  <div className="text-sm font-semibold">Sifter</div>
                 </div>
-                <div className="bg-muted/20 min-w-0 flex-1 rounded-[2rem] border border-slate-200/70 p-3 sm:p-4 dark:border-white/10 dark:bg-white/[0.02]">
+                <div className="bg-muted/20 min-w-0 rounded-[1.5rem] border border-slate-200/70 p-2.5 sm:rounded-[2rem] sm:p-4 dark:border-white/10 dark:bg-white/[0.02]">
                   {status === "loading" ? (
                     <div className="bg-background space-y-4 rounded-[1.5rem] border border-slate-200/80 p-5 shadow-sm sm:p-6 dark:border-white/10">
                       <div className="space-y-1">
@@ -201,18 +204,19 @@ export const SifterApp = () => {
                   ) : null}
 
                   {hasResults ? (
-                    <div className="space-y-5">
-                      <p className="text-muted-foreground max-w-2xl text-sm leading-6">
+                    <div className="min-w-0 space-y-5">
+                      <p className="text-muted-foreground max-w-2xl text-sm leading-6 break-words">
                         {result.greeting}
                       </p>
 
-                      <div className="grid gap-4">
+                      <div className="grid min-w-0 gap-4">
                         {result.categories.map((category, index) => (
                           <motion.div
                             key={`${category.name}-${index}`}
                             initial={{ opacity: 0, y: 12 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.05 }}
+                            className="min-w-0"
                           >
                             <ResultCard category={category} />
                           </motion.div>
@@ -241,7 +245,7 @@ export const SifterApp = () => {
                                 <Badge
                                   key={code.code}
                                   variant="secondary"
-                                  className="rounded-full px-3 py-1"
+                                  className="h-auto max-w-full rounded-full px-3 py-1 text-left whitespace-normal"
                                 >
                                   {code.code}: {code.description}
                                 </Badge>

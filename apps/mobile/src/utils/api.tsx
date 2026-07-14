@@ -3,7 +3,8 @@ import { hc } from "hono/client";
 
 import type { AppType } from "@turbo/api";
 
-import { authClient } from "./auth";
+import { authClient } from "@/auth/client";
+
 import { getBaseUrl } from "./base-url";
 
 export const queryClient = new QueryClient({

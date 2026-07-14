@@ -4,23 +4,17 @@ import { expoClient } from "@better-auth/expo/client";
 import { emailOTPClient } from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/react";
 
-// Get the API URL from Expo constants or fallback to local development
-const getBaseURL = (): string => {
-  // In development, use the local machine's IP
-  // In production, use the production URL
-  const devURL = Constants.expoConfig?.extra?.apiUrl as string | undefined;
-  const prodURL = process.env.EXPO_PUBLIC_API_URL;
+import { getBaseUrl } from "@/utils/base-url";
 
-  return prodURL ?? devURL ?? "http://localhost:3000";
-};
+const scheme = Constants.expoConfig?.extra?.EXPO_PUBLIC_APP_SCHEME ?? "turbo";
 
 export const authClient = createAuthClient({
-  baseURL: getBaseURL(),
+  baseURL: getBaseUrl(),
   plugins: [
     emailOTPClient(),
     expoClient({
-      scheme: "turbo",
-      storagePrefix: "turbo",
+      scheme,
+      storagePrefix: scheme,
       storage: SecureStore,
     }),
   ],

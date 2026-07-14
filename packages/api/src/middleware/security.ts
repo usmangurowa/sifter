@@ -1,4 +1,4 @@
-import type { MiddlewareHandler } from "hono";
+import type { Context, MiddlewareHandler } from "hono";
 import { rateLimiter } from "hono-rate-limiter";
 import { cors } from "hono/cors";
 import { csrf } from "hono/csrf";
@@ -16,6 +16,8 @@ export interface SecurityConfig {
   rateLimit?: number;
   /** Rate limit window in milliseconds (default: 60000 = 1 minute) */
   rateLimitWindow?: number;
+  /** Rate limit identity mode (default: "ip") */
+  rateLimitKeyMode?: "ip" | "verified-api-key-or-ip";
   /** Enable CSRF protection (default: true for non-GET requests) */
   enableCsrf?: boolean;
   /** Paths to exclude from rate limiting (e.g., health checks) */
@@ -26,8 +28,20 @@ const defaultConfig: Required<SecurityConfig> = {
   allowedOrigins: ["*"],
   rateLimit: 100,
   rateLimitWindow: 60 * 1000, // 1 minute
+  rateLimitKeyMode: "ip",
   enableCsrf: true,
   rateLimitExcludePaths: ["/health"],
+};
+
+const getTrustedClientIp = (c: Context<AppContext>) => {
+  // Assumes deployment proxies sanitize forwarded IP headers before requests
+  // reach the application runtime.
+  const forwarded = c.req.header("x-forwarded-for");
+  if (forwarded) {
+    return forwarded.split(",")[0]?.trim() || "unknown";
+  }
+
+  return c.req.header("x-real-ip") ?? "unknown";
 };
 
 /**
@@ -87,21 +101,16 @@ export const rateLimitMiddleware = (
     limit: mergedConfig.rateLimit,
     standardHeaders: "draft-6",
     keyGenerator: (c) => {
-      // If API key is present, use it as the rate limit key
-      // This gives each authenticated user their own rate limit bucket
-      const apiKey =
-        c.req.header("x-api-key") ??
-        c.req.header("authorization")?.replace("Bearer ", "");
-      if (apiKey) {
-        return `apikey:${apiKey}`;
+      if (mergedConfig.rateLimitKeyMode === "verified-api-key-or-ip") {
+        // Verified API-key buckets must come from authenticated context, not
+        // caller-controlled request headers.
+        const apiKeyId = c.get("apiKeyId");
+        if (apiKeyId) {
+          return `verified-api-key:${apiKeyId}`;
+        }
       }
 
-      // For unauthenticated requests, use IP-based rate limiting
-      const forwarded = c.req.header("x-forwarded-for");
-      if (forwarded) {
-        return `ip:${forwarded.split(",")[0]?.trim() ?? "unknown"}`;
-      }
-      return `ip:${c.req.header("x-real-ip") ?? "unknown"}`;
+      return `ip:${getTrustedClientIp(c)}`;
     },
     // Skip rate limiting for excluded paths
     skip: (c) => {

@@ -70,30 +70,75 @@ export const DiscountVault = () => (
                 <section key={group.title} className="space-y-3">
                   <h3 className="text-sm font-medium">{group.title}</h3>
                   <div className="grid gap-2">
-                    {group.entries.map((entry) => (
-                      <button
-                        type="button"
-                        key={`${group.title}-${entry.label}`}
-                        onClick={() => void copyCode(entry.copyValue)}
-                        className="flex items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white/70 p-3 text-left shadow-sm transition duration-300 hover:border-blue-300/70 hover:bg-blue-500/10 dark:border-white/10 dark:bg-white/[0.04] dark:hover:bg-white/[0.08]"
-                      >
-                        <span>
-                          <span className="block text-sm font-semibold">
-                            {entry.label}
-                          </span>
-                          <span className="text-muted-foreground text-xs">
-                            {entry.description}
-                            {entry.category ? ` - ${entry.category}` : ""}
-                          </span>
-                        </span>
-                        <Badge
-                          variant="secondary"
-                          className="rounded-full bg-blue-500/10 text-blue-700 dark:text-blue-200"
+                    {group.entries.map((entry) =>
+                      entry.href ? (
+                        <div
+                          key={`${group.title}-${entry.label}`}
+                          className="space-y-3 rounded-2xl border border-slate-200/80 bg-white/70 p-3 text-left shadow-sm dark:border-white/10 dark:bg-white/[0.04]"
                         >
-                          Copy
-                        </Badge>
-                      </button>
-                    ))}
+                          <div>
+                            <div className="text-sm font-semibold">
+                              {entry.label}
+                            </div>
+                            <p className="text-muted-foreground mt-1 text-xs leading-5">
+                              {entry.description}
+                            </p>
+                            {entry.disclosure ? (
+                              <p className="text-muted-foreground/80 mt-1 text-[0.6875rem] leading-4">
+                                {entry.disclosure}
+                              </p>
+                            ) : null}
+                          </div>
+                          <div className="flex flex-wrap gap-2">
+                            <Button
+                              type="button"
+                              size="sm"
+                              variant="outline"
+                              onClick={() => void copyCode(entry.copyValue)}
+                              className="h-8 rounded-full px-3 text-xs"
+                            >
+                              Copy code
+                            </Button>
+                            <Button
+                              size="sm"
+                              className="h-8 rounded-full bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 px-3 text-xs text-white"
+                              asChild
+                            >
+                              <a
+                                href={entry.href}
+                                target="_blank"
+                                rel="noreferrer"
+                              >
+                                {entry.ctaLabel ?? "Open offer"}
+                              </a>
+                            </Button>
+                          </div>
+                        </div>
+                      ) : (
+                        <button
+                          type="button"
+                          key={`${group.title}-${entry.label}`}
+                          onClick={() => void copyCode(entry.copyValue)}
+                          className="flex items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white/70 p-3 text-left shadow-sm transition duration-300 hover:border-blue-300/70 hover:bg-blue-500/10 dark:border-white/10 dark:bg-white/[0.04] dark:hover:bg-white/[0.08]"
+                        >
+                          <span>
+                            <span className="block text-sm font-semibold">
+                              {entry.label}
+                            </span>
+                            <span className="text-muted-foreground text-xs">
+                              {entry.description}
+                              {entry.category ? ` - ${entry.category}` : ""}
+                            </span>
+                          </span>
+                          <Badge
+                            variant="secondary"
+                            className="rounded-full bg-blue-500/10 text-blue-700 dark:text-blue-200"
+                          >
+                            Copy
+                          </Badge>
+                        </button>
+                      ),
+                    )}
                   </div>
                 </section>
               ))}

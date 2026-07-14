@@ -11,6 +11,8 @@ import {
   SIFTER_SALE_KEYWORDS,
   SIFTER_SUGGESTIONS,
   SIFTER_TEMU_COUPON_GROUPS,
+  SIFTER_TEMU_FIRST_ORDER_CODE,
+  SIFTER_TEMU_FIRST_ORDER_OFFER_URL,
 } from "../sifter";
 
 describe("Sifter shared helpers", () => {
@@ -38,6 +40,16 @@ describe("Sifter shared helpers", () => {
     expect(
       SIFTER_TEMU_COUPON_GROUPS.some((group) =>
         group.entries.some((entry) => entry.copyValue.includes("Temu")),
+      ),
+    ).toBe(true);
+    expect(
+      SIFTER_TEMU_COUPON_GROUPS.some((group) =>
+        group.entries.some(
+          (entry) =>
+            entry.copyValue === SIFTER_TEMU_FIRST_ORDER_CODE &&
+            entry.href === SIFTER_TEMU_FIRST_ORDER_OFFER_URL &&
+            entry.disclosure?.includes("Sifter may earn"),
+        ),
       ),
     ).toBe(true);
   });

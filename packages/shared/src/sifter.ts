@@ -14,6 +14,9 @@ export interface SifterCouponCategory {
     description: string;
     copyValue: string;
     category?: string;
+    ctaLabel?: string;
+    disclosure?: string;
+    href?: string;
   }[];
 }
 
@@ -34,6 +37,10 @@ export const SIFTER_SUGGESTIONS = [
   "Build me a complete casual outfit",
   "Sterling silver earrings for sensitive ears",
 ] as const;
+
+export const SIFTER_TEMU_FIRST_ORDER_CODE = "ale889115";
+export const SIFTER_TEMU_FIRST_ORDER_OFFER_URL =
+  "https://temu.to/k/e5m9kmup2rl";
 
 export const SIFTER_DISCOUNT_CODE_GROUPS: SifterDiscountCategory[] = [
   {
@@ -68,6 +75,20 @@ export const SIFTER_DISCOUNT_CODE_GROUPS: SifterDiscountCategory[] = [
 ];
 
 export const SIFTER_TEMU_COUPON_GROUPS: SifterCouponCategory[] = [
+  {
+    title: "Featured offer",
+    entries: [
+      {
+        label: "Temu first-order coupon bundle",
+        description:
+          "Use code ale889115 for a ₦100,000 coupon bundle + 30% off your first Temu app order.",
+        copyValue: SIFTER_TEMU_FIRST_ORDER_CODE,
+        ctaLabel: "Open Temu offer",
+        disclosure: "Sifter may earn from this link.",
+        href: SIFTER_TEMU_FIRST_ORDER_OFFER_URL,
+      },
+    ],
+  },
   {
     title: "Coupon checks",
     entries: [

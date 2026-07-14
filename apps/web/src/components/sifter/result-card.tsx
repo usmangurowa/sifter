@@ -8,7 +8,11 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react";
 
 import type { SifterCategory } from "@turbo/validators";
-import { buildSheinSearchUrl, buildTemuSearchUrl } from "@turbo/shared/sifter";
+import {
+  buildSheinSearchUrl,
+  buildTemuSearchUrl,
+  SIFTER_TEMU_FIRST_ORDER_CODE,
+} from "@turbo/shared/sifter";
 import { Badge } from "@turbo/ui/badge";
 import { Button } from "@turbo/ui/button";
 import { toast } from "@turbo/ui/toast";
@@ -17,6 +21,19 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@turbo/ui/tooltip";
 const copyText = async (value: string) => {
   await navigator.clipboard.writeText(value);
   toast.success("Copied");
+};
+
+const copyTemuOfferCode = async () => {
+  try {
+    await navigator.clipboard.writeText(SIFTER_TEMU_FIRST_ORDER_CODE);
+    toast.success(
+      `Temu code ${SIFTER_TEMU_FIRST_ORDER_CODE} copied. Sifter may earn from this link.`,
+    );
+  } catch {
+    toast.message(
+      `Temu code: ${SIFTER_TEMU_FIRST_ORDER_CODE}. Sifter may earn from this link.`,
+    );
+  }
 };
 
 export const ResultCard = ({ category }: { category: SifterCategory }) => {
@@ -93,6 +110,7 @@ export const ResultCard = ({ category }: { category: SifterCategory }) => {
             href={buildTemuSearchUrl(primaryTerm)}
             target="_blank"
             rel="noreferrer"
+            onClick={() => void copyTemuOfferCode()}
           >
             <HugeiconsIcon icon={SearchIcon} strokeWidth={2} />
             Search Temu

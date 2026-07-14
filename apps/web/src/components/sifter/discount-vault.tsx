@@ -30,7 +30,7 @@ export const DiscountVault = () => (
       <Button
         variant="ghost"
         size="sm"
-        className="rounded-full bg-transparent px-3 text-sm font-medium text-slate-950 hover:bg-transparent hover:text-slate-950 dark:hover:bg-transparent"
+        className="rounded-full bg-transparent px-3 text-sm font-medium text-blue-950 hover:bg-transparent hover:text-blue-950 dark:hover:bg-transparent"
       >
         Coupon codes
       </Button>

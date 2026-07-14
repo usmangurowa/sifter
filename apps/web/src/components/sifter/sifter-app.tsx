@@ -82,7 +82,7 @@ export const SifterApp = () => {
       {!isConversation ? (
         <header className="absolute inset-x-0 top-0 z-40">
           <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
-            <div className="min-w-0 text-2xl font-black tracking-tight text-slate-950">
+            <div className="min-w-0 text-2xl font-black tracking-tight text-blue-950">
               Sifter
             </div>
             <DiscountVault />

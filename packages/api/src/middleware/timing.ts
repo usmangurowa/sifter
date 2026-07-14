@@ -1,12 +1,12 @@
 import { createMiddleware } from "hono/factory";
 
-import type { AppContext } from "../context";
+import type { Env } from "hono";
 
 /**
  * Timing middleware for development - measures and logs request duration
  * Adds artificial delay in development to simulate network latency
  */
-export const timingMiddleware = createMiddleware<AppContext>(
+export const timingMiddleware = createMiddleware<Env>(
   async (c, next) => {
     const start = Date.now();
 

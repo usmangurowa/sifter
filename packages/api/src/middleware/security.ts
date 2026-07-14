@@ -1,10 +1,8 @@
-import type { Context, MiddlewareHandler } from "hono";
+import type { Context, Env, MiddlewareHandler } from "hono";
 import { rateLimiter } from "hono-rate-limiter";
 import { cors } from "hono/cors";
 import { csrf } from "hono/csrf";
 import { secureHeaders } from "hono/secure-headers";
-
-import type { AppContext } from "../context";
 
 /**
  * Security configuration options
@@ -33,7 +31,13 @@ const defaultConfig: Required<SecurityConfig> = {
   rateLimitExcludePaths: ["/health"],
 };
 
-const getTrustedClientIp = (c: Context<AppContext>) => {
+export interface RateLimitContext extends Env {
+  Variables: {
+    apiKeyId?: string;
+  };
+}
+
+const getTrustedClientIp = <TContext extends Env>(c: Context<TContext>) => {
   // Assumes deployment proxies sanitize forwarded IP headers before requests
   // reach the application runtime.
   const forwarded = c.req.header("x-forwarded-for");
@@ -49,7 +53,9 @@ const getTrustedClientIp = (c: Context<AppContext>) => {
  * Adds security headers like X-Frame-Options, X-Content-Type-Options, etc.
  * Similar to Helmet.js for Express
  */
-export const secureHeadersMiddleware = (): MiddlewareHandler<AppContext> => {
+export const secureHeadersMiddleware = <
+  TContext extends Env = Env,
+>(): MiddlewareHandler<TContext> => {
   return secureHeaders({
     // Prevent clickjacking attacks
     xFrameOptions: "DENY",
@@ -74,7 +80,7 @@ export const secureHeadersMiddleware = (): MiddlewareHandler<AppContext> => {
  */
 export const corsMiddleware = (
   config: SecurityConfig = {},
-): MiddlewareHandler<AppContext> => {
+): MiddlewareHandler<Env> => {
   const mergedConfig = { ...defaultConfig, ...config };
 
   return cors({
@@ -93,7 +99,7 @@ export const corsMiddleware = (
  */
 export const rateLimitMiddleware = (
   config: SecurityConfig = {},
-): MiddlewareHandler<AppContext> => {
+): MiddlewareHandler<RateLimitContext> => {
   const mergedConfig = { ...defaultConfig, ...config };
 
   return rateLimiter({
@@ -128,7 +134,7 @@ export const rateLimitMiddleware = (
  */
 export const csrfMiddleware = (
   config: SecurityConfig = {},
-): MiddlewareHandler<AppContext> => {
+): MiddlewareHandler<Env> => {
   const mergedConfig = { ...defaultConfig, ...config };
 
   if (!mergedConfig.enableCsrf) {

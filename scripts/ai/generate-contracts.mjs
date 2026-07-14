@@ -178,8 +178,11 @@ const collectDbRowsFromSchema = async (schemaFile) => {
   return { tableRows, relationRows };
 };
 
-const generateApiSnapshot = async () => {
-  const sourceFile = await createSourceFile("packages/api/src/index.ts");
+const collectApiRoutesFromEntry = async (
+  entryFile,
+  { includeDirectRoutes = true } = {},
+) => {
+  const sourceFile = await createSourceFile(entryFile);
   const importMap = new Map();
   const routeRows = [];
   const routeTasks = [];
@@ -224,7 +227,11 @@ const generateApiSnapshot = async () => {
         }
       }
 
-      if (methodNames.has(methodName) && node.expression.expression) {
+      if (
+        includeDirectRoutes &&
+        methodNames.has(methodName) &&
+        node.expression.expression
+      ) {
         const routePath = getStringLiteralValue(node.arguments[0]);
         if (routePath) {
           const routeUsesAuth = node.arguments
@@ -236,7 +243,7 @@ const generateApiSnapshot = async () => {
           routeRows.push([
             methodName.toUpperCase(),
             `\`${routePath}\``,
-            "`packages/api/src/index.ts`",
+            `\`${entryFile}\``,
             routeUsesAuth ? "yes" : "no",
           ]);
         }
@@ -248,6 +255,17 @@ const generateApiSnapshot = async () => {
 
   walk(sourceFile);
   await Promise.all(routeTasks);
+  return routeRows;
+};
+
+const generateApiSnapshot = async () => {
+  const routeRows = [
+    ...(await collectApiRoutesFromEntry("packages/api/src/index.ts")),
+    ...(await collectApiRoutesFromEntry("packages/api/src/public.ts", {
+      includeDirectRoutes: false,
+    })),
+  ];
+
   routeRows.sort(routeRowCompare);
 
   await writeGenerated(

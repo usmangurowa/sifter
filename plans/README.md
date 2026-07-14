@@ -10,14 +10,14 @@ The repository had active uncommitted Sifter MVP changes when these plans were w
 |------|-------|----------|--------|------------|--------|
 | 001 | Harden Sifter rate-limit identity | P1 | S | - | DONE |
 | 002 | Fail closed on production auth secrets | P1 | S | - | DONE |
-| 003 | Put standalone auth routes behind the security envelope | P1 | S | 001, 002 | TODO |
-| 004 | Mount standalone Sifter through the public API path | P1 | M | 001, 003 | TODO |
-| 005 | Decouple the public API context from auth and db | P2 | M | 004 | TODO |
-| 006 | Trim Sifter prompts to relevant quality knowledge | P2 | M | 001 | TODO |
-| 007 | Codify Groq-only MVP provider boundaries | P2 | S/M | 006 | TODO |
-| 008 | Add deployable build and Sifter integration coverage to CI | P1 | M | 001, 004, 007 | TODO |
-| 009 | Consolidate mobile auth clients | P3 | S | 002, 003 | TODO |
-| 010 | Refresh onboarding docs for Sifter MVP scripts | P3 | S | 001-009 as relevant | TODO |
+| 003 | Put standalone auth routes behind the security envelope | P1 | S | 001, 002 | DONE |
+| 004 | Mount standalone Sifter through the public API path | P1 | M | 001, 003 | DONE |
+| 005 | Decouple the public API context from auth and db | P2 | M | 004 | DONE |
+| 006 | Trim Sifter prompts to relevant quality knowledge | P2 | M | 001 | DONE |
+| 007 | Codify Groq-only MVP provider boundaries | P2 | S/M | 006 | DONE |
+| 008 | Add deployable build and Sifter integration coverage to CI | P1 | M | 001, 004, 007 | DONE |
+| 009 | Consolidate mobile auth clients | P3 | S | 002, 003 | DONE |
+| 010 | Refresh onboarding docs for Sifter MVP scripts | P3 | S | 001-009 as relevant | DONE |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) | REJECTED (with one-line rationale).
 

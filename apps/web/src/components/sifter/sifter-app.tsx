@@ -20,11 +20,12 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { AnimatePresence, motion } from "motion/react";
 
 import type {
+  SifterCategory,
   SifterChatApiResponse,
   SifterChatResponseData,
 } from "@turbo/validators";
 import {
-  SIFTER_MATERIAL_DECODER,
+  selectSifterMaterialDecoderGroups,
   SIFTER_SUGGESTIONS,
 } from "@turbo/shared/sifter";
 import { cn } from "@turbo/ui";
@@ -128,6 +129,21 @@ const writePromptHistory = (history: string[]) => {
     // Private browsing or storage limits should not block Sifter.
   }
 };
+
+const getCategoryDecoderContext = (category: SifterCategory) =>
+  [
+    category.name,
+    category.description,
+    ...category.searchTerms.flatMap((searchTerm) => [
+      searchTerm.term,
+      searchTerm.why,
+    ]),
+    ...category.verificationChecks,
+    category.proTip,
+    category.avoid,
+  ]
+    .filter(Boolean)
+    .join(" ");
 
 const ThemeCycleButton = () => {
   const { themeMode, toggleMode } = useTheme();
@@ -298,6 +314,22 @@ export const SifterApp = ({
       })
       .slice(0, SIFTER_PROMPT_HISTORY_LIMIT);
   }, [recentPrompts]);
+  const materialDecoderGroups = useMemo(() => {
+    if (!result) {
+      return [];
+    }
+
+    return selectSifterMaterialDecoderGroups(
+      [
+        lastQuery,
+        result.greeting,
+        ...result.categories.map(getCategoryDecoderContext),
+        ...result.shoppingTips,
+      ]
+        .filter(Boolean)
+        .join(" "),
+    );
+  }, [lastQuery, result]);
 
   return (
     <main
@@ -532,32 +564,34 @@ export const SifterApp = ({
                         ) : null}
                       </div>
 
-                      <div className="border-t border-slate-200/70 pt-5 dark:border-white/10">
-                        <h3 className="text-base font-semibold">
-                          Material decoder
-                        </h3>
-                        <div className="mt-3 grid gap-5 sm:grid-cols-3">
-                          {SIFTER_MATERIAL_DECODER.map((group) => (
-                            <section key={group.title} className="min-w-0">
-                              <h4 className="text-muted-foreground text-xs font-semibold tracking-normal">
-                                {group.title}
-                              </h4>
-                              <dl className="mt-2 grid gap-2.5 text-sm leading-6">
-                                {group.items.map((item) => (
-                                  <div key={item.term} className="min-w-0">
-                                    <dt className="font-medium break-words">
-                                      {item.term}
-                                    </dt>
-                                    <dd className="text-muted-foreground text-xs leading-5 break-words">
-                                      {item.meaning}
-                                    </dd>
-                                  </div>
-                                ))}
-                              </dl>
-                            </section>
-                          ))}
+                      {materialDecoderGroups.length > 0 ? (
+                        <div className="border-t border-slate-200/70 pt-5 dark:border-white/10">
+                          <h3 className="text-base font-semibold">
+                            Related material decoder
+                          </h3>
+                          <div className="mt-3 grid gap-5 sm:grid-cols-3">
+                            {materialDecoderGroups.map((group) => (
+                              <section key={group.title} className="min-w-0">
+                                <h4 className="text-muted-foreground text-xs font-semibold tracking-normal">
+                                  {group.title}
+                                </h4>
+                                <dl className="mt-2 grid gap-2.5 text-sm leading-6">
+                                  {group.items.map((item) => (
+                                    <div key={item.term} className="min-w-0">
+                                      <dt className="font-medium break-words">
+                                        {item.term}
+                                      </dt>
+                                      <dd className="text-muted-foreground text-xs leading-5 break-words">
+                                        {item.meaning}
+                                      </dd>
+                                    </div>
+                                  ))}
+                                </dl>
+                              </section>
+                            ))}
+                          </div>
                         </div>
-                      </div>
+                      ) : null}
                     </div>
                   ) : null}
                 </div>

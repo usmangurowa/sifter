@@ -4,6 +4,7 @@ import {
   buildSheinSearchUrl,
   buildSifterQualityKnowledgePrompt,
   buildTemuSearchUrl,
+  selectSifterMaterialDecoderGroups,
   selectSifterQualityCategories,
   SIFTER_DISCOUNT_CODE_GROUPS,
   SIFTER_MATERIAL_DECODER,
@@ -148,6 +149,38 @@ describe("Sifter shared helpers", () => {
       expect.arrayContaining(["Jeans", "Hoodies and sweats", "Sneakers"]),
     );
     expect(categories.length).toBeGreaterThanOrEqual(3);
+  });
+
+  it("selects material decoder entries only when they match the result context", () => {
+    const tShirtDecoder = selectSifterMaterialDecoderGroups(
+      "Find heavyweight cotton T-shirts with 250 GSM fabric",
+    );
+    const denimDecoder = selectSifterMaterialDecoderGroups(
+      "Premium denim jeans for men with cotton straight-leg construction",
+    );
+    const jewelryDecoder = selectSifterMaterialDecoderGroups(
+      "Gold chains that won't tarnish, 316L stainless steel or 925 silver",
+    );
+    const phoneCaseDecoder = selectSifterMaterialDecoderGroups(
+      [
+        "Find a shock absorbing phone case with 2mm thickness and clear TPU edges",
+        "Composition lists silicone or TPU",
+        "Brand or seller has high ratings and many orders",
+        "Reviews mention durability and no cracking",
+        "Read the material composition before buying",
+      ].join(" "),
+    );
+
+    expect(
+      tShirtDecoder.flatMap((group) => group.items.map((item) => item.term)),
+    ).toContain("180-220 GSM tees");
+    expect(
+      denimDecoder.flatMap((group) => group.items.map((item) => item.term)),
+    ).toContain("10-12 oz denim");
+    expect(
+      jewelryDecoder.flatMap((group) => group.items.map((item) => item.term)),
+    ).toContain("925 / titanium / surgical steel");
+    expect(phoneCaseDecoder).toEqual([]);
   });
 
   it("uses fallback quality knowledge and reality checks for unknown queries", () => {

@@ -34,6 +34,7 @@ export interface SifterMaterialDecoderGroup {
   items: readonly {
     term: string;
     meaning: string;
+    keywords?: readonly string[];
   }[];
 }
 
@@ -484,14 +485,23 @@ export const SIFTER_MATERIAL_DECODER: readonly SifterMaterialDecoderGroup[] = [
       {
         term: "180-220 GSM tees",
         meaning: "A good everyday T-shirt range; lower weights can turn sheer.",
+        keywords: ["t shirt", "tshirt", "tee", "shirt", "cotton", "gsm"],
       },
       {
         term: "230-280 GSM leggings",
         meaning: "A stronger opacity range for squat-proof stretch fabric.",
+        keywords: ["leggings", "yoga pants", "activewear", "gym", "stretch"],
       },
       {
         term: "320-420 GSM hoodies",
         meaning: "A useful heavyweight range for sweats and French terry.",
+        keywords: [
+          "hoodie",
+          "sweatshirt",
+          "sweatpants",
+          "sweats",
+          "french terry",
+        ],
       },
     ],
   },
@@ -502,14 +512,17 @@ export const SIFTER_MATERIAL_DECODER: readonly SifterMaterialDecoderGroup[] = [
         term: "19 momme silk",
         meaning:
           "Everyday real silk weight for pillowcases, masks, and sleepwear.",
+        keywords: ["silk", "momme", "pillowcase", "sleepwear", "scarf"],
       },
       {
         term: "80 denier tights",
         meaning: "Opaque tights; 20-40 denier is usually sheer.",
+        keywords: ["tights", "stockings", "hosiery", "denier", "opaque"],
       },
       {
         term: "10-12 oz denim",
         meaning: "Proper jeans weight; under 9 oz often behaves like jeggings.",
+        keywords: ["jeans", "denim", "pants", "trousers", "jeggings"],
       },
     ],
   },
@@ -520,14 +533,46 @@ export const SIFTER_MATERIAL_DECODER: readonly SifterMaterialDecoderGroup[] = [
         term: "925 / titanium / surgical steel",
         meaning:
           "Searchable jewelry signals that still need review verification.",
+        keywords: [
+          "jewelry",
+          "jewellery",
+          "earrings",
+          "chain",
+          "necklace",
+          "ring",
+          "bracelet",
+          "925",
+          "silver",
+          "titanium",
+          "steel",
+        ],
       },
       {
         term: "top grain / full grain",
         meaning: "Leather grades stronger than vague genuine leather claims.",
+        keywords: [
+          "leather",
+          "bag",
+          "bags",
+          "loafers",
+          "shoes",
+          "boots",
+          "belt",
+          "wallet",
+        ],
       },
       {
         term: "YKK / SBS zipper",
         meaning: "Hardware brands that often predict bag or boot lifespan.",
+        keywords: [
+          "zipper",
+          "hardware",
+          "bag",
+          "bags",
+          "boots",
+          "jacket",
+          "luggage",
+        ],
       },
     ],
   },
@@ -622,6 +667,39 @@ const getCategoriesByName = (names: readonly string[]) =>
       SIFTER_QUALITY_CATEGORIES.find((category) => category.name === name),
     )
     .filter((category): category is SifterQualityCategory => Boolean(category));
+
+export const selectSifterMaterialDecoderGroups = (context: string) => {
+  const contextTokens = buildSifterTokenSet(context);
+  const normalizedContext = normalizeSifterText(context);
+
+  if (contextTokens.size === 0) {
+    return [];
+  }
+
+  return SIFTER_MATERIAL_DECODER.map((group) => {
+    const items = group.items.filter((item) => {
+      const keywordText = [item.term, ...(item.keywords ?? [])].join(" ");
+      const itemTokens = buildSifterTokenSet(keywordText);
+      const tokenMatch = [...contextTokens].some((token) =>
+        itemTokens.has(token),
+      );
+      const phraseMatch = (item.keywords ?? []).some((keyword) => {
+        const normalizedKeyword = normalizeSifterText(keyword);
+        return (
+          normalizedKeyword.length > 0 &&
+          normalizedContext.includes(normalizedKeyword)
+        );
+      });
+
+      return tokenMatch || phraseMatch;
+    });
+
+    return {
+      title: group.title,
+      items,
+    };
+  }).filter((group) => group.items.length > 0);
+};
 
 export const selectSifterQualityCategories = (message: string) => {
   const queryTokens = buildSifterTokens(message);

@@ -240,6 +240,7 @@ architecture, contracts, or conventions.
 | 2026-07-15 | Flat Sifter chat results         | `apps/web/src/components/sifter/sifter-app.tsx`, `apps/web/src/components/sifter/result-card.tsx`, `apps/web/src/components/sifter/chat-input.tsx` | Flattened the chat result surface by removing heavy card shadows, rings, hover lift, and nested outlined panels.                   |
 | 2026-07-15 | Fashion Kit-style search reasons | `packages/validators`, `packages/shared`, `packages/api`, `apps/web/src/components/sifter/*`                                                       | Search terms now include short reasons, the prompt uses label/review verification rules, and chat results show a material decoder. |
 | 2026-07-15 | Search term action cards         | `apps/web/src/components/sifter/result-card.tsx`                                                                                                   | Search terms now render as flat title/description cards with copy and direct Temu search actions.                                  |
+| 2026-07-15 | Contextual material decoder      | `packages/shared/src/sifter.ts`, `apps/web/src/components/sifter/sifter-app.tsx`                                                                   | Chat results now show only material decoder entries related to the prompt and hide the section for unrelated products.             |
 
 ## Architectural Change Log
 

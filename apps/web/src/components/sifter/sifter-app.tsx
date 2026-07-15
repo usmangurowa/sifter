@@ -15,7 +15,9 @@ import {
   ArrowRight01Icon,
   ComputerIcon,
   MoonIcon,
+  SearchIcon,
   Sun01Icon,
+  Tick02Icon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { AnimatePresence, motion } from "motion/react";
@@ -26,6 +28,8 @@ import type {
   SifterChatResponseData,
 } from "@turbo/validators";
 import {
+  buildSheinSearchUrl,
+  buildTemuSearchUrl,
   selectSifterMaterialDecoderGroups,
   SIFTER_SUGGESTIONS,
 } from "@turbo/shared/sifter";
@@ -58,6 +62,27 @@ const SIFTER_LANDING_STARTERS = [
     detail: "Checks TPU, silicone, thickness, and drop protection.",
   },
 ] as const;
+const SIFTER_LANDING_EXAMPLE = {
+  prompt: "Find a thick black cotton T-shirt that is not see-through",
+  title: "Heavyweight cotton T-shirt",
+  description:
+    "Sifter turns a vague product idea into marketplace-ready terms plus checks to confirm inside the listing.",
+  searchTerms: [
+    {
+      term: "250 GSM black cotton t-shirt",
+      why: "GSM helps surface thicker tees instead of thin fashion basics.",
+    },
+    {
+      term: "heavyweight cotton oversized tee",
+      why: "Common seller language for denser fabric and a structured fit.",
+    },
+  ],
+  checks: [
+    "Listing mentions 240-300 GSM or heavyweight cotton.",
+    "Customer photos do not show transparency at the chest or shoulders.",
+    "Reviews do not repeatedly mention shrinking or twisting seams.",
+  ],
+} as const;
 
 const normalizePrompt = (prompt: string) =>
   prompt.trim().replace(/\s+/g, " ").slice(0, 500);
@@ -403,7 +428,7 @@ export const SifterApp = ({
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
-              className="mx-auto flex min-h-[calc(100vh-8rem)] w-full max-w-3xl flex-col items-center justify-center gap-7 overflow-x-hidden text-center"
+              className="mx-auto flex min-h-[calc(100vh-5rem)] w-full max-w-4xl flex-col items-center justify-start gap-5 overflow-x-hidden pt-8 text-center sm:pt-12"
             >
               <div className="w-full max-w-full space-y-5">
                 <Badge
@@ -474,6 +499,113 @@ export const SifterApp = ({
                       {suggestion}
                     </Button>
                   ))}
+                </div>
+              </div>
+
+              <div className="w-full max-w-3xl rounded-2xl border border-white/55 bg-white/72 p-4 text-left shadow-[0_24px_80px_-54px_rgba(15,23,42,0.75)] backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.045] dark:shadow-none">
+                <div className="flex min-w-0 items-start justify-between gap-3">
+                  <div className="min-w-0 space-y-1">
+                    <div className="text-xs font-semibold tracking-normal text-blue-700 dark:text-blue-300">
+                      Example result
+                    </div>
+                    <h2 className="text-base font-semibold text-slate-950 dark:text-white">
+                      {SIFTER_LANDING_EXAMPLE.title}
+                    </h2>
+                    <p className="text-sm leading-6 text-slate-950/68 dark:text-white/62">
+                      {SIFTER_LANDING_EXAMPLE.description}
+                    </p>
+                  </div>
+                  <Button
+                    type="button"
+                    size="sm"
+                    onClick={() =>
+                      void handleSubmit(SIFTER_LANDING_EXAMPLE.prompt)
+                    }
+                    className="hidden shrink-0 rounded-full bg-blue-600 text-white shadow-none hover:bg-blue-500 sm:inline-flex"
+                  >
+                    Try it
+                    <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2} />
+                  </Button>
+                </div>
+
+                <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                  {SIFTER_LANDING_EXAMPLE.searchTerms.map((searchTerm) => (
+                    <article
+                      key={searchTerm.term}
+                      className="min-w-0 rounded-lg bg-slate-950/[0.035] p-3 dark:bg-white/[0.055]"
+                    >
+                      <h3 className="text-sm font-semibold break-words text-slate-950 dark:text-white">
+                        {searchTerm.term}
+                      </h3>
+                      <p className="mt-1 text-xs leading-5 text-slate-950/58 dark:text-white/52">
+                        {searchTerm.why}
+                      </p>
+                    </article>
+                  ))}
+                </div>
+
+                <div className="mt-4 grid gap-4 border-t border-slate-200/70 pt-4 sm:grid-cols-[1fr_auto] dark:border-white/10">
+                  <div className="min-w-0">
+                    <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-blue-700 dark:text-blue-300">
+                      <HugeiconsIcon icon={Tick02Icon} strokeWidth={2} />
+                      Verify before buying
+                    </div>
+                    <ul className="grid gap-1.5 text-sm leading-6 text-slate-950/76 dark:text-white/68">
+                      {SIFTER_LANDING_EXAMPLE.checks.map((check) => (
+                        <li key={check} className="flex gap-2">
+                          <span className="mt-2 size-1.5 shrink-0 rounded-full bg-blue-600 dark:bg-blue-300" />
+                          <span>{check}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="flex min-w-0 flex-col gap-2 sm:w-40">
+                    <Button
+                      asChild
+                      size="sm"
+                      className="rounded-lg bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 text-white shadow-none hover:from-blue-400 hover:to-indigo-500"
+                    >
+                      <a
+                        href={buildTemuSearchUrl(
+                          SIFTER_LANDING_EXAMPLE.searchTerms[0].term,
+                        )}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <HugeiconsIcon icon={SearchIcon} strokeWidth={2} />
+                        Search Temu
+                      </a>
+                    </Button>
+                    <Button
+                      asChild
+                      variant="outline"
+                      size="sm"
+                      className="rounded-lg border-transparent bg-slate-950/[0.045] shadow-none hover:bg-blue-500/10 dark:bg-white/[0.06] dark:hover:bg-white/[0.08]"
+                    >
+                      <a
+                        href={buildSheinSearchUrl(
+                          SIFTER_LANDING_EXAMPLE.searchTerms[0].term,
+                        )}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <HugeiconsIcon icon={SearchIcon} strokeWidth={2} />
+                        Search SHEIN
+                      </a>
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() =>
+                        void handleSubmit(SIFTER_LANDING_EXAMPLE.prompt)
+                      }
+                      className="rounded-lg text-blue-700 hover:bg-blue-500/10 hover:text-blue-700 sm:hidden dark:text-blue-300 dark:hover:text-blue-300"
+                    >
+                      Try this example
+                    </Button>
+                  </div>
                 </div>
               </div>
             </motion.section>

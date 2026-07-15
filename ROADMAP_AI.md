@@ -46,6 +46,8 @@ architecture, contracts, or conventions.
 | 2026-07-15 | Fashion Kit-style search reasons | `packages/validators`, `packages/shared`, `packages/api`, `apps/web/src/components/sifter/*`                                                       | Search terms now include short reasons, the prompt uses label/review verification rules, and chat results show a material decoder. |
 | 2026-07-15 | Search term action cards         | `apps/web/src/components/sifter/result-card.tsx`                                                                                                   | Search terms now render as flat title/description cards with copy and direct Temu search actions.                                  |
 | 2026-07-15 | Contextual material decoder      | `packages/shared/src/sifter.ts`, `apps/web/src/components/sifter/sifter-app.tsx`                                                                   | Chat results now show only material decoder entries related to the prompt and hide the section for unrelated products.             |
+| 2026-07-15 | Landing starter prompts          | `apps/web/src/components/sifter/sifter-app.tsx`                                                                                                    | Landing now gives the input a clearer placeholder and two concrete starter prompt cards above secondary suggestion chips.          |
+| 2026-07-15 | Landing example result preview   | `apps/web/src/components/sifter/sifter-app.tsx`                                                                                                    | Landing now shows a compact example result with search term reasons, verification checks, and Temu/SHEIN action links.             |
 
 ## Architectural Change Log
 

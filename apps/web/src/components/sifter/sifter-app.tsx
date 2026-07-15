@@ -417,7 +417,7 @@ export const SifterApp = ({
 
               {lastQuery ? (
                 <div className="flex justify-end">
-                  <div className="max-w-[88%] rounded-[1.4rem] rounded-br-md bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 px-4 py-3 text-sm leading-6 text-white shadow-lg shadow-blue-600/20 sm:max-w-[72%]">
+                  <div className="max-w-[88%] rounded-2xl rounded-br-md bg-blue-600 px-4 py-3 text-sm leading-6 text-white shadow-none sm:max-w-[72%]">
                     {lastQuery}
                   </div>
                 </div>
@@ -425,14 +425,14 @@ export const SifterApp = ({
 
               <div className="min-w-0 space-y-3">
                 <div className="flex min-w-0 items-center gap-2 px-1">
-                  <div className="grid size-8 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-600/20">
+                  <div className="grid size-8 shrink-0 place-items-center rounded-lg bg-blue-600 text-white shadow-none">
                     <SifterLogoMark className="h-5 w-4" />
                   </div>
                   <div className="truncate text-sm font-semibold">Sifter</div>
                 </div>
-                <div className="min-w-0 rounded-2xl border border-slate-200/70 p-2.5 sm:p-4 dark:border-white/10">
+                <div className="min-w-0">
                   {status === "idle" ? (
-                    <div className="bg-background space-y-2 rounded-xl border border-slate-200/80 p-5 shadow-sm sm:p-6 dark:border-white/10">
+                    <div className="bg-muted/30 space-y-2 rounded-lg p-5 shadow-none sm:p-6">
                       <h2 className="text-base font-medium">
                         What should we sift?
                       </h2>
@@ -444,7 +444,7 @@ export const SifterApp = ({
                   ) : null}
 
                   {status === "loading" ? (
-                    <div className="bg-background space-y-4 rounded-xl border border-slate-200/80 p-5 shadow-sm sm:p-6 dark:border-white/10">
+                    <div className="bg-muted/30 space-y-4 rounded-lg p-5 shadow-none sm:p-6">
                       <div className="space-y-1">
                         <h2 className="text-base font-medium">
                           Sifting better search terms
@@ -459,7 +459,7 @@ export const SifterApp = ({
                   ) : null}
 
                   {status === "error" ? (
-                    <div className="space-y-4 rounded-xl border border-red-500/25 p-5 text-red-700 shadow-sm sm:p-6 dark:text-red-300">
+                    <div className="space-y-4 rounded-lg bg-red-500/[0.06] p-5 text-red-700 shadow-none sm:p-6 dark:text-red-300">
                       <div className="space-y-1">
                         <h2 className="text-base font-medium">Try again</h2>
                         <p className="text-muted-foreground text-sm leading-6">
@@ -469,7 +469,7 @@ export const SifterApp = ({
                       {lastQuery ? (
                         <Button
                           onClick={() => void submit(lastQuery)}
-                          className="rounded-2xl bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-600/20"
+                          className="rounded-lg bg-blue-600 text-white shadow-none hover:bg-blue-500"
                         >
                           Run search again
                         </Button>
@@ -497,7 +497,7 @@ export const SifterApp = ({
                         ))}
                       </div>
 
-                      <div className="bg-background rounded-2xl border border-slate-200/80 p-4 shadow-sm sm:p-5 dark:border-white/10">
+                      <div className="border-t border-slate-200/70 pt-5 dark:border-white/10">
                         <h3 className="text-base font-semibold">
                           Shopping tips
                         </h3>

@@ -53,7 +53,9 @@ export const ChatInput = ({
         "before:pointer-events-none before:absolute before:inset-x-6 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/80 before:to-transparent dark:before:via-white/20",
         "focus-within:border-blue-400/40 focus-within:ring-4 focus-within:ring-blue-500/15",
         "w-full max-w-full min-w-0",
-        compact ? "rounded-[1.75rem] shadow-xl" : "",
+        compact
+          ? "bg-background rounded-2xl border-slate-200/80 shadow-none ring-0 before:hidden dark:border-white/10 dark:bg-zinc-950 dark:shadow-none dark:ring-0"
+          : "",
         invalid
           ? "animate-shake border-destructive/60 ring-destructive/30"
           : "",
@@ -90,7 +92,9 @@ export const ChatInput = ({
         className={cn(
           "relative z-10 shrink-0 rounded-full bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-600/25 transition duration-300 hover:scale-[1.03] hover:from-blue-400 hover:to-indigo-500 dark:shadow-blue-500/20",
           "self-center",
-          compact ? "size-11" : "size-12",
+          compact
+            ? "size-11 shadow-none hover:scale-100 dark:shadow-none"
+            : "size-12",
         )}
       >
         <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2} />

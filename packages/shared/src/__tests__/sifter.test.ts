@@ -6,6 +6,7 @@ import {
   buildTemuSearchUrl,
   selectSifterQualityCategories,
   SIFTER_DISCOUNT_CODE_GROUPS,
+  SIFTER_MATERIAL_DECODER,
   SIFTER_QUALITY_CATEGORIES,
   SIFTER_REALITY_CHECKS,
   SIFTER_SALE_KEYWORDS,
@@ -73,6 +74,19 @@ describe("Sifter shared helpers", () => {
         (category) => category.verificationChecks.length >= 3,
       ),
     ).toBe(true);
+    expect(SIFTER_MATERIAL_DECODER.length).toBe(3);
+    expect(
+      SIFTER_MATERIAL_DECODER.flatMap((group) =>
+        group.items.map((item) => item.term),
+      ),
+    ).toEqual(
+      expect.arrayContaining([
+        "180-220 GSM tees",
+        "19 momme silk",
+        "10-12 oz denim",
+        "YKK / SBS zipper",
+      ]),
+    );
   });
 
   it("selects hoodie quality knowledge for hoodie queries", () => {
@@ -92,6 +106,7 @@ describe("Sifter shared helpers", () => {
     expect(prompt).toContain("Listing mentions 400 GSM or heavier");
     expect(prompt).not.toContain("acetate satin midi dress");
     expect(prompt).toContain("Sort by most orders or best selling");
+    expect(prompt).toContain("Buy the fabric, not the photo");
   });
 
   it("keeps GSM in shirt searches while separating jeans composition checks", () => {
@@ -143,6 +158,8 @@ describe("Sifter shared helpers", () => {
     expect(prompt).toContain("Bonus wardrobe staples");
     expect(prompt).toContain("240-300 GSM");
     expect(prompt).toContain("Reality checks:");
+    expect(prompt).toContain("Material decoder:");
+    expect(prompt).toContain("Each searchTerms item must include a term");
     expect(prompt).toContain("Keywords narrow the pool");
     expect(prompt).toContain("searchTerms are marketplace candidate-finding");
   });

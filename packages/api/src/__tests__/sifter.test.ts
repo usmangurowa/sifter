@@ -84,9 +84,18 @@ describe("Sifter API", () => {
             emoji: "hoodie",
             description: "Dense cotton fleece options.",
             searchTerms: [
-              "400 GSM French terry hoodie",
-              "heavyweight cotton fleece hoodie",
-              "thick winter pullover hoodie",
+              {
+                term: "400 GSM French terry hoodie",
+                why: "GSM helps filter for real fabric weight.",
+              },
+              {
+                term: "heavyweight cotton fleece hoodie",
+                why: "Cotton fleece is a checkable sweat fabric.",
+              },
+              {
+                term: "thick winter pullover hoodie",
+                why: "Thick winter wording finds warmer candidates.",
+              },
             ],
             verificationChecks: [
               "Listing mentions 400 GSM or heavier.",
@@ -124,9 +133,18 @@ describe("Sifter API", () => {
         categories: [
           {
             searchTerms: [
-              "400 GSM French terry hoodie",
-              "heavyweight cotton fleece hoodie",
-              "thick winter pullover hoodie",
+              {
+                term: "400 GSM French terry hoodie",
+                why: "GSM helps filter for real fabric weight.",
+              },
+              {
+                term: "heavyweight cotton fleece hoodie",
+                why: "Cotton fleece is a checkable sweat fabric.",
+              },
+              {
+                term: "thick winter pullover hoodie",
+                why: "Thick winter wording finds warmer candidates.",
+              },
             ],
             verificationChecks: [
               "Listing mentions 400 GSM or heavier.",
@@ -142,6 +160,8 @@ describe("Sifter API", () => {
     expect(systemPrompt).toContain("Expanded quality knowledge:");
     expect(systemPrompt).toContain("400 GSM French terry hoodie");
     expect(systemPrompt).toContain("verificationChecks");
+    expect(systemPrompt).toContain("term, why");
+    expect(systemPrompt).toContain("Buy the fabric, not the photo");
     expect(systemPrompt).toContain("Verification checks:");
     expect(systemPrompt).not.toContain("acetate satin midi dress");
     expect(systemPrompt).toContain("Keywords narrow the pool");
@@ -159,9 +179,18 @@ describe("Sifter API", () => {
             emoji: "J",
             description: "Find cotton denim candidates, then verify details.",
             searchTerms: [
-              "cotton denim straight leg jeans",
-              "stretch cotton jeans men",
-              "straight leg denim pants cotton",
+              {
+                term: "cotton denim straight leg jeans",
+                why: "Broad cotton denim terms find better candidates.",
+              },
+              {
+                term: "stretch cotton jeans men",
+                why: "Stretch is searchable; exact ratios need verification.",
+              },
+              {
+                term: "straight leg denim pants cotton",
+                why: "Fit and cotton are both platform-searchable.",
+              },
             ],
             verificationChecks: [
               "Composition is 98-99% cotton.",

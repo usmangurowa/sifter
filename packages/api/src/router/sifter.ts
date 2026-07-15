@@ -23,12 +23,18 @@ Rules:
 - Create 2 to 5 categories when the user asks for multiple items or an outfit.
 - Create 1 category when the request is focused on one item.
 - Use these exact camelCase JSON keys: greeting, categories, shoppingTips,
-  discountCodes, name, emoji, description, searchTerms, verificationChecks,
-  proTip, avoid, code, platform.
-- Each category must include 3 to 6 specific search terms.
+  discountCodes, name, emoji, description, searchTerms, term, why,
+  verificationChecks, proTip, avoid, code, platform.
+- Each category must include 3 to 6 specific search term objects.
+- Each searchTerms item must include:
+  - term: the marketplace candidate-finding query users can copy/search.
+  - why: one short sentence explaining the material, weight, composition, or
+    construction signal that makes the term useful.
 - Each category must include 3 to 6 verification checks.
 - Search terms must be material-aware, platform-searchable candidate-finding
   queries, not guaranteed product claims.
+- Search term explanations must not claim certainty. Use language like "helps
+  filter", "finds candidates", "is a checkable signal", or "sellers often list".
 - Verification checks must be concrete listing details the user should confirm
   before buying.
 - When the expanded quality knowledge contains a matching category, use those
@@ -41,6 +47,11 @@ Rules:
   can stay in searchTerms, but still require review/detail checks.
 - Shoes and bags can use material plus construction terms in searchTerms, but
   genuine leather claims still need verification.
+- Use Fashion Kit-style logic: buy the fabric, not the photo; keywords narrow
+  the pool, labels and reviews verify.
+- Use momme for silk, denier for tights, denim ounces for denim weight, YKK/SBS
+  for bag or shoe hardware, and 925/titanium/surgical steel for jewelry when
+  relevant.
 - Do not borrow markers across unrelated categories. For example, denim cotton
   percentages are verification checks for jeans, while terylene, viscose blend,
   and heavy drape are better for office trousers.

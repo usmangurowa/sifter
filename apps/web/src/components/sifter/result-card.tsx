@@ -37,7 +37,7 @@ const copyTemuOfferCode = async () => {
 };
 
 export const ResultCard = ({ category }: { category: SifterCategory }) => {
-  const primaryTerm = category.searchTerms[0] ?? category.name;
+  const primaryTerm = category.searchTerms[0]?.term ?? category.name;
 
   return (
     <section
@@ -61,20 +61,23 @@ export const ResultCard = ({ category }: { category: SifterCategory }) => {
       </div>
 
       <div className="mt-4 flex max-w-full flex-wrap gap-2">
-        {category.searchTerms.map((term) => (
-          <Tooltip key={term}>
+        {category.searchTerms.map((searchTerm) => (
+          <Tooltip key={searchTerm.term}>
             <TooltipTrigger asChild>
               <button
                 type="button"
-                onClick={() => void copyText(term)}
-                className="group/chip max-w-full rounded-full text-left outline-none focus-visible:ring-[3px] focus-visible:ring-blue-500/30"
+                onClick={() => void copyText(searchTerm.term)}
+                className="group/chip max-w-full rounded-lg text-left outline-none focus-visible:ring-[3px] focus-visible:ring-blue-500/30"
               >
                 <Badge
                   variant="outline"
                   className="text-foreground/85 group-hover/chip:text-foreground h-auto min-h-8 max-w-full cursor-copy justify-start border-transparent bg-slate-950/[0.04] px-3 py-1.5 text-left text-[0.8125rem] leading-5 font-medium break-words whitespace-normal transition group-hover/chip:bg-blue-500/10 dark:bg-white/[0.06]"
                 >
-                  {term}
+                  {searchTerm.term}
                 </Badge>
+                <span className="text-muted-foreground mt-1 block max-w-[18rem] px-1 text-xs leading-5">
+                  {searchTerm.why}
+                </span>
               </button>
             </TooltipTrigger>
             <TooltipContent>Copy search term</TooltipContent>

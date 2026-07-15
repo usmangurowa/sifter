@@ -23,7 +23,10 @@ import type {
   SifterChatApiResponse,
   SifterChatResponseData,
 } from "@turbo/validators";
-import { SIFTER_SUGGESTIONS } from "@turbo/shared/sifter";
+import {
+  SIFTER_MATERIAL_DECODER,
+  SIFTER_SUGGESTIONS,
+} from "@turbo/shared/sifter";
 import { cn } from "@turbo/ui";
 import { Badge } from "@turbo/ui/badge";
 import { Button } from "@turbo/ui/button";
@@ -527,6 +530,33 @@ export const SifterApp = ({
                             </div>
                           </>
                         ) : null}
+                      </div>
+
+                      <div className="border-t border-slate-200/70 pt-5 dark:border-white/10">
+                        <h3 className="text-base font-semibold">
+                          Material decoder
+                        </h3>
+                        <div className="mt-3 grid gap-5 sm:grid-cols-3">
+                          {SIFTER_MATERIAL_DECODER.map((group) => (
+                            <section key={group.title} className="min-w-0">
+                              <h4 className="text-muted-foreground text-xs font-semibold tracking-normal">
+                                {group.title}
+                              </h4>
+                              <dl className="mt-2 grid gap-2.5 text-sm leading-6">
+                                {group.items.map((item) => (
+                                  <div key={item.term} className="min-w-0">
+                                    <dt className="font-medium break-words">
+                                      {item.term}
+                                    </dt>
+                                    <dd className="text-muted-foreground text-xs leading-5 break-words">
+                                      {item.meaning}
+                                    </dd>
+                                  </div>
+                                ))}
+                              </dl>
+                            </section>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   ) : null}

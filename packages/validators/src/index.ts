@@ -172,11 +172,16 @@ export const sifterDiscountCodeSchema = z.object({
   platform: z.literal("SHEIN"),
 });
 
+export const sifterSearchTermSchema = z.object({
+  term: z.string().trim().min(1),
+  why: z.string().trim().min(1).max(180),
+});
+
 export const sifterCategorySchema = z.object({
   name: z.string().trim().min(1),
   emoji: z.string().trim().min(1).max(8),
   description: z.string().trim().min(1),
-  searchTerms: z.array(z.string().trim().min(1)).min(3).max(6),
+  searchTerms: z.array(sifterSearchTermSchema).min(3).max(6),
   verificationChecks: z.array(z.string().trim().min(1)).min(3).max(6),
   proTip: z.string().trim().min(1).nullable(),
   avoid: z.string().trim().min(1).nullable(),
@@ -206,6 +211,7 @@ export const sifterChatApiResponseSchema = z.discriminatedUnion("success", [
 
 export type SifterChatRequest = z.infer<typeof sifterChatRequestSchema>;
 export type SifterDiscountCode = z.infer<typeof sifterDiscountCodeSchema>;
+export type SifterSearchTerm = z.infer<typeof sifterSearchTermSchema>;
 export type SifterCategory = z.infer<typeof sifterCategorySchema>;
 export type SifterChatResponseData = z.infer<
   typeof sifterChatResponseDataSchema

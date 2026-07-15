@@ -29,6 +29,14 @@ export interface SifterQualityCategory {
   avoid: string;
 }
 
+export interface SifterMaterialDecoderGroup {
+  title: string;
+  items: readonly {
+    term: string;
+    meaning: string;
+  }[];
+}
+
 export const SIFTER_SUGGESTIONS = [
   "Find heavyweight cotton T-shirts",
   "Best heavyweight hoodies on Temu",
@@ -469,6 +477,62 @@ export const SIFTER_REALITY_CHECKS = [
   "Treat low-price genuine leather and 925 sterling silver claims as directional signals until reviews and details support them.",
 ] as const;
 
+export const SIFTER_MATERIAL_DECODER: readonly SifterMaterialDecoderGroup[] = [
+  {
+    title: "Fabric weight",
+    items: [
+      {
+        term: "180-220 GSM tees",
+        meaning: "A good everyday T-shirt range; lower weights can turn sheer.",
+      },
+      {
+        term: "230-280 GSM leggings",
+        meaning: "A stronger opacity range for squat-proof stretch fabric.",
+      },
+      {
+        term: "320-420 GSM hoodies",
+        meaning: "A useful heavyweight range for sweats and French terry.",
+      },
+    ],
+  },
+  {
+    title: "Special units",
+    items: [
+      {
+        term: "19 momme silk",
+        meaning:
+          "Everyday real silk weight for pillowcases, masks, and sleepwear.",
+      },
+      {
+        term: "80 denier tights",
+        meaning: "Opaque tights; 20-40 denier is usually sheer.",
+      },
+      {
+        term: "10-12 oz denim",
+        meaning: "Proper jeans weight; under 9 oz often behaves like jeggings.",
+      },
+    ],
+  },
+  {
+    title: "Materials and hardware",
+    items: [
+      {
+        term: "925 / titanium / surgical steel",
+        meaning:
+          "Searchable jewelry signals that still need review verification.",
+      },
+      {
+        term: "top grain / full grain",
+        meaning: "Leather grades stronger than vague genuine leather claims.",
+      },
+      {
+        term: "YKK / SBS zipper",
+        meaning: "Hardware brands that often predict bag or boot lifespan.",
+      },
+    ],
+  },
+] as const;
+
 const MAX_SELECTED_QUALITY_CATEGORIES = 5;
 
 const FALLBACK_QUALITY_CATEGORY_NAMES = [
@@ -640,12 +704,21 @@ export const buildSifterQualityKnowledgePrompt = (message = "") =>
     "- For jeans and exact fiber ratios, use broad cotton denim search terms and put 98-99% cotton or 1-2% elastane/spandex in verificationChecks.",
     "- Jewelry material terms such as 316L stainless steel and 925 sterling silver can stay in searchTerms, but still require review/detail checks.",
     "- Shoes and bags can use material plus construction terms in searchTerms, but genuine leather claims still need verification.",
+    "- Each searchTerms item must include a term and a short why explaining why the keyword helps find better candidates.",
+    "- Buy the fabric, not the photo: labels, composition, customer photos, and reviews verify the search result.",
+    "- Use GSM, momme, denier, denim ounces, leather grades, YKK/SBS hardware, and 925/titanium/surgical steel when relevant.",
     "",
     "Expanded quality knowledge:",
     ...selectSifterQualityCategories(message).map(
       (category) =>
         `- ${category.name} (${category.audience}): ${category.guidance} Candidate search terms: ${category.searchTerms.join("; ")}. Verification checks: ${category.verificationChecks.join("; ")}. Avoid: ${category.avoid}`,
     ),
+    "",
+    "Material decoder:",
+    ...SIFTER_MATERIAL_DECODER.flatMap((group) => [
+      `- ${group.title}`,
+      ...group.items.map((item) => `  - ${item.term}: ${item.meaning}`),
+    ]),
     "",
     "Reality checks:",
     ...SIFTER_REALITY_CHECKS.map((check) => `- ${check}`),

@@ -244,7 +244,7 @@ architecture, contracts, or conventions.
 | 2026-07-15 | Landing starter prompts          | `apps/web/src/components/sifter/sifter-app.tsx`                                                                                                    | Landing now gives the input a clearer placeholder and two concrete starter prompt cards above secondary suggestion chips.          |
 | 2026-07-15 | Landing example result preview   | `apps/web/src/components/sifter/sifter-app.tsx`                                                                                                    | Landing now shows a compact example result with search term reasons, verification checks, and Temu/SHEIN action links.             |
 | 2026-07-15 | Landing CTA refinement           | `apps/web/src/components/sifter/sifter-app.tsx`                                                                                                    | Starter prompt cards now include explicit Try it actions while the example preview uses a quieter secondary CTA.                   |
-| 2026-07-15 | Landing conversion polish        | `apps/web/src/components/sifter/chat-input.tsx`, `apps/web/src/components/sifter/sifter-app.tsx`                                                   | Landing input now desktop-autofocuses, rotates specific example placeholders, and renders executable search cues on prompt pills.  |
+| 2026-07-15 | Landing conversion polish        | `apps/web/src/components/sifter/chat-input.tsx`, `apps/web/src/components/sifter/sifter-app.tsx`                                                   | Landing input now desktop-autofocuses, rotates executable example placeholders, and replaces secondary prompt chips.               |
 
 ## Architectural Change Log
 

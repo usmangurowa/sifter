@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  useSyncExternalStore,
-} from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -31,7 +24,6 @@ import {
   buildSheinSearchUrl,
   buildTemuSearchUrl,
   selectSifterMaterialDecoderGroups,
-  SIFTER_SUGGESTIONS,
 } from "@turbo/shared/sifter";
 import { cn } from "@turbo/ui";
 import { Badge } from "@turbo/ui/badge";
@@ -55,6 +47,12 @@ const SIFTER_LANDING_PLACEHOLDERS = [
   "Search for a shock-absorbing Samsung S25 case",
   "Find gold chains that will not fade",
   "Build a casual outfit with better fabrics",
+  "Find heavyweight hoodies that will not shrink",
+  "Search for 925 silver earrings for sensitive ears",
+  "Find straight-leg jeans with mostly cotton denim",
+  "Find leather loafers that do not look cheap",
+  "Search for a structured everyday work bag",
+  "Find squat-proof leggings with thicker fabric",
 ] as const;
 const SIFTER_LANDING_STARTERS = [
   {
@@ -132,30 +130,6 @@ const readPromptHistory = () => {
   return parsePromptHistory(
     window.localStorage.getItem(SIFTER_PROMPT_HISTORY_KEY),
   );
-};
-
-const getPromptHistorySnapshot = () => {
-  if (typeof window === "undefined") {
-    return "[]";
-  }
-
-  return window.localStorage.getItem(SIFTER_PROMPT_HISTORY_KEY) ?? "[]";
-};
-
-const subscribePromptHistory = (callback: () => void) => {
-  if (typeof window === "undefined") {
-    return () => undefined;
-  }
-
-  const listener = () => callback();
-
-  window.addEventListener("storage", listener);
-  window.addEventListener(SIFTER_PROMPT_HISTORY_EVENT, listener);
-
-  return () => {
-    window.removeEventListener("storage", listener);
-    window.removeEventListener(SIFTER_PROMPT_HISTORY_EVENT, listener);
-  };
 };
 
 const writePromptHistory = (history: string[]) => {
@@ -242,15 +216,6 @@ export const SifterApp = ({
   );
   const requestIdRef = useRef(0);
   const initialMessageRef = useRef<string | null>(null);
-  const promptHistorySnapshot = useSyncExternalStore(
-    subscribePromptHistory,
-    getPromptHistorySnapshot,
-    () => "[]",
-  );
-  const recentPrompts = useMemo(
-    () => parsePromptHistory(promptHistorySnapshot),
-    [promptHistorySnapshot],
-  );
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
 
   const rememberPrompt = useCallback((message: string) => {
@@ -359,27 +324,6 @@ export const SifterApp = ({
     return () => window.clearInterval(interval);
   }, [isConversation]);
 
-  const suggestionChips = useMemo(() => {
-    const seen = new Set<string>();
-    const starterPrompts = new Set(
-      SIFTER_LANDING_STARTERS.map((starter) =>
-        normalizePrompt(starter.prompt).toLowerCase(),
-      ),
-    );
-
-    return [...recentPrompts, ...SIFTER_SUGGESTIONS]
-      .map(normalizePrompt)
-      .filter((suggestion) => {
-        const key = suggestion.toLowerCase();
-        if (!suggestion || seen.has(key) || starterPrompts.has(key)) {
-          return false;
-        }
-
-        seen.add(key);
-        return true;
-      })
-      .slice(0, 4);
-  }, [recentPrompts]);
   const materialDecoderGroups = useMemo(() => {
     if (!result) {
       return [];
@@ -396,6 +340,9 @@ export const SifterApp = ({
         .join(" "),
     );
   }, [lastQuery, result]);
+  const currentLandingPlaceholder =
+    SIFTER_LANDING_PLACEHOLDERS[placeholderIndex] ??
+    "Describe the exact item you want";
 
   return (
     <main
@@ -472,10 +419,8 @@ export const SifterApp = ({
               <div className="w-full max-w-full min-w-0 p-2">
                 <ChatInput
                   autoFocusOnDesktop
-                  placeholder={
-                    SIFTER_LANDING_PLACEHOLDERS[placeholderIndex] ??
-                    "Describe the exact item you want"
-                  }
+                  emptySubmitValue={currentLandingPlaceholder}
+                  placeholder={currentLandingPlaceholder}
                   onSubmit={handleSubmit}
                 />
               </div>
@@ -515,22 +460,6 @@ export const SifterApp = ({
                         </span>
                       </button>
                     </motion.div>
-                  ))}
-                </div>
-
-                <div className="flex flex-wrap justify-center gap-2.5 overflow-hidden py-1">
-                  {suggestionChips.map((suggestion) => (
-                    <Button
-                      type="button"
-                      key={suggestion}
-                      variant="outline"
-                      size="sm"
-                      onClick={() => void handleSubmit(suggestion)}
-                      className="cursor-pointer rounded-full border-slate-300/70 bg-white/56 px-4 shadow-sm backdrop-blur transition duration-300 hover:border-blue-300/80 hover:bg-white/82 hover:text-blue-700 dark:border-white/10 dark:bg-white/[0.04] dark:hover:bg-white/[0.08] dark:hover:text-blue-200 [&_svg]:size-3.5"
-                    >
-                      <HugeiconsIcon icon={SearchIcon} strokeWidth={2} />
-                      {suggestion}
-                    </Button>
                   ))}
                 </div>
               </div>

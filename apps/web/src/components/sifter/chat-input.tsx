@@ -12,6 +12,7 @@ interface ChatInputProps {
   disabled?: boolean;
   compact?: boolean;
   autoFocusOnDesktop?: boolean;
+  emptySubmitValue?: string;
   placeholder?: string;
   onSubmit: (message: string) => void;
 }
@@ -20,6 +21,7 @@ export const ChatInput = ({
   autoFocusOnDesktop = false,
   compact = false,
   disabled = false,
+  emptySubmitValue,
   placeholder = "What are you looking for?",
   onSubmit,
 }: ChatInputProps) => {
@@ -56,6 +58,14 @@ export const ChatInput = ({
   const submit = () => {
     const message = value.trim();
     if (!message) {
+      const fallbackMessage = emptySubmitValue?.trim();
+      if (fallbackMessage) {
+        onSubmit(fallbackMessage);
+        setValue("");
+        window.setTimeout(resize);
+        return;
+      }
+
       setInvalid(true);
       window.setTimeout(() => setInvalid(false), 350);
       return;

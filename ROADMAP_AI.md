@@ -50,6 +50,7 @@ architecture, contracts, or conventions.
 | 2026-07-15 | Landing example result preview   | `apps/web/src/components/sifter/sifter-app.tsx`                                                                                                    | Landing now shows a compact example result with search term reasons, verification checks, and Temu/SHEIN action links.             |
 | 2026-07-15 | Landing CTA refinement           | `apps/web/src/components/sifter/sifter-app.tsx`                                                                                                    | Starter prompt cards now include explicit Try it actions while the example preview uses a quieter secondary CTA.                   |
 | 2026-07-15 | Landing conversion polish        | `apps/web/src/components/sifter/chat-input.tsx`, `apps/web/src/components/sifter/sifter-app.tsx`                                                   | Landing input now desktop-autofocuses, rotates executable example placeholders, and replaces secondary prompt chips.               |
+| 2026-07-15 | Theme hydration fix              | `packages/ui/src/components/theme.tsx`, `packages/ui/src/components/theme-script.tsx`, `apps/web/src/app/layout.tsx`                               | Theme bootstrap script now renders from the server layout and the client provider initializes with a hydration-stable theme mode.  |
 
 ## Architectural Change Log
 

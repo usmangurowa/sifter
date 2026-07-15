@@ -9,6 +9,7 @@ import { Providers } from "@/components/providers";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import { ThemeProvider } from "@turbo/ui/theme";
+import { ThemeScript } from "@turbo/ui/theme-script";
 import { Toaster } from "@turbo/ui/toast";
 
 const jakartaSans = Plus_Jakarta_Sans({
@@ -78,6 +79,7 @@ export default function RootLayout({
       <body
         className={`${jakartaSans.className} ${jakartaSans.variable} antialiased`}
       >
+        <ThemeScript />
         <ThemeProvider>
           <NuqsAdapter>
             <Providers>

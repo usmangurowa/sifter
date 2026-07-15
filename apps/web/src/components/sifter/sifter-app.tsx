@@ -12,6 +12,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   ArrowLeft01Icon,
+  ArrowRight01Icon,
   ComputerIcon,
   MoonIcon,
   Sun01Icon,
@@ -45,6 +46,18 @@ type Status = "idle" | "loading" | "success" | "error";
 const SIFTER_PROMPT_HISTORY_KEY = "sifter:prompt-history";
 const SIFTER_PROMPT_HISTORY_EVENT = "sifter:prompt-history-updated";
 const SIFTER_PROMPT_HISTORY_LIMIT = 6;
+const SIFTER_LANDING_STARTERS = [
+  {
+    title: "Heavyweight cotton tee",
+    prompt: "Find a thick black cotton T-shirt that is not see-through",
+    detail: "Checks fabric weight, opacity, and wash risk.",
+  },
+  {
+    title: "Phone case that protects",
+    prompt: "Find a shock-absorbing Samsung S25 phone case",
+    detail: "Checks TPU, silicone, thickness, and drop protection.",
+  },
+] as const;
 
 const normalizePrompt = (prompt: string) =>
   prompt.trim().replace(/\s+/g, " ").slice(0, 500);
@@ -300,19 +313,24 @@ export const SifterApp = ({
   const handleSubmit = isConversation ? submit : startChat;
   const suggestionChips = useMemo(() => {
     const seen = new Set<string>();
+    const starterPrompts = new Set(
+      SIFTER_LANDING_STARTERS.map((starter) =>
+        normalizePrompt(starter.prompt).toLowerCase(),
+      ),
+    );
 
     return [...recentPrompts, ...SIFTER_SUGGESTIONS]
       .map(normalizePrompt)
       .filter((suggestion) => {
         const key = suggestion.toLowerCase();
-        if (!suggestion || seen.has(key)) {
+        if (!suggestion || seen.has(key) || starterPrompts.has(key)) {
           return false;
         }
 
         seen.add(key);
         return true;
       })
-      .slice(0, SIFTER_PROMPT_HISTORY_LIMIT);
+      .slice(0, 4);
   }, [recentPrompts]);
   const materialDecoderGroups = useMemo(() => {
     if (!result) {
@@ -405,22 +423,58 @@ export const SifterApp = ({
               </div>
 
               <div className="w-full max-w-full min-w-0 p-2">
-                <ChatInput onSubmit={handleSubmit} />
+                <ChatInput
+                  placeholder="Describe the exact item you want"
+                  onSubmit={handleSubmit}
+                />
               </div>
 
-              <div className="flex w-full max-w-3xl flex-wrap justify-center gap-2.5 overflow-hidden py-2">
-                {suggestionChips.map((suggestion) => (
-                  <Button
-                    type="button"
-                    key={suggestion}
-                    variant="outline"
-                    size="sm"
-                    onClick={() => void handleSubmit(suggestion)}
-                    className="rounded-full border-slate-300/70 bg-white/60 px-4 shadow-sm backdrop-blur transition duration-300 hover:-translate-y-0.5 hover:border-blue-300/70 hover:bg-blue-500/10 dark:border-white/10 dark:bg-white/[0.04] dark:hover:bg-white/[0.08]"
-                  >
-                    {suggestion}
-                  </Button>
-                ))}
+              <div className="w-full max-w-3xl space-y-3">
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {SIFTER_LANDING_STARTERS.map((starter) => (
+                    <button
+                      type="button"
+                      key={starter.prompt}
+                      onClick={() => void handleSubmit(starter.prompt)}
+                      className="group min-w-0 rounded-xl border border-white/50 bg-white/68 p-4 text-left shadow-sm backdrop-blur transition duration-300 hover:border-blue-300/70 hover:bg-white/82 focus-visible:ring-[3px] focus-visible:ring-blue-500/25 focus-visible:outline-none dark:border-white/10 dark:bg-white/[0.045] dark:hover:bg-white/[0.07]"
+                    >
+                      <span className="flex min-w-0 items-start justify-between gap-3">
+                        <span className="min-w-0 space-y-1.5">
+                          <span className="block text-sm font-semibold text-slate-950 dark:text-white">
+                            {starter.title}
+                          </span>
+                          <span className="block text-sm leading-5 text-slate-950/78 dark:text-white/76">
+                            {starter.prompt}
+                          </span>
+                          <span className="block text-xs leading-5 text-slate-950/58 dark:text-white/52">
+                            {starter.detail}
+                          </span>
+                        </span>
+                        <span className="grid size-8 shrink-0 place-items-center rounded-full bg-blue-600 text-white transition duration-300 group-hover:bg-blue-500">
+                          <HugeiconsIcon
+                            icon={ArrowRight01Icon}
+                            strokeWidth={2}
+                          />
+                        </span>
+                      </span>
+                    </button>
+                  ))}
+                </div>
+
+                <div className="flex flex-wrap justify-center gap-2.5 overflow-hidden py-1">
+                  {suggestionChips.map((suggestion) => (
+                    <Button
+                      type="button"
+                      key={suggestion}
+                      variant="outline"
+                      size="sm"
+                      onClick={() => void handleSubmit(suggestion)}
+                      className="rounded-full border-slate-300/70 bg-white/56 px-4 shadow-sm backdrop-blur transition duration-300 hover:border-blue-300/70 hover:bg-blue-500/10 dark:border-white/10 dark:bg-white/[0.04] dark:hover:bg-white/[0.08]"
+                    >
+                      {suggestion}
+                    </Button>
+                  ))}
+                </div>
               </div>
             </motion.section>
           ) : null}

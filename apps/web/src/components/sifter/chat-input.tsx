@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
@@ -11,11 +11,13 @@ import { Textarea } from "@turbo/ui/textarea";
 interface ChatInputProps {
   disabled?: boolean;
   compact?: boolean;
+  autoFocusOnDesktop?: boolean;
   placeholder?: string;
   onSubmit: (message: string) => void;
 }
 
 export const ChatInput = ({
+  autoFocusOnDesktop = false,
   compact = false,
   disabled = false,
   placeholder = "What are you looking for?",
@@ -24,6 +26,25 @@ export const ChatInput = ({
   const [value, setValue] = useState("");
   const [invalid, setInvalid] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (!autoFocusOnDesktop || disabled || typeof window === "undefined") {
+      return;
+    }
+
+    const shouldFocus = window.matchMedia(
+      "(min-width: 768px) and (pointer: fine)",
+    ).matches;
+    if (!shouldFocus) {
+      return;
+    }
+
+    const frame = window.requestAnimationFrame(() => {
+      textareaRef.current?.focus({ preventScroll: true });
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [autoFocusOnDesktop, disabled]);
 
   const resize = () => {
     const textarea = textareaRef.current;

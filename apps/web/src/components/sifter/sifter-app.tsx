@@ -50,6 +50,12 @@ type Status = "idle" | "loading" | "success" | "error";
 const SIFTER_PROMPT_HISTORY_KEY = "sifter:prompt-history";
 const SIFTER_PROMPT_HISTORY_EVENT = "sifter:prompt-history-updated";
 const SIFTER_PROMPT_HISTORY_LIMIT = 6;
+const SIFTER_LANDING_PLACEHOLDERS = [
+  "Find a thick black T-shirt that is not see-through",
+  "Search for a shock-absorbing Samsung S25 case",
+  "Find gold chains that will not fade",
+  "Build a casual outfit with better fabrics",
+] as const;
 const SIFTER_LANDING_STARTERS = [
   {
     title: "Heavyweight cotton tee",
@@ -245,6 +251,7 @@ export const SifterApp = ({
     () => parsePromptHistory(promptHistorySnapshot),
     [promptHistorySnapshot],
   );
+  const [placeholderIndex, setPlaceholderIndex] = useState(0);
 
   const rememberPrompt = useCallback((message: string) => {
     const normalizedMessage = normalizePrompt(message);
@@ -336,6 +343,22 @@ export const SifterApp = ({
   const hasResults = status === "success" && result;
   const isConversation = mode === "chat";
   const handleSubmit = isConversation ? submit : startChat;
+
+  useEffect(() => {
+    if (isConversation) {
+      return;
+    }
+
+    const interval = window.setInterval(() => {
+      setPlaceholderIndex(
+        (currentIndex) =>
+          (currentIndex + 1) % SIFTER_LANDING_PLACEHOLDERS.length,
+      );
+    }, 3200);
+
+    return () => window.clearInterval(interval);
+  }, [isConversation]);
+
   const suggestionChips = useMemo(() => {
     const seen = new Set<string>();
     const starterPrompts = new Set(
@@ -441,15 +464,18 @@ export const SifterApp = ({
                   Shop smarter on Temu and SHEIN.
                 </h1>
                 <p className="mx-auto max-w-2xl text-base leading-7 text-slate-950/78 sm:text-lg dark:text-white/72">
-                  Stop wasting money on clothes that fade, shrink, or look
-                  cheap. Sifter turns what you want into material aware search
-                  terms that help you find better products.
+                  Tired of cheap fabrics and misleading listings? Tell Sifter
+                  what you want and get better search terms for Temu and SHEIN.
                 </p>
               </div>
 
               <div className="w-full max-w-full min-w-0 p-2">
                 <ChatInput
-                  placeholder="Describe the exact item you want"
+                  autoFocusOnDesktop
+                  placeholder={
+                    SIFTER_LANDING_PLACEHOLDERS[placeholderIndex] ??
+                    "Describe the exact item you want"
+                  }
                   onSubmit={handleSubmit}
                 />
               </div>
@@ -466,7 +492,7 @@ export const SifterApp = ({
                       <button
                         type="button"
                         onClick={() => void handleSubmit(starter.prompt)}
-                        className="group flex h-full min-w-0 flex-col justify-between rounded-xl border border-white/50 bg-white/68 p-4 text-left shadow-sm backdrop-blur transition duration-300 hover:border-blue-300/70 hover:bg-white/82 focus-visible:ring-[3px] focus-visible:ring-blue-500/25 focus-visible:outline-none dark:border-white/10 dark:bg-white/[0.045] dark:hover:bg-white/[0.07]"
+                        className="group flex h-full min-w-0 cursor-pointer flex-col justify-between rounded-xl border border-white/50 bg-white/68 p-4 text-left shadow-sm backdrop-blur transition duration-300 hover:-translate-y-0.5 hover:border-blue-300/70 hover:bg-white/82 hover:shadow-[0_18px_50px_-36px_rgba(37,99,235,0.8)] focus-visible:ring-[3px] focus-visible:ring-blue-500/25 focus-visible:outline-none active:translate-y-0 dark:border-white/10 dark:bg-white/[0.045] dark:hover:bg-white/[0.07] dark:hover:shadow-none"
                       >
                         <span className="min-w-0 space-y-1.5">
                           <span className="block text-sm font-semibold text-slate-950 dark:text-white">
@@ -500,8 +526,9 @@ export const SifterApp = ({
                       variant="outline"
                       size="sm"
                       onClick={() => void handleSubmit(suggestion)}
-                      className="rounded-full border-slate-300/70 bg-white/56 px-4 shadow-sm backdrop-blur transition duration-300 hover:border-blue-300/70 hover:bg-blue-500/10 dark:border-white/10 dark:bg-white/[0.04] dark:hover:bg-white/[0.08]"
+                      className="cursor-pointer rounded-full border-slate-300/70 bg-white/56 px-4 shadow-sm backdrop-blur transition duration-300 hover:border-blue-300/80 hover:bg-white/82 hover:text-blue-700 dark:border-white/10 dark:bg-white/[0.04] dark:hover:bg-white/[0.08] dark:hover:text-blue-200 [&_svg]:size-3.5"
                     >
+                      <HugeiconsIcon icon={SearchIcon} strokeWidth={2} />
                       {suggestion}
                     </Button>
                   ))}

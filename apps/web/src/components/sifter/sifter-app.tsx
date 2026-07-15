@@ -456,14 +456,18 @@ export const SifterApp = ({
 
               <div className="w-full max-w-3xl space-y-3">
                 <div className="grid gap-3 sm:grid-cols-2">
-                  {SIFTER_LANDING_STARTERS.map((starter) => (
-                    <button
-                      type="button"
+                  {SIFTER_LANDING_STARTERS.map((starter, index) => (
+                    <motion.div
                       key={starter.prompt}
-                      onClick={() => void handleSubmit(starter.prompt)}
-                      className="group min-w-0 rounded-xl border border-white/50 bg-white/68 p-4 text-left shadow-sm backdrop-blur transition duration-300 hover:border-blue-300/70 hover:bg-white/82 focus-visible:ring-[3px] focus-visible:ring-blue-500/25 focus-visible:outline-none dark:border-white/10 dark:bg-white/[0.045] dark:hover:bg-white/[0.07]"
+                      initial={{ opacity: 0.98, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.08 + index * 0.04 }}
                     >
-                      <span className="flex min-w-0 items-start justify-between gap-3">
+                      <button
+                        type="button"
+                        onClick={() => void handleSubmit(starter.prompt)}
+                        className="group flex h-full min-w-0 flex-col justify-between rounded-xl border border-white/50 bg-white/68 p-4 text-left shadow-sm backdrop-blur transition duration-300 hover:border-blue-300/70 hover:bg-white/82 focus-visible:ring-[3px] focus-visible:ring-blue-500/25 focus-visible:outline-none dark:border-white/10 dark:bg-white/[0.045] dark:hover:bg-white/[0.07]"
+                      >
                         <span className="min-w-0 space-y-1.5">
                           <span className="block text-sm font-semibold text-slate-950 dark:text-white">
                             {starter.title}
@@ -475,14 +479,16 @@ export const SifterApp = ({
                             {starter.detail}
                           </span>
                         </span>
-                        <span className="grid size-8 shrink-0 place-items-center rounded-full bg-blue-600 text-white transition duration-300 group-hover:bg-blue-500">
+                        <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-blue-700 transition duration-300 group-hover:text-blue-600 dark:text-blue-300 dark:group-hover:text-blue-200">
+                          Try it
                           <HugeiconsIcon
                             icon={ArrowRight01Icon}
+                            className="size-4 transition duration-300 group-hover:translate-x-0.5"
                             strokeWidth={2}
                           />
                         </span>
-                      </span>
-                    </button>
+                      </button>
+                    </motion.div>
                   ))}
                 </div>
 
@@ -502,7 +508,12 @@ export const SifterApp = ({
                 </div>
               </div>
 
-              <div className="w-full max-w-3xl rounded-2xl border border-white/55 bg-white/72 p-4 text-left shadow-[0_24px_80px_-54px_rgba(15,23,42,0.75)] backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.045] dark:shadow-none">
+              <motion.div
+                initial={{ opacity: 0.98, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.18 }}
+                className="w-full max-w-3xl rounded-2xl border border-white/55 bg-white/72 p-4 text-left shadow-[0_24px_80px_-54px_rgba(15,23,42,0.75)] backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.045] dark:shadow-none"
+              >
                 <div className="flex min-w-0 items-start justify-between gap-3">
                   <div className="min-w-0 space-y-1">
                     <div className="text-xs font-semibold tracking-normal text-blue-700 dark:text-blue-300">
@@ -517,11 +528,12 @@ export const SifterApp = ({
                   </div>
                   <Button
                     type="button"
+                    variant="ghost"
                     size="sm"
                     onClick={() =>
                       void handleSubmit(SIFTER_LANDING_EXAMPLE.prompt)
                     }
-                    className="hidden shrink-0 rounded-full bg-blue-600 text-white shadow-none hover:bg-blue-500 sm:inline-flex"
+                    className="hidden shrink-0 rounded-full text-blue-700 shadow-none hover:bg-blue-500/10 hover:text-blue-700 sm:inline-flex dark:text-blue-300 dark:hover:text-blue-300"
                   >
                     Try it
                     <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2} />
@@ -529,19 +541,24 @@ export const SifterApp = ({
                 </div>
 
                 <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                  {SIFTER_LANDING_EXAMPLE.searchTerms.map((searchTerm) => (
-                    <article
-                      key={searchTerm.term}
-                      className="min-w-0 rounded-lg bg-slate-950/[0.035] p-3 dark:bg-white/[0.055]"
-                    >
-                      <h3 className="text-sm font-semibold break-words text-slate-950 dark:text-white">
-                        {searchTerm.term}
-                      </h3>
-                      <p className="mt-1 text-xs leading-5 text-slate-950/58 dark:text-white/52">
-                        {searchTerm.why}
-                      </p>
-                    </article>
-                  ))}
+                  {SIFTER_LANDING_EXAMPLE.searchTerms.map(
+                    (searchTerm, index) => (
+                      <motion.article
+                        key={searchTerm.term}
+                        initial={{ opacity: 0.98, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.22 + index * 0.04 }}
+                        className="min-w-0 rounded-lg bg-slate-950/[0.035] p-3 dark:bg-white/[0.055]"
+                      >
+                        <h3 className="text-sm font-semibold break-words text-slate-950 dark:text-white">
+                          {searchTerm.term}
+                        </h3>
+                        <p className="mt-1 text-xs leading-5 text-slate-950/64 dark:text-white/68">
+                          {searchTerm.why}
+                        </p>
+                      </motion.article>
+                    ),
+                  )}
                 </div>
 
                 <div className="mt-4 grid gap-4 border-t border-slate-200/70 pt-4 sm:grid-cols-[1fr_auto] dark:border-white/10">
@@ -550,12 +567,18 @@ export const SifterApp = ({
                       <HugeiconsIcon icon={Tick02Icon} strokeWidth={2} />
                       Verify before buying
                     </div>
-                    <ul className="grid gap-1.5 text-sm leading-6 text-slate-950/76 dark:text-white/68">
-                      {SIFTER_LANDING_EXAMPLE.checks.map((check) => (
-                        <li key={check} className="flex gap-2">
+                    <ul className="grid gap-1.5 text-sm leading-6 text-slate-950/78 dark:text-white/72">
+                      {SIFTER_LANDING_EXAMPLE.checks.map((check, index) => (
+                        <motion.li
+                          key={check}
+                          initial={{ opacity: 0.98, y: 4 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.28 + index * 0.04 }}
+                          className="flex gap-2"
+                        >
                           <span className="mt-2 size-1.5 shrink-0 rounded-full bg-blue-600 dark:bg-blue-300" />
                           <span>{check}</span>
-                        </li>
+                        </motion.li>
                       ))}
                     </ul>
                   </div>
@@ -607,7 +630,7 @@ export const SifterApp = ({
                     </Button>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </motion.section>
           ) : null}
 

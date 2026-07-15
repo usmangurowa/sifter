@@ -2,6 +2,8 @@
 
 import {
   ArrowRight01Icon,
+  Copy01Icon,
+  ExternalLinkIcon,
   SearchIcon,
   Tick02Icon,
 } from "@hugeicons/core-free-icons";
@@ -13,7 +15,6 @@ import {
   buildTemuSearchUrl,
   SIFTER_TEMU_FIRST_ORDER_CODE,
 } from "@turbo/shared/sifter";
-import { Badge } from "@turbo/ui/badge";
 import { Button } from "@turbo/ui/button";
 import { toast } from "@turbo/ui/toast";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@turbo/ui/tooltip";
@@ -60,28 +61,66 @@ export const ResultCard = ({ category }: { category: SifterCategory }) => {
         </div>
       </div>
 
-      <div className="mt-4 flex max-w-full flex-wrap gap-2">
+      <div className="mt-4 grid max-w-full gap-3 sm:grid-cols-2">
         {category.searchTerms.map((searchTerm) => (
-          <Tooltip key={searchTerm.term}>
-            <TooltipTrigger asChild>
-              <button
-                type="button"
-                onClick={() => void copyText(searchTerm.term)}
-                className="group/chip max-w-full rounded-lg text-left outline-none focus-visible:ring-[3px] focus-visible:ring-blue-500/30"
-              >
-                <Badge
-                  variant="outline"
-                  className="text-foreground/85 group-hover/chip:text-foreground h-auto min-h-8 max-w-full cursor-copy justify-start border-transparent bg-slate-950/[0.04] px-3 py-1.5 text-left text-[0.8125rem] leading-5 font-medium break-words whitespace-normal transition group-hover/chip:bg-blue-500/10 dark:bg-white/[0.06]"
-                >
+          <article
+            key={searchTerm.term}
+            className="min-w-0 rounded-lg bg-slate-950/[0.035] p-3 dark:bg-white/[0.055]"
+          >
+            <div className="flex min-w-0 items-start justify-between gap-3">
+              <div className="min-w-0 space-y-1.5">
+                <h4 className="text-foreground text-sm leading-5 font-semibold break-words">
                   {searchTerm.term}
-                </Badge>
-                <span className="text-muted-foreground mt-1 block max-w-[18rem] px-1 text-xs leading-5">
+                </h4>
+                <p className="text-muted-foreground text-xs leading-5 break-words">
                   {searchTerm.why}
-                </span>
-              </button>
-            </TooltipTrigger>
-            <TooltipContent>Copy search term</TooltipContent>
-          </Tooltip>
+                </p>
+              </div>
+              <div className="flex shrink-0 items-center gap-1">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon-sm"
+                      onClick={() => void copyText(searchTerm.term)}
+                      className="text-muted-foreground hover:text-foreground size-9 rounded-full shadow-none hover:bg-slate-950/[0.06] dark:hover:bg-white/[0.08] [&_svg]:size-4"
+                    >
+                      <HugeiconsIcon icon={Copy01Icon} strokeWidth={2} />
+                      <span className="sr-only">Copy search term</span>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Copy search term</TooltipContent>
+                </Tooltip>
+
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      asChild
+                      variant="ghost"
+                      size="icon-sm"
+                      className="text-muted-foreground hover:text-foreground size-9 rounded-full shadow-none hover:bg-slate-950/[0.06] dark:hover:bg-white/[0.08] [&_svg]:size-4"
+                    >
+                      <a
+                        href={buildTemuSearchUrl(searchTerm.term)}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <HugeiconsIcon
+                          icon={ExternalLinkIcon}
+                          strokeWidth={2}
+                        />
+                        <span className="sr-only">
+                          Search this term on Temu
+                        </span>
+                      </a>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Search Temu</TooltipContent>
+                </Tooltip>
+              </div>
+            </div>
+          </article>
         ))}
       </div>
 
